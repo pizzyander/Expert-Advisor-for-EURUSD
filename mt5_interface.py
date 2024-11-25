@@ -1,86 +1,148 @@
-import MetaTrader5 as MetaTrader5
+import MetaTrader5 as mt5
 import requests
-import logging
-from requests.adapters import HTTPAdapter
-from urllib3.util.retry import Retry
-from main import app
+import time
+import schedule
+import os
 
-# Set up logging
-logging.basicConfig(level=logging.INFO, filename="bot.log", filemode="a", 
-                    format="%(asctime)s - %(levelname)s - %(message)s")
-
-# Initialize MT5
+# Function to initialize MT5
 def start_mt5(username, password, server, path):
-    if MetaTrader5.initialize(login=int(username), password=password, server=server, path=path):
-        logging.info("MT5 Initialized Successfully.")
-        if MetaTrader5.login(login=int(username), password=password, server=server):
-            logging.info("Logged in to MT5.")
+    uname = int(username) or os.getenv("MT5_USERNAME")
+    pword = str(password) or os.getenv("MT5_PASSWORD")
+    trading_server = str(server) or os.getenv("MT5_SERVER")
+    filepath = str(path)  # MetaTrader 5 executable file path
+
+    # Attempt to start MT5
+    if mt5.initialize(login=uname, password=pword, server=trading_server, path=filepath):
+        print("Trading Bot Starting")
+        # Login to MT5
+        if mt5.login(login=uname, password=pword, server=trading_server):
+            print("Trading Bot Logged in and Ready to Go!")
             return True
         else:
-            logging.error(f"Login Failed: {MetaTrader5.last_error()}")
-            MetaTrader5.shutdown()
+            print("Login Failed:", mt5.last_error())
+            mt5.shutdown()
             return False
     else:
-        logging.error(f"MT5 Initialization Failed: {MetaTrader5.last_error()}")
+        print("MT5 Initialization Failed:", mt5.last_error())
         return False
 
-# Initialize symbols
-def initialize_symbols(symbol_array):
-    all_symbols = [symbol.name for symbol in MetaTrader5.symbols_get()]
-    for provided_symbol in symbol_array:
-        if provided_symbol not in all_symbols:
-            raise Exception(f"Symbol '{provided_symbol}' is not available in MT5.")
-        elif not MetaTrader5.symbol_select(provided_symbol, True):
-            raise Exception(f"Failed to enable symbol '{provided_symbol}'.")
-    logging.info("All symbols initialized successfully.")
-
-# Retrieve last 90 H1 candles
+# Function to get the last 90 candles
 def get_last_90_candles(symbol):
-    rates = MetaTrader5.copy_rates_from_pos(symbol, MetaTrader5.TIMEFRAME_H1, 0, 90)
-    if not rates:
-        logging.error(f"Failed to retrieve candlestick data for {symbol}.")
+    if not mt5.symbol_select(symbol, True):
+        print(f"Failed to activate symbol: {symbol}")
         return None
-    return [{"open": r.open, "high": r.high, "low": r.low, "close": r.close} for r in rates]
+    rates = mt5.copy_rates_from_pos(symbol, mt5.TIMEFRAME_H1, 0, 480)
+    if rates is None:
+        print(f"Failed to retrieve rates for {symbol}.")
+        return None
+    # Convert rates to a list of dictionaries
+    return [{'open': rate['open'], 'high': rate['high'], 'low': rate['low'], 'close': rate['close']} for rate in rates]
 
-# Get prediction from FastAPI
+# Function to send data to FastAPI and get prediction
 def get_prediction(candle_data):
-    url = "http://127.0.0.1:8000/predict"  # Update if necessary
-    session = requests.Session()
-    retry = Retry(total=3, backoff_factor=1, status_forcelist=[500, 502, 503, 504])
-    session.mount("http://", HTTPAdapter(max_retries=retry))
-
-    try:
-        response = session.post(url, json={"features": candle_data})
-        response.raise_for_status()
-        return response.json().get("prediction")
-    except requests.exceptions.RequestException as e:
-        logging.error(f"Error with FastAPI request: {e}")
-        return None
-
-# Place trade
-def place_trade(symbol, order_type):
-    lot_size = 0.1
-    tick = MetaTrader5.symbol_info_tick(symbol)
-    pip = 0.0001 if "JPY" not in symbol else 0.01
-    price = tick.ask if order_type == "buy" else tick.bid
-    sl = price - (30 * pip) if order_type == "buy" else price + (30 * pip)
-    tp = price + (60 * pip) if order_type == "buy" else price - (60 * pip)
-
-    request = {
-        "action": MetaTrader5.TRADE_ACTION_DEAL,
-        "symbol": symbol,
-        "volume": lot_size,
-        "type": MetaTrader5.ORDER_TYPE_BUY if order_type == "buy" else MetaTrader5.ORDER_TYPE_SELL,
-        "price": price,
-        "sl": sl,
-        "tp": tp,
-        "comment": f"Prediction {order_type.capitalize()}",
-        "type_time": MetaTrader5.ORDER_TIME_GTC,
-        "type_filling": MetaTrader5.ORDER_FILLING_RETURN,
+    url = "http://127.0.0.1:8000/predict"  # Change to actual FastAPI URL
+    data = {
+        "features": candle_data
     }
 
-    result = MetaTrader5.order_send(request)
-    if result.retcode != MetaTrader5.TRADE_RETCODE_DONE:
-        logging.error(f"Error placing order: {result.retcode}")
+    try:
+        response = requests.post(url, json=data, timeout=10)  # Adding timeout to avoid blocking
+        if response.status_code == 200:
+            return response.json()['prediction']  # Assuming the prediction is returned in the response
+        else:
+            print("Failed to get prediction from FastAPI:", response.status_code)
+            return None
+    except requests.exceptions.RequestException as e:
+        print(f"Error during request: {e}")
+        return None
+
+
+# Function to place a trade
+def place_trade(symbol, order_type):
+    lot_size = 0.10  # For example purposes
+
+    # Get the current market price (ask for buy, bid for sell)
+    price = mt5.symbol_info_tick(symbol).ask if order_type == "buy" else mt5.symbol_info_tick(symbol).bid
+
+    # Define stop loss and take profit distances (in pips)
+    stop_loss_pips = 40  # Example stop loss distance (in pips)
+    take_profit_pips = 80  # Example take profit distance (in pips)
+
+    # Convert pips to price points (1 pip = 0.0001 for EUR/USD)
+    stop_loss = price - stop_loss_pips * mt5.symbol_info(
+        symbol).point if order_type == "buy" else price + stop_loss_pips * mt5.symbol_info(symbol).point
+    take_profit = price + take_profit_pips * mt5.symbol_info(
+        symbol).point if order_type == "buy" else price - take_profit_pips * mt5.symbol_info(symbol).point
+
+    # Get minimum stop level for the symbol
+    min_stop_level = mt5.symbol_info(symbol).trade_stops_level
+
+    # Check if stop loss and take profit are beyond the minimum stop level
+    if abs(stop_loss - price) < min_stop_level * mt5.symbol_info(symbol).point or abs(
+            take_profit - price) < min_stop_level * mt5.symbol_info(symbol).point:
+        print(
+            f"Error: Stop loss or take profit is too close to the execution price. Minimum stop level is {min_stop_level} pips.")
+        return
+
+    # Create the order request
+    request = {
+        'action': mt5.TRADE_ACTION_DEAL,
+        'symbol': symbol,
+        'volume': lot_size,
+        'type': mt5.ORDER_TYPE_BUY if order_type == "buy" else mt5.ORDER_TYPE_SELL,
+        'price': price,
+        'sl': stop_loss,  # Set the stop loss with respect to the execution price
+        'tp': take_profit,  # Set the take profit with respect to the execution price
+        'deviation': 10,
+        'magic': 234000,  # Just an example magic number
+        'comment': f"Prediction {order_type.capitalize()}",
+        'type_filling': mt5.ORDER_FILLING_IOC,
+        'type_time': mt5.ORDER_TIME_GTC
+    }
+
+    # Send the order
+    result = mt5.order_send(request)
+    if result.retcode != mt5.TRADE_RETCODE_DONE:
+        print("Error placing order:", result)
     else:
-        logging.info(f"Order placed successfully. Ticket: {result.order}")
+        print(f"Order placed successfully. Ticket: {result.order}")
+
+
+# Main function to compare prediction with the last candlestick close
+def main():
+    if not start_mt5("9293182", "Ge@mK3Xb", "GTCGlobalTrade-Server", "C:\\Program Files\\MetaTrader 5\\terminal64.exe"):
+        return
+
+    symbol = "EURUSD"  # Example symbol
+    last_90_candles = get_last_90_candles(symbol)
+    if last_90_candles is None:
+        print("Error: Failed to get the last 90 candles.")
+        return
+
+    print(f"Last 90 Candles Data: {last_90_candles}")
+
+    # Send data to FastAPI and get the predicted value
+    prediction = get_prediction(last_90_candles)
+
+    if prediction is None:
+        print("Error: Prediction failed.")
+        return
+
+    print(f"Prediction Value: {prediction}")
+
+    # Compare prediction with the most recent close price
+    last_close = last_90_candles[-1]['close']
+    if prediction > last_close:
+        print("Prediction is higher than the last close. Placing Buy Order...")
+        place_trade(symbol, "buy")
+    else:
+        print("Prediction is lower or equal to the last close. Placing Sell Order...")
+        place_trade(symbol, "sell")
+
+# Schedule the main function to run 1 minute after every hour
+schedule.every().hour.at(":05").do(main)
+
+# Keep the script running
+while True:
+    schedule.run_pending()
+    time.sleep(1)
