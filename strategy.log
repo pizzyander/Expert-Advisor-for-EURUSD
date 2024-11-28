@@ -857,3 +857,448 @@
 2024-11-28 12:43:27 - [INFO] - Cycle complete. Sleeping for 2 minutes.
 2024-11-28 12:44:27 - [ERROR] - MT5 initialization failed.
 2024-11-28 12:44:27 - [ERROR] - MT5 initialization failed. Exiting script.
+2024-11-28 12:45:27 - [INFO] - Starting strategy execution cycle.
+2024-11-28 12:45:27 - [INFO] - Order request: {'action': 1, 'symbol': 'EURUSD', 'volume': 0.01, 'type': 1, 'price': 1.05517, 'deviation': 20, 'magic': 456000}
+2024-11-28 12:45:27 - [ERROR] - Failed to place SELL trade for EURUSD.
+2024-11-28 12:45:27 - [INFO] - Trade analyzed for EURUSD: EMA_50=1.0533060737253757, EMA_200=1.0694583476720632, RSI=64.58096321577533.
+2024-11-28 12:45:27 - [INFO] - Order request: {'action': 1, 'symbol': 'GBPUSD', 'volume': 0.01, 'type': 1, 'price': 1.26673, 'deviation': 20, 'magic': 456000}
+2024-11-28 12:45:27 - [ERROR] - Failed to place SELL trade for GBPUSD.
+2024-11-28 12:45:27 - [INFO] - Trade analyzed for GBPUSD: EMA_50=1.2634536017664604, EMA_200=1.281488519507447, RSI=71.34690961057524.
+2024-11-28 12:45:27 - [INFO] - Order request: {'action': 1, 'symbol': 'USDJPY', 'volume': 0.01, 'type': 0, 'price': 151.877, 'deviation': 20, 'magic': 456000}
+2024-11-28 12:45:27 - [ERROR] - Failed to place BUY trade for USDJPY.
+2024-11-28 12:45:27 - [INFO] - Trade analyzed for USDJPY: EMA_50=153.41821707776282, EMA_200=152.38148889647667, RSI=29.61980548187408.
+2024-11-28 12:45:27 - [INFO] - Order request: {'action': 1, 'symbol': 'XAUUSD', 'volume': 0.01, 'type': 1, 'price': 2646.26, 'deviation': 20, 'magic': 456000}
+2024-11-28 12:45:27 - [ERROR] - Failed to place SELL trade for XAUUSD.
+2024-11-28 12:45:27 - [INFO] - Trade analyzed for XAUUSD: EMA_50=2643.6246918037564, EMA_200=2655.0949881503416, RSI=62.20717219940045.
+2024-11-28 12:45:27 - [INFO] - Cycle complete. Sleeping for 2 minutes.
+2024-11-28 12:47:27 - [INFO] - Starting strategy execution cycle.
+2024-11-28 12:47:27 - [INFO] - Order request: {'action': 1, 'symbol': 'EURUSD', 'volume': 0.01, 'type': 1, 'price': 1.05513, 'deviation': 20, 'magic': 456000}
+2024-11-28 12:47:27 - [ERROR] - Failed to place SELL trade for EURUSD.
+2024-11-28 12:47:27 - [INFO] - Trade analyzed for EURUSD: EMA_50=1.0533045050979215, EMA_200=1.069457946962264, RSI=64.52715533611828.
+2024-11-28 12:47:27 - [INFO] - Order request: {'action': 1, 'symbol': 'GBPUSD', 'volume': 0.01, 'type': 1, 'price': 1.26672, 'deviation': 20, 'magic': 456000}
+2024-11-28 12:47:27 - [ERROR] - Failed to place SELL trade for GBPUSD.
+2024-11-28 12:47:27 - [INFO] - Trade analyzed for GBPUSD: EMA_50=1.2634532096095967, EMA_200=1.2814884193299974, RSI=71.33666904932113.
+2024-11-28 12:47:27 - [INFO] - Order request: {'action': 1, 'symbol': 'USDJPY', 'volume': 0.01, 'type': 0, 'price': 151.865, 'deviation': 20, 'magic': 456000}
+2024-11-28 12:47:27 - [ERROR] - Failed to place BUY trade for USDJPY.
+2024-11-28 12:47:27 - [INFO] - Trade analyzed for USDJPY: EMA_50=153.41774648952656, EMA_200=152.38136868353692, RSI=29.54144620811249.
+2024-11-28 12:47:27 - [INFO] - Order request: {'action': 1, 'symbol': 'XAUUSD', 'volume': 0.01, 'type': 1, 'price': 2645.74, 'deviation': 20, 'magic': 456000}
+2024-11-28 12:47:27 - [ERROR] - Failed to place SELL trade for XAUUSD.
+2024-11-28 12:47:27 - [INFO] - Trade analyzed for XAUUSD: EMA_50=2643.604299646852, EMA_200=2655.0897789229525, RSI=61.88946727212287.
+2024-11-28 12:47:27 - [INFO] - Cycle complete. Sleeping for 2 minutes.
+2024-11-28 12:49:27 - [INFO] - Starting strategy execution cycle.
+2024-11-28 12:49:27 - [INFO] - Order request: {'action': 1, 'symbol': 'EURUSD', 'volume': 0.01, 'type': 1, 'price': 1.05513, 'deviation': 20, 'magic': 456000}
+2024-11-28 12:49:27 - [ERROR] - Failed to place SELL trade for EURUSD.
+2024-11-28 12:49:27 - [INFO] - Trade analyzed for EURUSD: EMA_50=1.0533045050979215, EMA_200=1.069457946962264, RSI=64.52715533611828.
+2024-11-28 12:49:27 - [INFO] - Order request: {'action': 1, 'symbol': 'GBPUSD', 'volume': 0.01, 'type': 1, 'price': 1.26671, 'deviation': 20, 'magic': 456000}
+2024-11-28 12:49:27 - [ERROR] - Failed to place SELL trade for GBPUSD.
+2024-11-28 12:49:27 - [INFO] - Trade analyzed for GBPUSD: EMA_50=1.2634528174527333, EMA_200=1.2814883191525477, RSI=71.32642116553463.
+2024-11-28 12:49:27 - [INFO] - Order request: {'action': 1, 'symbol': 'USDJPY', 'volume': 0.01, 'type': 0, 'price': 151.875, 'deviation': 20, 'magic': 456000}
+2024-11-28 12:49:27 - [ERROR] - Failed to place BUY trade for USDJPY.
+2024-11-28 12:49:27 - [INFO] - Trade analyzed for USDJPY: EMA_50=153.41817786207648, EMA_200=152.38147887873168, RSI=29.61325966850808.
+2024-11-28 12:49:27 - [INFO] - Order request: {'action': 1, 'symbol': 'XAUUSD', 'volume': 0.01, 'type': 1, 'price': 2646.24, 'deviation': 20, 'magic': 456000}
+2024-11-28 12:49:27 - [ERROR] - Failed to place SELL trade for XAUUSD.
+2024-11-28 12:49:27 - [INFO] - Trade analyzed for XAUUSD: EMA_50=2643.6239074900295, EMA_200=2655.094787795442, RSI=62.19877845641291.
+2024-11-28 12:49:27 - [INFO] - Cycle complete. Sleeping for 2 minutes.
+2024-11-28 12:51:27 - [INFO] - Starting strategy execution cycle.
+2024-11-28 12:51:27 - [INFO] - Order request: {'action': 1, 'symbol': 'EURUSD', 'volume': 0.01, 'type': 1, 'price': 1.05491, 'deviation': 20, 'magic': 456000}
+2024-11-28 12:51:27 - [ERROR] - Failed to place SELL trade for EURUSD.
+2024-11-28 12:51:27 - [INFO] - Trade analyzed for EURUSD: EMA_50=1.0532958776469235, EMA_200=1.0694557430583689, RSI=64.2282650325545.
+2024-11-28 12:51:27 - [INFO] - Order request: {'action': 1, 'symbol': 'GBPUSD', 'volume': 0.01, 'type': 1, 'price': 1.26651, 'deviation': 20, 'magic': 456000}
+2024-11-28 12:51:27 - [ERROR] - Failed to place SELL trade for GBPUSD.
+2024-11-28 12:51:27 - [INFO] - Trade analyzed for GBPUSD: EMA_50=1.263444974315462, EMA_200=1.2814863156035519, RSI=71.11991357580138.
+2024-11-28 12:51:27 - [INFO] - Order request: {'action': 1, 'symbol': 'USDJPY', 'volume': 0.01, 'type': 0, 'price': 151.885, 'deviation': 20, 'magic': 456000}
+2024-11-28 12:51:27 - [ERROR] - Failed to place BUY trade for USDJPY.
+2024-11-28 12:51:27 - [INFO] - Trade analyzed for USDJPY: EMA_50=153.41853080325365, EMA_200=152.38156903843648, RSI=29.67227635075257.
+2024-11-28 12:51:27 - [INFO] - Order request: {'action': 1, 'symbol': 'XAUUSD', 'volume': 0.01, 'type': 1, 'price': 2646.49, 'deviation': 20, 'magic': 456000}
+2024-11-28 12:51:27 - [ERROR] - Failed to place SELL trade for XAUUSD.
+2024-11-28 12:51:27 - [INFO] - Trade analyzed for XAUUSD: EMA_50=2643.633711411618, EMA_200=2655.0972922316864, RSI=62.30343300110722.
+2024-11-28 12:51:27 - [INFO] - Cycle complete. Sleeping for 2 minutes.
+2024-11-28 12:53:27 - [INFO] - Starting strategy execution cycle.
+2024-11-28 12:53:27 - [INFO] - Order request: {'action': 1, 'symbol': 'EURUSD', 'volume': 0.01, 'type': 1, 'price': 1.05468, 'deviation': 20, 'magic': 456000}
+2024-11-28 12:53:27 - [ERROR] - Failed to place SELL trade for EURUSD.
+2024-11-28 12:53:27 - [INFO] - Trade analyzed for EURUSD: EMA_50=1.0532868580390617, EMA_200=1.0694534389770238, RSI=63.910355486862436.
+2024-11-28 12:53:27 - [INFO] - Order request: {'action': 1, 'symbol': 'GBPUSD', 'volume': 0.01, 'type': 1, 'price': 1.2666, 'deviation': 20, 'magic': 456000}
+2024-11-28 12:53:27 - [ERROR] - Failed to place SELL trade for GBPUSD.
+2024-11-28 12:53:27 - [INFO] - Trade analyzed for GBPUSD: EMA_50=1.263448503727234, EMA_200=1.2814872172006, RSI=71.21320890165117.
+2024-11-28 12:53:27 - [INFO] - Order request: {'action': 1, 'symbol': 'USDJPY', 'volume': 0.01, 'type': 0, 'price': 151.874, 'deviation': 20, 'magic': 456000}
+2024-11-28 12:53:27 - [ERROR] - Failed to place BUY trade for USDJPY.
+2024-11-28 12:53:27 - [INFO] - Trade analyzed for USDJPY: EMA_50=153.4181386463901, EMA_200=152.3814688609867, RSI=29.606716747679826.
+2024-11-28 12:53:27 - [INFO] - Order request: {'action': 1, 'symbol': 'XAUUSD', 'volume': 0.01, 'type': 1, 'price': 2646.74, 'deviation': 20, 'magic': 456000}
+2024-11-28 12:53:27 - [ERROR] - Failed to place SELL trade for XAUUSD.
+2024-11-28 12:53:27 - [INFO] - Trade analyzed for XAUUSD: EMA_50=2643.6435153332072, EMA_200=2655.099796667931, RSI=62.40750966316932.
+2024-11-28 12:53:27 - [INFO] - Cycle complete. Sleeping for 2 minutes.
+2024-11-28 12:55:27 - [INFO] - Starting strategy execution cycle.
+2024-11-28 12:55:27 - [INFO] - Order request: {'action': 1, 'symbol': 'EURUSD', 'volume': 0.01, 'type': 1, 'price': 1.05456, 'deviation': 20, 'magic': 456000}
+2024-11-28 12:55:27 - [ERROR] - Failed to place SELL trade for EURUSD.
+2024-11-28 12:55:27 - [INFO] - Trade analyzed for EURUSD: EMA_50=1.053282152156699, EMA_200=1.0694522368476262, RSI=63.74223602484455.
+2024-11-28 12:55:27 - [INFO] - Order request: {'action': 1, 'symbol': 'GBPUSD', 'volume': 0.01, 'type': 1, 'price': 1.26631, 'deviation': 20, 'magic': 456000}
+2024-11-28 12:55:27 - [ERROR] - Failed to place SELL trade for GBPUSD.
+2024-11-28 12:55:27 - [INFO] - Trade analyzed for GBPUSD: EMA_50=1.263437131178191, EMA_200=1.2814843120545563, RSI=70.91040986579632.
+2024-11-28 12:55:27 - [INFO] - Order request: {'action': 1, 'symbol': 'USDJPY', 'volume': 0.01, 'type': 0, 'price': 151.876, 'deviation': 20, 'magic': 456000}
+2024-11-28 12:55:27 - [ERROR] - Failed to place BUY trade for USDJPY.
+2024-11-28 12:55:27 - [INFO] - Trade analyzed for USDJPY: EMA_50=153.41817786207648, EMA_200=152.38147887873168, RSI=29.61325966850808.
+2024-11-28 12:55:27 - [INFO] - Order request: {'action': 1, 'symbol': 'XAUUSD', 'volume': 0.01, 'type': 1, 'price': 2646.9, 'deviation': 20, 'magic': 456000}
+2024-11-28 12:55:27 - [ERROR] - Failed to place SELL trade for XAUUSD.
+2024-11-28 12:55:27 - [INFO] - Trade analyzed for XAUUSD: EMA_50=2643.6497898430234, EMA_200=2655.1013995071276, RSI=62.473817660676815.
+2024-11-28 12:55:27 - [INFO] - Cycle complete. Sleeping for 2 minutes.
+2024-11-28 12:57:27 - [INFO] - Starting strategy execution cycle.
+2024-11-28 12:57:27 - [INFO] - Order request: {'action': 1, 'symbol': 'EURUSD', 'volume': 0.01, 'type': 1, 'price': 1.05456, 'deviation': 20, 'magic': 456000}
+2024-11-28 12:57:27 - [ERROR] - Failed to place SELL trade for EURUSD.
+2024-11-28 12:57:27 - [INFO] - Trade analyzed for EURUSD: EMA_50=1.053282152156699, EMA_200=1.0694522368476262, RSI=63.74223602484455.
+2024-11-28 12:57:27 - [INFO] - Order request: {'action': 1, 'symbol': 'GBPUSD', 'volume': 0.01, 'type': 1, 'price': 1.26628, 'deviation': 20, 'magic': 456000}
+2024-11-28 12:57:27 - [ERROR] - Failed to place SELL trade for GBPUSD.
+2024-11-28 12:57:27 - [INFO] - Trade analyzed for GBPUSD: EMA_50=1.2634359547076006, EMA_200=1.2814840115222068, RSI=70.87872185911421.
+2024-11-28 12:57:27 - [INFO] - Order request: {'action': 1, 'symbol': 'USDJPY', 'volume': 0.01, 'type': 0, 'price': 151.857, 'deviation': 20, 'magic': 456000}
+2024-11-28 12:57:27 - [ERROR] - Failed to place BUY trade for USDJPY.
+2024-11-28 12:57:27 - [INFO] - Trade analyzed for USDJPY: EMA_50=153.4174327640357, EMA_200=152.3812885415771, RSI=29.489436619718063.
+2024-11-28 12:57:27 - [INFO] - Order request: {'action': 1, 'symbol': 'XAUUSD', 'volume': 0.01, 'type': 1, 'price': 2646.58, 'deviation': 20, 'magic': 456000}
+2024-11-28 12:57:27 - [ERROR] - Failed to place SELL trade for XAUUSD.
+2024-11-28 12:57:27 - [INFO] - Trade analyzed for XAUUSD: EMA_50=2643.63724082339, EMA_200=2655.0981938287346, RSI=62.34096692111946.
+2024-11-28 12:57:27 - [INFO] - Cycle complete. Sleeping for 2 minutes.
+2024-11-28 12:59:27 - [INFO] - Starting strategy execution cycle.
+2024-11-28 12:59:27 - [INFO] - Order request: {'action': 1, 'symbol': 'EURUSD', 'volume': 0.01, 'type': 1, 'price': 1.0548, 'deviation': 20, 'magic': 456000}
+2024-11-28 12:59:27 - [ERROR] - Failed to place SELL trade for EURUSD.
+2024-11-28 12:59:27 - [INFO] - Trade analyzed for EURUSD: EMA_50=1.0532915639214244, EMA_200=1.0694546411064212, RSI=64.07692307692294.
+2024-11-28 12:59:27 - [INFO] - Order request: {'action': 1, 'symbol': 'GBPUSD', 'volume': 0.01, 'type': 1, 'price': 1.2665, 'deviation': 20, 'magic': 456000}
+2024-11-28 12:59:27 - [ERROR] - Failed to place SELL trade for GBPUSD.
+2024-11-28 12:59:27 - [INFO] - Trade analyzed for GBPUSD: EMA_50=1.2634445821585987, EMA_200=1.281486215426102, RSI=71.10951008645542.
+2024-11-28 12:59:27 - [INFO] - Order request: {'action': 1, 'symbol': 'USDJPY', 'volume': 0.01, 'type': 0, 'price': 151.847, 'deviation': 20, 'magic': 456000}
+2024-11-28 12:59:27 - [ERROR] - Failed to place BUY trade for USDJPY.
+2024-11-28 12:59:27 - [INFO] - Trade analyzed for USDJPY: EMA_50=153.41707982285854, EMA_200=152.38119838187228, RSI=29.431144300460886.
+2024-11-28 12:59:27 - [INFO] - Order request: {'action': 1, 'symbol': 'XAUUSD', 'volume': 0.01, 'type': 1, 'price': 2646.66, 'deviation': 20, 'magic': 456000}
+2024-11-28 12:59:27 - [ERROR] - Failed to place SELL trade for XAUUSD.
+2024-11-28 12:59:27 - [INFO] - Trade analyzed for XAUUSD: EMA_50=2643.6403780782985, EMA_200=2655.0989952483324, RSI=62.37426771305388.
+2024-11-28 12:59:27 - [INFO] - Cycle complete. Sleeping for 2 minutes.
+2024-11-28 13:01:27 - [INFO] - Starting strategy execution cycle.
+2024-11-28 13:01:27 - [INFO] - Order request: {'action': 1, 'symbol': 'EURUSD', 'volume': 0.01, 'type': 1, 'price': 1.05492, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:01:27 - [ERROR] - Failed to place SELL trade for EURUSD.
+2024-11-28 13:01:27 - [INFO] - Trade analyzed for EURUSD: EMA_50=1.0532962698037869, EMA_200=1.0694558432358185, RSI=64.24196018376725.
+2024-11-28 13:01:27 - [INFO] - Order request: {'action': 1, 'symbol': 'GBPUSD', 'volume': 0.01, 'type': 1, 'price': 1.2665, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:01:27 - [ERROR] - Failed to place SELL trade for GBPUSD.
+2024-11-28 13:01:27 - [INFO] - Trade analyzed for GBPUSD: EMA_50=1.2634445821585987, EMA_200=1.281486215426102, RSI=71.10951008645542.
+2024-11-28 13:01:27 - [INFO] - Order request: {'action': 1, 'symbol': 'USDJPY', 'volume': 0.01, 'type': 0, 'price': 151.834, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:01:27 - [ERROR] - Failed to place BUY trade for USDJPY.
+2024-11-28 13:01:27 - [INFO] - Trade analyzed for USDJPY: EMA_50=153.4165700189359, EMA_200=152.38106815118758, RSI=29.347349978098606.
+2024-11-28 13:01:27 - [INFO] - Order request: {'action': 1, 'symbol': 'XAUUSD', 'volume': 0.01, 'type': 1, 'price': 2645.82, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:01:27 - [ERROR] - Failed to place SELL trade for XAUUSD.
+2024-11-28 13:01:27 - [INFO] - Trade analyzed for XAUUSD: EMA_50=2643.6074369017606, EMA_200=2655.0905803425508, RSI=61.94435206739826.
+2024-11-28 13:01:27 - [INFO] - Cycle complete. Sleeping for 2 minutes.
+2024-11-28 13:03:27 - [INFO] - Starting strategy execution cycle.
+2024-11-28 13:03:27 - [INFO] - Order request: {'action': 1, 'symbol': 'EURUSD', 'volume': 0.01, 'type': 1, 'price': 1.05475, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:03:27 - [ERROR] - Failed to place SELL trade for EURUSD.
+2024-11-28 13:03:27 - [INFO] - Trade analyzed for EURUSD: EMA_50=1.0532896031371066, EMA_200=1.0694541402191722, RSI=64.00770712909443.
+2024-11-28 13:03:27 - [INFO] - Order request: {'action': 1, 'symbol': 'GBPUSD', 'volume': 0.01, 'type': 1, 'price': 1.2663, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:03:27 - [ERROR] - Failed to place SELL trade for GBPUSD.
+2024-11-28 13:03:27 - [INFO] - Trade analyzed for GBPUSD: EMA_50=1.2634367390213277, EMA_200=1.2814842118771064, RSI=70.89985486211911.
+2024-11-28 13:03:27 - [INFO] - Order request: {'action': 1, 'symbol': 'USDJPY', 'volume': 0.01, 'type': 0, 'price': 151.806, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:03:27 - [ERROR] - Failed to place BUY trade for USDJPY.
+2024-11-28 13:03:27 - [INFO] - Trade analyzed for USDJPY: EMA_50=153.41547197971795, EMA_200=152.38078765432817, RSI=29.168480626904326.
+2024-11-28 13:03:27 - [INFO] - Order request: {'action': 1, 'symbol': 'XAUUSD', 'volume': 0.01, 'type': 1, 'price': 2645.72, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:03:27 - [ERROR] - Failed to place SELL trade for XAUUSD.
+2024-11-28 13:03:27 - [INFO] - Trade analyzed for XAUUSD: EMA_50=2643.6035153331245, EMA_200=2655.0895785680527, RSI=61.8757612667476.
+2024-11-28 13:03:27 - [INFO] - Cycle complete. Sleeping for 2 minutes.
+2024-11-28 13:05:27 - [INFO] - Starting strategy execution cycle.
+2024-11-28 13:05:27 - [INFO] - Order request: {'action': 1, 'symbol': 'EURUSD', 'volume': 0.01, 'type': 1, 'price': 1.0547, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:05:27 - [ERROR] - Failed to place SELL trade for EURUSD.
+2024-11-28 13:05:27 - [INFO] - Trade analyzed for EURUSD: EMA_50=1.0532876423527888, EMA_200=1.0694536393319232, RSI=63.938223938223814.
+2024-11-28 13:05:27 - [INFO] - Order request: {'action': 1, 'symbol': 'GBPUSD', 'volume': 0.01, 'type': 1, 'price': 1.2662200000000001, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:05:27 - [ERROR] - Failed to place SELL trade for GBPUSD.
+2024-11-28 13:05:27 - [INFO] - Trade analyzed for GBPUSD: EMA_50=1.263433601766419, EMA_200=1.2814834104575081, RSI=70.81513828238744.
+2024-11-28 13:05:27 - [INFO] - Order request: {'action': 1, 'symbol': 'USDJPY', 'volume': 0.01, 'type': 0, 'price': 151.816, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:05:27 - [ERROR] - Failed to place BUY trade for USDJPY.
+2024-11-28 13:05:27 - [INFO] - Trade analyzed for USDJPY: EMA_50=153.41582492089515, EMA_200=152.38087781403297, RSI=29.225736095964876.
+2024-11-28 13:05:27 - [INFO] - Order request: {'action': 1, 'symbol': 'XAUUSD', 'volume': 0.01, 'type': 1, 'price': 2645.44, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:05:27 - [ERROR] - Failed to place SELL trade for XAUUSD.
+2024-11-28 13:05:27 - [INFO] - Trade analyzed for XAUUSD: EMA_50=2643.5925349409454, EMA_200=2655.086773599459, RSI=61.68451263936407.
+2024-11-28 13:05:27 - [INFO] - Cycle complete. Sleeping for 2 minutes.
+2024-11-28 13:07:27 - [INFO] - Starting strategy execution cycle.
+2024-11-28 13:07:27 - [INFO] - Order request: {'action': 1, 'symbol': 'EURUSD', 'volume': 0.01, 'type': 1, 'price': 1.05472, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:07:27 - [ERROR] - Failed to place SELL trade for EURUSD.
+2024-11-28 13:07:27 - [INFO] - Trade analyzed for EURUSD: EMA_50=1.053288426666516, EMA_200=1.069453839686823, RSI=63.9660493827161.
+2024-11-28 13:07:27 - [INFO] - Order request: {'action': 1, 'symbol': 'GBPUSD', 'volume': 0.01, 'type': 1, 'price': 1.26596, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:07:27 - [ERROR] - Failed to place SELL trade for GBPUSD.
+2024-11-28 13:07:27 - [INFO] - Trade analyzed for GBPUSD: EMA_50=1.2634234056879667, EMA_200=1.2814808058438139, RSI=70.53637031594425.
+2024-11-28 13:07:28 - [INFO] - Order request: {'action': 1, 'symbol': 'USDJPY', 'volume': 0.01, 'type': 0, 'price': 151.847, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:07:28 - [ERROR] - Failed to place BUY trade for USDJPY.
+2024-11-28 13:07:28 - [INFO] - Trade analyzed for USDJPY: EMA_50=153.41707982285854, EMA_200=152.38119838187228, RSI=29.431144300460886.
+2024-11-28 13:07:28 - [INFO] - Order request: {'action': 1, 'symbol': 'XAUUSD', 'volume': 0.01, 'type': 1, 'price': 2645.64, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:07:28 - [ERROR] - Failed to place SELL trade for XAUUSD.
+2024-11-28 13:07:28 - [INFO] - Trade analyzed for XAUUSD: EMA_50=2643.600378078216, EMA_200=2655.088777148455, RSI=61.820997897997344.
+2024-11-28 13:07:28 - [INFO] - Cycle complete. Sleeping for 2 minutes.
+2024-11-28 13:09:28 - [INFO] - Starting strategy execution cycle.
+2024-11-28 13:09:28 - [INFO] - Order request: {'action': 1, 'symbol': 'EURUSD', 'volume': 0.01, 'type': 1, 'price': 1.05476, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:09:28 - [ERROR] - Failed to place SELL trade for EURUSD.
+2024-11-28 13:09:28 - [INFO] - Trade analyzed for EURUSD: EMA_50=1.0532899952939703, EMA_200=1.069454240396622, RSI=64.0215716486901.
+2024-11-28 13:09:28 - [INFO] - Order request: {'action': 1, 'symbol': 'GBPUSD', 'volume': 0.01, 'type': 1, 'price': 1.26619, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:09:28 - [ERROR] - Failed to place SELL trade for GBPUSD.
+2024-11-28 13:09:28 - [INFO] - Trade analyzed for GBPUSD: EMA_50=1.2634324252958287, EMA_200=1.2814831099251587, RSI=70.78324225865214.
+2024-11-28 13:09:28 - [INFO] - Order request: {'action': 1, 'symbol': 'USDJPY', 'volume': 0.01, 'type': 0, 'price': 151.832, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:09:28 - [ERROR] - Failed to place BUY trade for USDJPY.
+2024-11-28 13:09:28 - [INFO] - Trade analyzed for USDJPY: EMA_50=153.4164915875632, EMA_200=152.3810481156976, RSI=29.334500875656488.
+2024-11-28 13:09:28 - [INFO] - Order request: {'action': 1, 'symbol': 'XAUUSD', 'volume': 0.01, 'type': 1, 'price': 2645.4, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:09:28 - [ERROR] - Failed to place SELL trade for XAUUSD.
+2024-11-28 13:09:28 - [INFO] - Trade analyzed for XAUUSD: EMA_50=2643.5909663134908, EMA_200=2655.08637288966, RSI=61.657287873772404.
+2024-11-28 13:09:28 - [INFO] - Cycle complete. Sleeping for 2 minutes.
+2024-11-28 13:11:08 - [ERROR] - MT5 initialization failed.
+2024-11-28 13:11:08 - [ERROR] - MT5 initialization failed. Exiting script.
+2024-11-28 13:11:28 - [INFO] - Starting strategy execution cycle.
+2024-11-28 13:11:28 - [INFO] - Order request: {'action': 1, 'symbol': 'EURUSD', 'volume': 0.01, 'type': 1, 'price': 1.05478, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:11:28 - [ERROR] - Failed to place SELL trade for EURUSD.
+2024-11-28 13:11:28 - [INFO] - Trade analyzed for EURUSD: EMA_50=1.0532911717645608, EMA_200=1.0694545409289713, RSI=64.06310119276621.
+2024-11-28 13:11:28 - [INFO] - Order request: {'action': 1, 'symbol': 'GBPUSD', 'volume': 0.01, 'type': 1, 'price': 1.26606, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:11:28 - [ERROR] - Failed to place SELL trade for GBPUSD.
+2024-11-28 13:11:28 - [INFO] - Trade analyzed for GBPUSD: EMA_50=1.2634273272566026, EMA_200=1.2814818076183114, RSI=70.64421669106889.
+2024-11-28 13:11:28 - [INFO] - Order request: {'action': 1, 'symbol': 'USDJPY', 'volume': 0.01, 'type': 0, 'price': 151.797, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:11:28 - [ERROR] - Failed to place BUY trade for USDJPY.
+2024-11-28 13:11:28 - [INFO] - Trade analyzed for USDJPY: EMA_50=153.41511903854075, EMA_200=152.38069749462338, RSI=29.111449054963927.
+2024-11-28 13:11:28 - [INFO] - Order request: {'action': 1, 'symbol': 'XAUUSD', 'volume': 0.01, 'type': 1, 'price': 2646.05, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:11:28 - [ERROR] - Failed to place SELL trade for XAUUSD.
+2024-11-28 13:11:28 - [INFO] - Trade analyzed for XAUUSD: EMA_50=2643.616456509622, EMA_200=2655.0928844238956, RSI=62.102689486552556.
+2024-11-28 13:11:28 - [INFO] - Cycle complete. Sleeping for 2 minutes.
+2024-11-28 13:13:16 - [ERROR] - MT5 initialization failed.
+2024-11-28 13:13:16 - [ERROR] - MT5 initialization failed. Exiting script.
+2024-11-28 13:13:28 - [INFO] - Starting strategy execution cycle.
+2024-11-28 13:13:28 - [INFO] - Order request: {'action': 1, 'symbol': 'EURUSD', 'volume': 0.01, 'type': 1, 'price': 1.05486, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:13:28 - [ERROR] - Failed to place SELL trade for EURUSD.
+2024-11-28 13:13:28 - [INFO] - Trade analyzed for EURUSD: EMA_50=1.0532939168626057, EMA_200=1.0694552421711199, RSI=64.15963161933976.
+2024-11-28 13:13:28 - [INFO] - Order request: {'action': 1, 'symbol': 'GBPUSD', 'volume': 0.01, 'type': 1, 'price': 1.26605, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:13:28 - [ERROR] - Failed to place SELL trade for GBPUSD.
+2024-11-28 13:13:28 - [INFO] - Trade analyzed for GBPUSD: EMA_50=1.2634269350997387, EMA_200=1.2814817074408618, RSI=70.63346759428782.
+2024-11-28 13:13:28 - [INFO] - Order request: {'action': 1, 'symbol': 'USDJPY', 'volume': 0.01, 'type': 0, 'price': 151.797, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:13:28 - [ERROR] - Failed to place BUY trade for USDJPY.
+2024-11-28 13:13:28 - [INFO] - Trade analyzed for USDJPY: EMA_50=153.4150798228544, EMA_200=152.3806874768784, RSI=29.10512597741068.
+2024-11-28 13:13:28 - [INFO] - Order request: {'action': 1, 'symbol': 'XAUUSD', 'volume': 0.01, 'type': 1, 'price': 2645.79, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:13:28 - [ERROR] - Failed to place SELL trade for XAUUSD.
+2024-11-28 13:13:28 - [INFO] - Trade analyzed for XAUUSD: EMA_50=2643.606260431169, EMA_200=2655.090279810201, RSI=61.92375886524806.
+2024-11-28 13:13:28 - [INFO] - Cycle complete. Sleeping for 2 minutes.
+2024-11-28 13:15:28 - [INFO] - Starting strategy execution cycle.
+2024-11-28 13:15:28 - [INFO] - Order request: {'action': 1, 'symbol': 'EURUSD', 'volume': 0.01, 'type': 1, 'price': 1.05497, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:15:28 - [ERROR] - Failed to place SELL trade for EURUSD.
+2024-11-28 13:15:28 - [INFO] - Trade analyzed for EURUSD: EMA_50=1.0532982305881047, EMA_200=1.0694563441230676, RSI=64.31027894535714.
+2024-11-28 13:15:28 - [INFO] - Order request: {'action': 1, 'symbol': 'GBPUSD', 'volume': 0.01, 'type': 1, 'price': 1.26623, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:15:28 - [ERROR] - Failed to place SELL trade for GBPUSD.
+2024-11-28 13:15:28 - [INFO] - Trade analyzed for GBPUSD: EMA_50=1.2634339939232828, EMA_200=1.2814835106349578, RSI=70.8257548199346.
+2024-11-28 13:15:28 - [INFO] - Order request: {'action': 1, 'symbol': 'USDJPY', 'volume': 0.01, 'type': 0, 'price': 151.78, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:15:28 - [ERROR] - Failed to place BUY trade for USDJPY.
+2024-11-28 13:15:28 - [INFO] - Trade analyzed for USDJPY: EMA_50=153.41445237187273, EMA_200=152.38052719295874, RSI=29.00432900432861.
+2024-11-28 13:15:28 - [INFO] - Order request: {'action': 1, 'symbol': 'XAUUSD', 'volume': 0.01, 'type': 1, 'price': 2645.48, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:15:28 - [ERROR] - Failed to place SELL trade for XAUUSD.
+2024-11-28 13:15:28 - [INFO] - Trade analyzed for XAUUSD: EMA_50=2643.594103568399, EMA_200=2655.087174309258, RSI=61.71176145775802.
+2024-11-28 13:15:28 - [INFO] - Cycle complete. Sleeping for 2 minutes.
+2024-11-28 13:16:10 - [ERROR] - MT5 initialization failed.
+2024-11-28 13:16:10 - [ERROR] - MT5 initialization failed. Exiting script.
+2024-11-28 13:17:28 - [INFO] - Starting strategy execution cycle.
+2024-11-28 13:17:28 - [INFO] - Order request: {'action': 1, 'symbol': 'EURUSD', 'volume': 0.01, 'type': 1, 'price': 1.05509, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:17:28 - [ERROR] - Failed to place SELL trade for EURUSD.
+2024-11-28 13:17:28 - [INFO] - Trade analyzed for EURUSD: EMA_50=1.0533029364704674, EMA_200=1.069457546252465, RSI=64.47318372004565.
+2024-11-28 13:17:28 - [INFO] - Order request: {'action': 1, 'symbol': 'GBPUSD', 'volume': 0.01, 'type': 1, 'price': 1.26637, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:17:28 - [ERROR] - Failed to place SELL trade for GBPUSD.
+2024-11-28 13:17:28 - [INFO] - Trade analyzed for GBPUSD: EMA_50=1.2634394841193726, EMA_200=1.2814849131192547, RSI=70.97357944263493.
+2024-11-28 13:17:28 - [INFO] - Order request: {'action': 1, 'symbol': 'USDJPY', 'volume': 0.01, 'type': 0, 'price': 151.709, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:17:28 - [ERROR] - Failed to place BUY trade for USDJPY.
+2024-11-28 13:17:28 - [INFO] - Trade analyzed for USDJPY: EMA_50=153.41166805814152, EMA_200=152.37981593306526, RSI=28.565337881048436.
+2024-11-28 13:17:28 - [INFO] - Order request: {'action': 1, 'symbol': 'XAUUSD', 'volume': 0.01, 'type': 1, 'price': 2645.91, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:17:28 - [ERROR] - Failed to place SELL trade for XAUUSD.
+2024-11-28 13:17:28 - [INFO] - Trade analyzed for XAUUSD: EMA_50=2643.610966313532, EMA_200=2655.0914819395985, RSI=62.00621393697269.
+2024-11-28 13:17:28 - [INFO] - Cycle complete. Sleeping for 2 minutes.
+2024-11-28 13:17:52 - [INFO] - MT5 initialized successfully.
+2024-11-28 13:18:52 - [INFO] - Processing EURUSD
+2024-11-28 13:18:52 - [INFO] - Processing GBPUSD
+2024-11-28 13:19:28 - [INFO] - Starting strategy execution cycle.
+2024-11-28 13:19:28 - [INFO] - Order request: {'action': 1, 'symbol': 'EURUSD', 'volume': 0.01, 'type': 1, 'price': 1.05503, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:19:28 - [ERROR] - Failed to place SELL trade for EURUSD.
+2024-11-28 13:19:28 - [INFO] - Trade analyzed for EURUSD: EMA_50=1.053300583529286, EMA_200=1.0694569451877662, RSI=64.39191765154382.
+2024-11-28 13:19:28 - [INFO] - Order request: {'action': 1, 'symbol': 'GBPUSD', 'volume': 0.01, 'type': 1, 'price': 1.26639, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:19:28 - [ERROR] - Failed to place SELL trade for GBPUSD.
+2024-11-28 13:19:28 - [INFO] - Trade analyzed for GBPUSD: EMA_50=1.2634402684330996, EMA_200=1.2814851134741545, RSI=70.99457504520798.
+2024-11-28 13:19:28 - [INFO] - Order request: {'action': 1, 'symbol': 'USDJPY', 'volume': 0.01, 'type': 0, 'price': 151.706, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:19:28 - [ERROR] - Failed to place BUY trade for USDJPY.
+2024-11-28 13:19:28 - [INFO] - Trade analyzed for USDJPY: EMA_50=153.41155041108246, EMA_200=152.37978587983034, RSI=28.547081380485437.
+2024-11-28 13:19:28 - [INFO] - Order request: {'action': 1, 'symbol': 'XAUUSD', 'volume': 0.01, 'type': 1, 'price': 2646.41, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:19:28 - [ERROR] - Failed to place SELL trade for XAUUSD.
+2024-11-28 13:19:28 - [INFO] - Trade analyzed for XAUUSD: EMA_50=2643.63057415671, EMA_200=2655.0964908120877, RSI=62.27000665040994.
+2024-11-28 13:19:28 - [INFO] - Cycle complete. Sleeping for 2 minutes.
+2024-11-28 13:21:28 - [INFO] - Starting strategy execution cycle.
+2024-11-28 13:21:28 - [INFO] - Order request: {'action': 1, 'symbol': 'EURUSD', 'volume': 0.01, 'type': 1, 'price': 1.05516, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:21:28 - [ERROR] - Failed to place SELL trade for EURUSD.
+2024-11-28 13:21:28 - [INFO] - Trade analyzed for EURUSD: EMA_50=1.0533056815685122, EMA_200=1.0694582474946135, RSI=64.56752655538699.
+2024-11-28 13:21:28 - [INFO] - Order request: {'action': 1, 'symbol': 'GBPUSD', 'volume': 0.01, 'type': 1, 'price': 1.26642, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:21:28 - [ERROR] - Failed to place SELL trade for GBPUSD.
+2024-11-28 13:21:28 - [INFO] - Trade analyzed for GBPUSD: EMA_50=1.2634414449036904, EMA_200=1.2814854140065037, RSI=71.02601156069387.
+2024-11-28 13:21:28 - [INFO] - Order request: {'action': 1, 'symbol': 'USDJPY', 'volume': 0.01, 'type': 0, 'price': 151.712, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:21:28 - [ERROR] - Failed to place BUY trade for USDJPY.
+2024-11-28 13:21:28 - [INFO] - Trade analyzed for USDJPY: EMA_50=153.4117464895142, EMA_200=152.3798359685552, RSI=28.57752185967125.
+2024-11-28 13:21:28 - [INFO] - Order request: {'action': 1, 'symbol': 'XAUUSD', 'volume': 0.01, 'type': 1, 'price': 2646.4, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:21:28 - [ERROR] - Failed to place SELL trade for XAUUSD.
+2024-11-28 13:21:28 - [INFO] - Trade analyzed for XAUUSD: EMA_50=2643.6301819998457, EMA_200=2655.0963906346383, RSI=62.265824188005695.
+2024-11-28 13:21:28 - [INFO] - Cycle complete. Sleeping for 2 minutes.
+2024-11-28 13:23:28 - [INFO] - Starting strategy execution cycle.
+2024-11-28 13:23:28 - [INFO] - Order request: {'action': 1, 'symbol': 'EURUSD', 'volume': 0.01, 'type': 1, 'price': 1.05528, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:23:28 - [ERROR] - Failed to place SELL trade for EURUSD.
+2024-11-28 13:23:28 - [INFO] - Trade analyzed for EURUSD: EMA_50=1.0533103874508747, EMA_200=1.0694594496240108, RSI=64.72809667673705.
+2024-11-28 13:23:28 - [INFO] - Order request: {'action': 1, 'symbol': 'GBPUSD', 'volume': 0.01, 'type': 1, 'price': 1.2664900000000001, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:23:28 - [ERROR] - Failed to place SELL trade for GBPUSD.
+2024-11-28 13:23:28 - [INFO] - Trade analyzed for GBPUSD: EMA_50=1.263444190001735, EMA_200=1.2814861152486523, RSI=71.09909909909933.
+2024-11-28 13:23:28 - [INFO] - Order request: {'action': 1, 'symbol': 'USDJPY', 'volume': 0.01, 'type': 0, 'price': 151.708, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:23:28 - [ERROR] - Failed to place BUY trade for USDJPY.
+2024-11-28 13:23:28 - [INFO] - Trade analyzed for USDJPY: EMA_50=153.41155041108246, EMA_200=152.37978587983034, RSI=28.547081380485437.
+2024-11-28 13:23:28 - [INFO] - Order request: {'action': 1, 'symbol': 'XAUUSD', 'volume': 0.01, 'type': 1, 'price': 2645.84, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:23:28 - [ERROR] - Failed to place SELL trade for XAUUSD.
+2024-11-28 13:23:28 - [INFO] - Trade analyzed for XAUUSD: EMA_50=2643.608221215487, EMA_200=2655.0907806974506, RSI=61.958088479875784.
+2024-11-28 13:23:28 - [INFO] - Cycle complete. Sleeping for 2 minutes.
+2024-11-28 13:24:59 - [INFO] - MT5 initialized successfully.
+2024-11-28 13:25:28 - [INFO] - Starting strategy execution cycle.
+2024-11-28 13:25:28 - [INFO] - Order request: {'action': 1, 'symbol': 'EURUSD', 'volume': 0.01, 'type': 1, 'price': 1.05512, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:25:28 - [ERROR] - Failed to place SELL trade for EURUSD.
+2024-11-28 13:25:28 - [INFO] - Trade analyzed for EURUSD: EMA_50=1.0533041129410579, EMA_200=1.0694578467848144, RSI=64.51367781155014.
+2024-11-28 13:25:28 - [INFO] - Order request: {'action': 1, 'symbol': 'GBPUSD', 'volume': 0.01, 'type': 1, 'price': 1.2663, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:25:28 - [ERROR] - Failed to place SELL trade for GBPUSD.
+2024-11-28 13:25:28 - [INFO] - Trade analyzed for GBPUSD: EMA_50=1.2634367390213277, EMA_200=1.2814842118771064, RSI=70.89985486211911.
+2024-11-28 13:25:28 - [INFO] - Order request: {'action': 1, 'symbol': 'USDJPY', 'volume': 0.01, 'type': 0, 'price': 151.713, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:25:28 - [ERROR] - Failed to place BUY trade for USDJPY.
+2024-11-28 13:25:28 - [INFO] - Trade analyzed for USDJPY: EMA_50=153.41182492088694, EMA_200=152.37985600404517, RSI=28.589716236398303.
+2024-11-28 13:25:28 - [INFO] - Order request: {'action': 1, 'symbol': 'XAUUSD', 'volume': 0.01, 'type': 1, 'price': 2643.98, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:25:28 - [ERROR] - Failed to place SELL trade for XAUUSD.
+2024-11-28 13:25:28 - [INFO] - Trade analyzed for XAUUSD: EMA_50=2643.5352800388664, EMA_200=2655.07214769179, RSI=60.70613796849528.
+2024-11-28 13:25:28 - [INFO] - Cycle complete. Sleeping for 2 minutes.
+2024-11-28 13:25:59 - [INFO] - Processing EURUSD
+2024-11-28 13:25:59 - [INFO] - Processing GBPUSD
+2024-11-28 13:27:28 - [INFO] - Starting strategy execution cycle.
+2024-11-28 13:27:28 - [INFO] - Order request: {'action': 1, 'symbol': 'EURUSD', 'volume': 0.01, 'type': 1, 'price': 1.05529, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:27:28 - [ERROR] - Failed to place SELL trade for EURUSD.
+2024-11-28 13:27:28 - [INFO] - Trade analyzed for EURUSD: EMA_50=1.0533107796077383, EMA_200=1.0694595498014605, RSI=64.74141185352963.
+2024-11-28 13:27:28 - [INFO] - Order request: {'action': 1, 'symbol': 'GBPUSD', 'volume': 0.01, 'type': 1, 'price': 1.26646, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:27:28 - [ERROR] - Failed to place SELL trade for GBPUSD.
+2024-11-28 13:27:28 - [INFO] - Trade analyzed for GBPUSD: EMA_50=1.2634430135311445, EMA_200=1.2814858147163029, RSI=71.0678210678211.
+2024-11-28 13:27:28 - [INFO] - Order request: {'action': 1, 'symbol': 'USDJPY', 'volume': 0.01, 'type': 0, 'price': 151.681, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:27:28 - [ERROR] - Failed to place BUY trade for USDJPY.
+2024-11-28 13:27:28 - [INFO] - Trade analyzed for USDJPY: EMA_50=153.41057001892358, EMA_200=152.37953543620586, RSI=28.395846577664443.
+2024-11-28 13:27:28 - [INFO] - Order request: {'action': 1, 'symbol': 'XAUUSD', 'volume': 0.01, 'type': 1, 'price': 2644.94, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:27:28 - [ERROR] - Failed to place SELL trade for XAUUSD.
+2024-11-28 13:27:28 - [INFO] - Trade analyzed for XAUUSD: EMA_50=2643.5729270977677, EMA_200=2655.0817647269696, RSI=61.345921615984096.
+2024-11-28 13:27:28 - [INFO] - Cycle complete. Sleeping for 2 minutes.
+2024-11-28 13:29:28 - [INFO] - Starting strategy execution cycle.
+2024-11-28 13:29:28 - [INFO] - Order request: {'action': 1, 'symbol': 'EURUSD', 'volume': 0.01, 'type': 1, 'price': 1.05527, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:29:28 - [ERROR] - Failed to place SELL trade for EURUSD.
+2024-11-28 13:29:28 - [INFO] - Trade analyzed for EURUSD: EMA_50=1.0533099952940113, EMA_200=1.069459349446561, RSI=64.71477143936514.
+2024-11-28 13:29:28 - [INFO] - Order request: {'action': 1, 'symbol': 'GBPUSD', 'volume': 0.01, 'type': 1, 'price': 1.26645, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:29:28 - [ERROR] - Failed to place SELL trade for GBPUSD.
+2024-11-28 13:29:28 - [INFO] - Trade analyzed for GBPUSD: EMA_50=1.2634426213742809, EMA_200=1.2814857145388532, RSI=71.05738000721782.
+2024-11-28 13:29:28 - [INFO] - Order request: {'action': 1, 'symbol': 'USDJPY', 'volume': 0.01, 'type': 0, 'price': 151.68, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:29:28 - [ERROR] - Failed to place BUY trade for USDJPY.
+2024-11-28 13:29:28 - [INFO] - Trade analyzed for USDJPY: EMA_50=153.4104523718645, EMA_200=152.37950538297093, RSI=28.377806014400434.
+2024-11-28 13:29:28 - [INFO] - Order request: {'action': 1, 'symbol': 'XAUUSD', 'volume': 0.01, 'type': 1, 'price': 2645.57, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:29:28 - [ERROR] - Failed to place SELL trade for XAUUSD.
+2024-11-28 13:29:28 - [INFO] - Trade analyzed for XAUUSD: EMA_50=2643.5976329801715, EMA_200=2655.088075906306, RSI=61.77315940747289.
+2024-11-28 13:29:28 - [INFO] - Cycle complete. Sleeping for 2 minutes.
+2024-11-28 13:31:28 - [INFO] - Starting strategy execution cycle.
+2024-11-28 13:31:28 - [INFO] - Order request: {'action': 1, 'symbol': 'EURUSD', 'volume': 0.01, 'type': 1, 'price': 1.05523, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:31:28 - [ERROR] - Failed to place SELL trade for EURUSD.
+2024-11-28 13:31:28 - [INFO] - Trade analyzed for EURUSD: EMA_50=1.053308426666557, EMA_200=1.0694589487367618, RSI=64.66136965569405.
+2024-11-28 13:31:28 - [INFO] - Order request: {'action': 1, 'symbol': 'GBPUSD', 'volume': 0.01, 'type': 1, 'price': 1.26646, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:31:28 - [ERROR] - Failed to place SELL trade for GBPUSD.
+2024-11-28 13:31:28 - [INFO] - Trade analyzed for GBPUSD: EMA_50=1.2634430135311445, EMA_200=1.2814858147163029, RSI=71.0678210678211.
+2024-11-28 13:31:28 - [INFO] - Order request: {'action': 1, 'symbol': 'USDJPY', 'volume': 0.01, 'type': 0, 'price': 151.682, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:31:28 - [ERROR] - Failed to place BUY trade for USDJPY.
+2024-11-28 13:31:28 - [INFO] - Trade analyzed for USDJPY: EMA_50=153.41060923460992, EMA_200=152.37954545395084, RSI=28.401865197117132.
+2024-11-28 13:31:28 - [INFO] - Order request: {'action': 1, 'symbol': 'XAUUSD', 'volume': 0.01, 'type': 1, 'price': 2646.08, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:31:28 - [ERROR] - Failed to place SELL trade for XAUUSD.
+2024-11-28 13:31:28 - [INFO] - Trade analyzed for XAUUSD: EMA_50=2643.6176329802124, EMA_200=2655.0931849562453, RSI=62.12340188993866.
+2024-11-28 13:31:28 - [INFO] - Cycle complete. Sleeping for 2 minutes.
+2024-11-28 13:32:59 - [INFO] - MT5 initialized successfully.
+2024-11-28 13:33:28 - [INFO] - Starting strategy execution cycle.
+2024-11-28 13:33:28 - [INFO] - Order request: {'action': 1, 'symbol': 'EURUSD', 'volume': 0.01, 'type': 1, 'price': 1.05498, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:33:28 - [ERROR] - Failed to place SELL trade for EURUSD.
+2024-11-28 13:33:28 - [INFO] - Trade analyzed for EURUSD: EMA_50=1.0532990149018318, EMA_200=1.0694565444779671, RSI=64.3375334096984.
+2024-11-28 13:33:28 - [INFO] - Order request: {'action': 1, 'symbol': 'GBPUSD', 'volume': 0.01, 'type': 1, 'price': 1.2666, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:33:28 - [ERROR] - Failed to place SELL trade for GBPUSD.
+2024-11-28 13:33:28 - [INFO] - Trade analyzed for GBPUSD: EMA_50=1.263448503727234, EMA_200=1.2814872172006, RSI=71.21320890165117.
+2024-11-28 13:33:28 - [INFO] - Order request: {'action': 1, 'symbol': 'USDJPY', 'volume': 0.01, 'type': 0, 'price': 151.72, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:33:28 - [ERROR] - Failed to place BUY trade for USDJPY.
+2024-11-28 13:33:28 - [INFO] - Trade analyzed for USDJPY: EMA_50=153.4120994306914, EMA_200=152.37992612826002, RSI=28.63247863247841.
+2024-11-28 13:33:28 - [INFO] - Order request: {'action': 1, 'symbol': 'XAUUSD', 'volume': 0.01, 'type': 1, 'price': 2645.88, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:33:28 - [ERROR] - Failed to place SELL trade for XAUUSD.
+2024-11-28 13:33:28 - [INFO] - Trade analyzed for XAUUSD: EMA_50=2643.6097898429416, EMA_200=2655.0911814072497, RSI=61.98557958957287.
+2024-11-28 13:33:28 - [INFO] - Cycle complete. Sleeping for 2 minutes.
+2024-11-28 13:33:59 - [INFO] - Processing EURUSD
+2024-11-28 13:33:59 - [INFO] - Processing GBPUSD
+2024-11-28 13:33:59 - [INFO] - Placing SELL order for GBPUSD at price 1.26662.
+2024-11-28 13:33:59 - [INFO] - Initial order placed successfully. Ticket: 37443841
+2024-11-28 13:33:59 - [INFO] - Waiting for price to reach TP Level 1 (1.26542).
+2024-11-28 13:35:28 - [INFO] - Starting strategy execution cycle.
+2024-11-28 13:35:28 - [INFO] - Order request: {'action': 1, 'symbol': 'EURUSD', 'volume': 0.01, 'type': 1, 'price': 1.0551, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:35:28 - [ERROR] - Failed to place SELL trade for EURUSD.
+2024-11-28 13:35:28 - [INFO] - Trade analyzed for EURUSD: EMA_50=1.0533033286273308, EMA_200=1.0694576464299146, RSI=64.48669201520893.
+2024-11-28 13:35:28 - [INFO] - Order request: {'action': 1, 'symbol': 'GBPUSD', 'volume': 0.01, 'type': 1, 'price': 1.26662, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:35:28 - [ERROR] - Failed to place SELL trade for GBPUSD.
+2024-11-28 13:35:28 - [INFO] - Trade analyzed for GBPUSD: EMA_50=1.2634492880409613, EMA_200=1.2814874175554996, RSI=71.2338593974177.
+2024-11-28 13:35:28 - [INFO] - Order request: {'action': 1, 'symbol': 'USDJPY', 'volume': 0.01, 'type': 0, 'price': 151.655, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:35:28 - [ERROR] - Failed to place BUY trade for USDJPY.
+2024-11-28 13:35:28 - [INFO] - Trade analyzed for USDJPY: EMA_50=153.40951119539199, EMA_200=152.37926495709144, RSI=28.234302570585513.
+2024-11-28 13:35:28 - [INFO] - Order request: {'action': 1, 'symbol': 'XAUUSD', 'volume': 0.01, 'type': 1, 'price': 2646.64, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:35:28 - [ERROR] - Failed to place SELL trade for XAUUSD.
+2024-11-28 13:35:28 - [INFO] - Trade analyzed for XAUUSD: EMA_50=2643.639593764571, EMA_200=2655.0987948934335, RSI=62.36594803758967.
+2024-11-28 13:35:28 - [INFO] - Cycle complete. Sleeping for 2 minutes.
+2024-11-28 13:37:28 - [INFO] - Starting strategy execution cycle.
+2024-11-28 13:37:28 - [INFO] - Order request: {'action': 1, 'symbol': 'EURUSD', 'volume': 0.01, 'type': 1, 'price': 1.05509, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:37:28 - [ERROR] - Failed to place SELL trade for EURUSD.
+2024-11-28 13:37:28 - [INFO] - Trade analyzed for EURUSD: EMA_50=1.0533029364704674, EMA_200=1.069457546252465, RSI=64.47318372004565.
+2024-11-28 13:37:28 - [INFO] - Order request: {'action': 1, 'symbol': 'GBPUSD', 'volume': 0.01, 'type': 1, 'price': 1.26662, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:37:28 - [ERROR] - Failed to place SELL trade for GBPUSD.
+2024-11-28 13:37:28 - [INFO] - Trade analyzed for GBPUSD: EMA_50=1.2634492880409613, EMA_200=1.2814874175554996, RSI=71.2338593974177.
+2024-11-28 13:37:28 - [INFO] - Order request: {'action': 1, 'symbol': 'USDJPY', 'volume': 0.01, 'type': 0, 'price': 151.68, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:37:28 - [ERROR] - Failed to place BUY trade for USDJPY.
+2024-11-28 13:37:28 - [INFO] - Trade analyzed for USDJPY: EMA_50=153.4105308032372, EMA_200=152.37952541846087, RSI=28.38983050847422.
+2024-11-28 13:37:28 - [INFO] - Order request: {'action': 1, 'symbol': 'XAUUSD', 'volume': 0.01, 'type': 1, 'price': 2646.86, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:37:28 - [ERROR] - Failed to place SELL trade for XAUUSD.
+2024-11-28 13:37:28 - [INFO] - Trade analyzed for XAUUSD: EMA_50=2643.6482212155693, EMA_200=2655.1009987973284, RSI=62.45726260063963.
+2024-11-28 13:37:28 - [INFO] - Cycle complete. Sleeping for 2 minutes.
+2024-11-28 13:39:28 - [INFO] - Starting strategy execution cycle.
+2024-11-28 13:39:28 - [INFO] - Order request: {'action': 1, 'symbol': 'EURUSD', 'volume': 0.01, 'type': 1, 'price': 1.05497, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:39:28 - [ERROR] - Failed to place SELL trade for EURUSD.
+2024-11-28 13:39:28 - [INFO] - Trade analyzed for EURUSD: EMA_50=1.0532982305881047, EMA_200=1.0694563441230676, RSI=64.31027894535714.
+2024-11-28 13:39:28 - [INFO] - Order request: {'action': 1, 'symbol': 'GBPUSD', 'volume': 0.01, 'type': 1, 'price': 1.2665899999999999, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:39:28 - [ERROR] - Failed to place SELL trade for GBPUSD.
+2024-11-28 13:39:28 - [INFO] - Trade analyzed for GBPUSD: EMA_50=1.2634481115703706, EMA_200=1.28148711702315, RSI=71.20287253141831.
+2024-11-28 13:39:28 - [INFO] - Order request: {'action': 1, 'symbol': 'USDJPY', 'volume': 0.01, 'type': 0, 'price': 151.679, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:39:28 - [ERROR] - Failed to place BUY trade for USDJPY.
+2024-11-28 13:39:28 - [INFO] - Trade analyzed for USDJPY: EMA_50=153.4104523718645, EMA_200=152.37950538297093, RSI=28.377806014400434.
+2024-11-28 13:39:28 - [INFO] - Order request: {'action': 1, 'symbol': 'XAUUSD', 'volume': 0.01, 'type': 1, 'price': 2646.53, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:39:28 - [ERROR] - Failed to place SELL trade for XAUUSD.
+2024-11-28 13:39:28 - [INFO] - Trade analyzed for XAUUSD: EMA_50=2643.6352800390723, EMA_200=2655.0976929414855, RSI=62.3201239760903.
+2024-11-28 13:39:28 - [INFO] - Cycle complete. Sleeping for 2 minutes.
+2024-11-28 13:41:10 - [INFO] - MT5 initialized successfully.
+2024-11-28 13:41:28 - [INFO] - Starting strategy execution cycle.
+2024-11-28 13:41:28 - [INFO] - Order request: {'action': 1, 'symbol': 'EURUSD', 'volume': 0.01, 'type': 1, 'price': 1.05479, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:41:28 - [ERROR] - Failed to place SELL trade for EURUSD.
+2024-11-28 13:41:28 - [INFO] - Trade analyzed for EURUSD: EMA_50=1.0532911717645608, EMA_200=1.0694545409289713, RSI=64.06310119276621.
+2024-11-28 13:41:28 - [INFO] - Order request: {'action': 1, 'symbol': 'GBPUSD', 'volume': 0.01, 'type': 1, 'price': 1.26642, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:41:28 - [ERROR] - Failed to place SELL trade for GBPUSD.
+2024-11-28 13:41:28 - [INFO] - Trade analyzed for GBPUSD: EMA_50=1.2634414449036904, EMA_200=1.2814854140065037, RSI=71.02601156069387.
+2024-11-28 13:41:28 - [INFO] - Order request: {'action': 1, 'symbol': 'USDJPY', 'volume': 0.01, 'type': 0, 'price': 151.683, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:41:28 - [ERROR] - Failed to place BUY trade for USDJPY.
+2024-11-28 13:41:28 - [INFO] - Trade analyzed for USDJPY: EMA_50=153.41060923460992, EMA_200=152.37954545395084, RSI=28.401865197117132.
+2024-11-28 13:41:28 - [INFO] - Order request: {'action': 1, 'symbol': 'XAUUSD', 'volume': 0.01, 'type': 1, 'price': 2646.08, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:41:28 - [ERROR] - Failed to place SELL trade for XAUUSD.
+2024-11-28 13:41:28 - [INFO] - Trade analyzed for XAUUSD: EMA_50=2643.6176329802124, EMA_200=2655.0931849562453, RSI=62.12340188993866.
+2024-11-28 13:41:28 - [INFO] - Cycle complete. Sleeping for 2 minutes.
+2024-11-28 13:42:10 - [INFO] - Processing EURUSD
+2024-11-28 13:42:10 - [INFO] - Processing GBPUSD
+2024-11-28 13:42:10 - [INFO] - Placing SELL order for GBPUSD at price 1.26646.
+2024-11-28 13:42:11 - [INFO] - Initial order placed successfully. Ticket: 37444549
+2024-11-28 13:42:11 - [INFO] - Waiting for price to reach TP Level 1 (1.2652599999999998).
+2024-11-28 13:43:23 - [INFO] - MT5 initialized successfully.
+2024-11-28 13:43:28 - [INFO] - Starting strategy execution cycle.
+2024-11-28 13:43:28 - [INFO] - Order request: {'action': 1, 'symbol': 'EURUSD', 'volume': 0.01, 'type': 1, 'price': 1.05496, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:43:28 - [ERROR] - Failed to place SELL trade for EURUSD.
+2024-11-28 13:43:28 - [INFO] - Trade analyzed for EURUSD: EMA_50=1.0532978384312413, EMA_200=1.0694562439456177, RSI=64.29663608562669.
+2024-11-28 13:43:28 - [INFO] - Order request: {'action': 1, 'symbol': 'GBPUSD', 'volume': 0.01, 'type': 1, 'price': 1.2666, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:43:28 - [ERROR] - Failed to place SELL trade for GBPUSD.
+2024-11-28 13:43:28 - [INFO] - Trade analyzed for GBPUSD: EMA_50=1.263448503727234, EMA_200=1.2814872172006, RSI=71.21320890165117.
+2024-11-28 13:43:28 - [INFO] - Order request: {'action': 1, 'symbol': 'USDJPY', 'volume': 0.01, 'type': 0, 'price': 151.658, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:43:28 - [ERROR] - Failed to place BUY trade for USDJPY.
+2024-11-28 13:43:28 - [INFO] - Trade analyzed for USDJPY: EMA_50=153.40966805813738, EMA_200=152.37930502807134, RSI=28.258118937157022.
+2024-11-28 13:43:28 - [INFO] - Order request: {'action': 1, 'symbol': 'XAUUSD', 'volume': 0.01, 'type': 1, 'price': 2646.16, 'deviation': 20, 'magic': 456000}
+2024-11-28 13:43:28 - [ERROR] - Failed to place SELL trade for XAUUSD.
+2024-11-28 13:43:28 - [INFO] - Trade analyzed for XAUUSD: EMA_50=2643.620770235121, EMA_200=2655.093986375843, RSI=62.16516616649978.
+2024-11-28 13:43:28 - [INFO] - Cycle complete. Sleeping for 2 minutes.
