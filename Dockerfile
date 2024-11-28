@@ -1,17 +1,14 @@
-# Base image
+# Use an official Python runtime as a base image
 FROM python:3.9-slim
 
-# Set working directory
+# Set the working directory in the container
 WORKDIR /usr/src/app
 
-# Copy files
+# Copy the current directory contents into the container
 COPY . .
 
 # Install dependencies
-RUN apt-get update && apt-get install -y \
-    libglib2.0-0 libx11-6 libxext6 libxrender1 libxtst6 libxi6 && \
-    pip install --upgrade pip && \
-    pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Default command
-CMD ["python", "your_script.py"]
+# Define the default command to run the EA
+CMD ["python", "main.py", "mt5_interface.py"]

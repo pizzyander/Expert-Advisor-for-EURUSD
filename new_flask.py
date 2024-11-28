@@ -75,6 +75,8 @@ async def predict(request: PredictionRequest):
         # Ensure we are using the last 90 time steps
         scaled_data = scaled_data[-90:]
 
+        print(f"Shape of scaled_data: {scaled_data.shape}")
+
         reshaped_data = scaled_data.reshape((1, time_steps, scaled_data.shape[1]))
 
         # Make prediction and inverse scale the result

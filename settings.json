@@ -2,7 +2,5 @@
     "username": "9293182",
     "password": "Ge@mK3Xb",
     "server": "GTCGlobalTrade-Server",
-    "mt5Pathway": "C:\\Program Files\\MetaTrader 5\\terminal64.exe",
-    "symbols": ["EURUSD"]
+    "mt5Pathway": "C:\\Program Files\\MetaTrader 5\\terminal64.exe"
 }
-
