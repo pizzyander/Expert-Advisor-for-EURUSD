@@ -2,248 +2,136 @@ import MetaTrader5 as mt5
 import pandas as pd
 import logging
 import time
-import schedule
 from datetime import datetime
+from finta import TA  # Import finta's TA module
 
-# Logging setup
-logging.basicConfig(
-    filename="strategy.log",
-    level=logging.INFO,
-    format="%(asctime)s - [%(levelname)s] - %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
-)
-
-# Initialize MT5 with your credentials
-settings = {
-    "username": 9293182,
+# Account details
+account_details = {
+    "login": 9293182,
     "password": "Ge@mK3Xb",
     "server": "GTCGlobalTrade-Server",
-    "mt5Pathway": "C:\\Program Files\\MetaTrader 5\\terminal64.exe"
+    "mt5_pathway": "C:\\Program Files\\MetaTrader 5\\terminal64.exe"
 }
 
-# Constants
-RSI_PERIOD = 14
-EMA_SHORT = 50
-EMA_LONG = 200
-RISK_PERCENT = 0.1
-MAGIC_NUMBER = 456000
-SYMBOLS = ["EURUSD", "GBPUSD", "USDJPY", "XAUUSD"]
-DEVIATION = 100  # Fixed deviation
-LOT_SIZE = 0.1  # Fixed lot size
-PIP_VALUES = {"EURUSD": 0.0001, "GBPUSD": 0.0001, "USDJPY": 0.01, "XAUUSD": 0.01}
+# Symbols to trade
+symbols = ["EURUSD", "XAUUSD", "USDJPY", "GBPUSD"]
 
-def initialize_mt5(settings):
-    """Initialize MetaTrader 5 connection."""
-    if not mt5.initialize(
-        login=settings["username"],
-        password=settings["password"],
-        server=settings["server"],
-        path=settings["mt5Pathway"],
-    ):
-        logging.error("MT5 initialization failed.")
-        return False
-    logging.info("MT5 initialized successfully.")
-    return True
+# Trade parameters
+volume = 0.1  # Fixed trade volume
+h4_timeframe = mt5.TIMEFRAME_H4
+h1_timeframe = mt5.TIMEFRAME_H1
+tp1_pips = 120
+tp2_pips = 240
+tp3_pips = 360
 
-def initialize_symbols(symbol_array):
-    """Enable symbols in MetaTrader 5."""
-    logging.info("Initializing symbols...")
-    for symbol in symbol_array:
-        if mt5.symbol_select(symbol, True):
-            logging.info(f"Symbol {symbol} initialized.")
-        else:
-            logging.error(f"Failed to initialize symbol: {symbol}")
-            return False
-    return True
+# Logging configuration
+logging.basicConfig(
+    filename="trading_bot.log",
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s"
+)
 
-def fetch_data(symbol, timeframe=mt5.TIMEFRAME_H4):
-    """Fetch historical data and calculate indicators."""
-    rates = mt5.copy_rates_from_pos(symbol, timeframe, 0, 500)
-    if rates is None or len(rates) == 0:
-        logging.error(f"Failed to fetch data for {symbol}.")
-        return None
+logging.info("Starting the trading bot script.")
 
-    data = pd.DataFrame(rates)
-    data['time'] = pd.to_datetime(data['time'], unit='s')
+# Initialize MetaTrader 5
+if not mt5.initialize(account_details["mt5_pathway"]):
+    logging.error("Failed to initialize MetaTrader 5. Exiting.")
+    quit()
 
-    # Calculate RSI
-    delta = data['close'].diff()
-    gain = delta.where(delta > 0, 0).rolling(window=RSI_PERIOD).mean()
-    loss = -delta.where(delta < 0, 0).rolling(window=RSI_PERIOD).mean()
-    rs = gain / loss
-    data['RSI'] = 100 - (100 / (1 + rs))
+# Login to MT5 account
+if not mt5.login(account_details["login"], account_details["password"], account_details["server"]):
+    logging.error("Failed to log in to MT5 account. Exiting.")
+    mt5.shutdown()
+    quit()
+logging.info(f"Logged in to MT5 account: {account_details['login']}.")
 
-    # Calculate EMAs
-    data['EMA_50'] = data['close'].ewm(span=EMA_SHORT).mean()
-    data['EMA_200'] = data['close'].ewm(span=EMA_LONG).mean()
-
-    return data
-
-def place_trade_with_programmatic_tp(symbol, order_type):
-    """
-    Place a trade with take-profit levels at 120, 240, and 360 pips above or below the entry price.
-    """
-    tick = mt5.symbol_info_tick(symbol)
-    if not tick:
-        logging.error(f"Failed to get market tick for {symbol}.")
-        return
-    
-    # Determine entry price and point value
-    price = tick.ask if order_type.lower() == "buy" else tick.bid
-    point = mt5.symbol_info(symbol).point  # Point value for the symbol
-
-    # Calculate take-profit levels
-    tp_120 = price + (120 * point) if order_type.lower() == "buy" else price - (120 * point)
-    tp_240 = price + (240 * point) if order_type.lower() == "buy" else price - (240 * point)
-    tp_360 = price + (360 * point) if order_type.lower() == "buy" else price - (360 * point)
-    
-    logging.info(
-        f"Placing {order_type.upper()} order for {symbol} at price {price} with TPs: "
-        f"120 pips ({tp_120}), 240 pips ({tp_240}), 360 pips ({tp_360})."
-    )
-
+# Main function to execute trades for each symbol
+def run_trading_bot():
     try:
-        # Place the trade
-        request = {
-            "action": mt5.TRADE_ACTION_DEAL,
-            "symbol": symbol,
-            "volume": LOT_SIZE,
-            "type": mt5.ORDER_TYPE_BUY if order_type.lower() == "buy" else mt5.ORDER_TYPE_SELL,
-            "price": price,
-            "sl": None,  # Stop loss can be added here if needed
-            "tp": tp_120,  # Initial TP at 120 pips
-            "deviation": DEVIATION,
-            "magic": MAGIC_NUMBER,
-            "comment": "Take-Profit Strategy",
-            "type_time": mt5.ORDER_TIME_GTC,
-            "type_filling": mt5.ORDER_FILLING_IOC,
-        }
+        for symbol in symbols:
+            logging.info(f"Processing symbol: {symbol}.")
 
-        result = mt5.order_send(request)
-        if result.retcode != mt5.TRADE_RETCODE_DONE:
-            logging.error(f"Order placement failed: {result.retcode}")
-            return
-        else:
-            logging.info(f"Order placed successfully. Ticket: {result.order}")
+            # Check if symbol is available in the terminal
+            symbol_info = mt5.symbol_info(symbol)
+            if not symbol_info:
+                logging.warning(f"Symbol {symbol} not found. Skipping.")
+                continue
+            if not symbol_info.visible:
+                if not mt5.symbol_select(symbol, True):
+                    logging.warning(f"Symbol {symbol} is not visible and could not be enabled. Skipping.")
+                    continue
 
-            # Manage take-profits dynamically
-            ticket = result.order
-            for tp_level, tp_desc in zip([tp_240, tp_360], ["240 pips", "360 pips"]):
-                logging.info(f"Waiting for {tp_desc} level.")
-                while True:
-                    current_price = tick.ask if order_type.lower() == "buy" else tick.bid
+            # Fetch H4 data for trend detection
+            h4_rates = mt5.copy_rates_from_pos(symbol, h4_timeframe, 0, 500)
+            h4_df = pd.DataFrame(h4_rates)
+            h4_df['time'] = pd.to_datetime(h4_df['time'], unit='s')
 
-                    if (order_type.lower() == "buy" and current_price >= tp_level) or (
-                        order_type.lower() == "sell" and current_price <= tp_level
-                    ):
-                        logging.info(f"Reached {tp_desc} for {symbol}. Closing partial position.")
-                        
-                        close_request = {
-                            "action": mt5.TRADE_ACTION_DEAL,
-                            "symbol": symbol,
-                            "volume": LOT_SIZE,  # Adjust volume for partial closure
-                            "type": mt5.ORDER_TYPE_SELL if order_type.lower() == "buy" else mt5.ORDER_TYPE_BUY,
-                            "position": ticket,
-                            "price": current_price,
-                            "deviation": DEVIATION,
-                            "magic": MAGIC_NUMBER,
-                            "comment": f"Close at {tp_desc}",
-                            "type_time": mt5.ORDER_TIME_GTC,
-                            "type_filling": mt5.ORDER_FILLING_IOC,
-                        }
+            # Calculate ADX to detect trend direction using finta
+            adx = TA.ADX(h4_df)  # finta ADX
+            if adx.iloc[-1]['ADX'] <= 25:  # Weak trend
+                logging.info(f"No strong trend detected for {symbol}. Skipping this cycle.")
+                continue
+            trend_direction = "uptrend" if h4_df['close'].iloc[-1] > h4_df['open'].iloc[-1] else "downtrend"
+            logging.info(f"Trend detected for {symbol}: {trend_direction}.")
 
-                        close_result = mt5.order_send(close_request)
-                        if close_result.retcode != mt5.TRADE_RETCODE_DONE:
-                            logging.error(f"Failed to close at {tp_desc}: {close_result.retcode}")
-                        else:
-                            logging.info(f"Closed partial position at {tp_desc}.")
-                        break  # Exit loop and proceed to the next TP level
-                    time.sleep(1)  # Check the price every second
+            # Detect swing highs and swing lows
+            h4_df['swing_high'] = (h4_df['high'] > h4_df['high'].shift(1)) & (h4_df['high'] > h4_df['high'].shift(-1))
+            h4_df['swing_low'] = (h4_df['low'] < h4_df['low'].shift(1)) & (h4_df['low'] < h4_df['low'].shift(-1))
+
+            # Fetch H1 data for break of structure confirmation
+            h1_rates = mt5.copy_rates_from_pos(symbol, h1_timeframe, 0, 500)
+            h1_df = pd.DataFrame(h1_rates)
+            h1_df['time'] = pd.to_datetime(h1_df['time'], unit='s')
+
+            # Break of structure confirmation
+            bos_confirmed = False
+            if trend_direction == "uptrend":
+                resistance = h4_df[h4_df['swing_high']]['high'].max()
+                if h1_df['close'].iloc[-1] > resistance:
+                    bos_confirmed = True
+                    logging.info(f"Break of structure confirmed for {symbol} in uptrend.")
+            elif trend_direction == "downtrend":
+                support = h4_df[h4_df['swing_low']]['low'].min()
+                if h1_df['close'].iloc[-1] < support:
+                    bos_confirmed = True
+                    logging.info(f"Break of structure confirmed for {symbol} in downtrend.")
+
+            if not bos_confirmed:
+                logging.info(f"No break of structure confirmed for {symbol}. Skipping this cycle.")
+                continue
+
+            # Place a single trade with partial TP levels
+            entry_price = h1_df['close'].iloc[-1]
+            tp1 = entry_price + (tp1_pips * symbol_info.point) if trend_direction == "uptrend" else entry_price - (tp1_pips * symbol_info.point)
+            tp2 = entry_price + (tp2_pips * symbol_info.point) if trend_direction == "uptrend" else entry_price - (tp2_pips * symbol_info.point)
+            tp3 = entry_price + (tp3_pips * symbol_info.point) if trend_direction == "uptrend" else entry_price - (tp3_pips * symbol_info.point)
+
+            # Place the trade
+            request = {
+                "action": mt5.TRADE_ACTION_DEAL,
+                "symbol": symbol,
+                "volume": volume,
+                "type": mt5.ORDER_BUY if trend_direction == "uptrend" else mt5.ORDER_SELL,
+                "price": entry_price,
+                "tp": tp1,
+                "deviation": 10,
+                "magic": 123456,
+                "comment": "Partial TP Trade",
+            }
+
+            result = mt5.order_send(request)
+            if result.retcode == mt5.TRADE_RETCODE_DONE:
+                logging.info(f"Trade placed for {symbol}: {result}")
+            else:
+                logging.error(f"Failed to place trade for {symbol}. Error: {result.comment}")
 
     except Exception as e:
-        logging.error(f"Error placing trade or managing TPs: {e}")
+        logging.error(f"An error occurred: {str(e)}")
 
-def get_market_trend(symbol, timeframe=mt5.TIMEFRAME_H1):
-    """
-    Analyze the market trend for a given symbol.
-    Determine if the market is trending or consolidating.
-    """
-    logging.info(f"Analyzing market trend for {symbol}...")
-    
-    # Fetch the last 300 H1 candlesticks
-    rates = mt5.copy_rates_from_pos(symbol, timeframe, 0, 300)
-    if rates is None or len(rates) == 0:
-        logging.error(f"Failed to fetch data for market trend analysis: {symbol}.")
-        return None
 
-    data = pd.DataFrame(rates)
-    data['time'] = pd.to_datetime(data['time'], unit='s')
-
-    # Calculate ATR
-    data['high_low'] = data['high'] - data['low']
-    data['high_close'] = abs(data['high'] - data['close'].shift(1))
-    data['low_close'] = abs(data['low'] - data['close'].shift(1))
-    data['TR'] = data[['high_low', 'high_close', 'low_close']].max(axis=1)
-    data['ATR'] = data['TR'].rolling(window=14).mean()
-
-    # Calculate EMA (200)
-    data['EMA_200'] = data['close'].ewm(span=200).mean()
-
-    # Determine the trend direction using EMA slope
-    ema_diff = data['EMA_200'].diff()
-    average_ema_slope = ema_diff[-10:].mean()  # Average slope over the last 10 periods
-
-    # Determine if ATR indicates consolidation
-    avg_atr = data['ATR'][-20:].mean()  # Average ATR over the last 20 periods
-    consolidation_threshold = 0.001 * mt5.symbol_info(symbol).point
-
-    if abs(average_ema_slope) < consolidation_threshold and avg_atr < consolidation_threshold:
-        trend = "consolidating"
-    elif average_ema_slope > 0:
-        trend = "uptrend"
-    elif average_ema_slope < 0:
-        trend = "downtrend"
-    else:
-        trend = "indeterminate"
-
-    logging.info(f"{symbol} market trend: {trend} (ATR={avg_atr:.6f}, EMA slope={average_ema_slope:.6f})")
-    return trend
-
-def main():
-    for symbol in SYMBOLS:
-        logging.info(f"Processing {symbol}")
-
-        # Determine market trend
-        trend = get_market_trend(symbol)
-        if trend == "consolidating":
-            logging.info(f"Skipping trades for {symbol} due to consolidation.")
-            continue
-
-        # Fetch the market data for the symbol
-        data = fetch_data(symbol)
-        if data is not None:
-            rsi = data['RSI'].iloc[-1]
-            ema_50 = data['EMA_50'].iloc[-1]
-            ema_200 = data['EMA_200'].iloc[-1]
-
-            # Example strategy: Buy in uptrend when RSI < 30 and EMA50 > EMA200
-            if trend == "uptrend" and rsi < 30 and ema_50 > ema_200:
-                logging.info(f"{symbol} BUY condition met: RSI={rsi}, EMA_50={ema_50}, EMA_200={ema_200}")
-                place_trade_with_programmatic_tp(symbol, "buy")
-
-            # Example strategy: Sell in downtrend when RSI > 70 and EMA50 < EMA200
-            elif trend == "downtrend" and rsi > 70 and ema_50 < ema_200:
-                logging.info(f"{symbol} SELL condition met: RSI={rsi}, EMA_50={ema_50}, EMA_200={ema_200}")
-                place_trade_with_programmatic_tp(symbol, "sell")
-        else:
-            logging.error(f"Failed to fetch data for {symbol}")
-            
-schedule.every(1).minutes.do(main)
-
-if initialize_mt5(settings):
-    if initialize_symbols(SYMBOLS):
-        while True:
-            schedule.run_pending()
-            time.sleep(1)
-else:
-    logging.error("MT5 initialization failed. Exiting script.")
+# Run the bot every 10 minutes
+while True:
+    logging.info(f"Running bot cycle at {datetime.now()}.")
+    run_trading_bot()
+    logging.info("Sleeping for 10 minutes before the next cycle.")
+    time.sleep(10 * 60)
