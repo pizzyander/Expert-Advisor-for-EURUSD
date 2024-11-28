@@ -90,7 +90,6 @@ def get_prediction(candle_data):
         logging.error(f"Error during FastAPI request: {e}")
         return None
 
-# Main function to compare prediction with the last candlestick close
 def main():
     logging.info("Starting main trading function...")
     start_status = start_mt5("9293182", "Ge@mK3Xb", "GTCGlobalTrade-Server", "C:\\Program Files\\MetaTrader 5\\terminal64.exe")
@@ -114,37 +113,99 @@ def main():
     logging.info(f"Prediction Value: {prediction}")
     last_close = last_90_candles[-1]['close']
     if prediction > last_close:
-        logging.info("Prediction is higher than the last close. Placing Buy Order...")
-        place_trade(symbol, "buy")
+        logging.info("Prediction is higher than the last close. Placing Buy Order with Programmatic TP...")
+        place_trade_with_programmatic_tp(symbol, "buy")
     else:
-        logging.info("Prediction is lower or equal to the last close. Placing Sell Order...")
-        place_trade(symbol, "sell")
+        logging.info("Prediction is lower or equal to the last close. Placing Sell Order with Programmatic TP...")
+        place_trade_with_programmatic_tp(symbol, "sell")
 
-# Function to place a trade
-def place_trade(symbol, order_type):
-    lot_size = 0.1
-    price = MetaTrader5.symbol_info_tick(symbol).ask if order_type == "buy" else MetaTrader5.symbol_info_tick(symbol).bid
-    stop_loss = 120  # Example stop loss distance (in pips)
-    take_profit = 360  # Example take profit distance (in pips)
+
+def place_trade_with_programmatic_tp(symbol, order_type):
+    lot_size = 0.3  # Total lot size to trade
+    price = (
+        MetaTrader5.symbol_info_tick(symbol).ask
+        if order_type == "buy"
+        else MetaTrader5.symbol_info_tick(symbol).bid
+    )
+    point = MetaTrader5.symbol_info(symbol).point  # Point value for the symbol
+    tp_levels = [
+        price + (120 * point) if order_type == "buy" else price - (120 * point),
+        price + (240 * point) if order_type == "buy" else price - (240 * point),
+        price + (360 * point) if order_type == "buy" else price - (360 * point),
+    ]
+    tp_lot_sizes = [0.1, 0.1, 0.1]  # Partial lot sizes for each take-profit level
 
     logging.info(f"Placing {order_type.upper()} order for {symbol}.")
     try:
-        if order_type == "buy":
-            ticket = MetaTrader5.order_send(symbol, MetaTrader5.ORDER_TYPE_BUY, lot_size, price, 3, price - stop_loss,
-                                            price + take_profit, "Prediction Buy", 0, 0, MetaTrader5.COLOR_BLUE)
-        else:
-            ticket = MetaTrader5.order_send(symbol, MetaTrader5.ORDER_TYPE_SELL, lot_size, price, 3, price + stop_loss,
-                                            price - take_profit, "Prediction Sell", 0, 0, MetaTrader5.COLOR_RED)
+        # Place the initial trade
+        request = {
+            "action": MetaTrader5.TRADE_ACTION_DEAL,
+            "symbol": symbol,
+            "volume": lot_size,
+            "type": MetaTrader5.ORDER_TYPE_BUY if order_type == "buy" else MetaTrader5.ORDER_TYPE_SELL,
+            "price": price,
+            "deviation": 10,
+            "magic": 123456,
+            "comment": "Programmatic TP",
+            "type_time": MetaTrader5.ORDER_TIME_GTC,
+            "type_filling": MetaTrader5.ORDER_FILLING_IOC,
+        }
 
-        if ticket < 0:
-            logging.error(f"Error placing order: {MetaTrader5.last_error()}")
+        result = MetaTrader5.order_send(request)
+
+        if result.retcode != MetaTrader5.TRADE_RETCODE_DONE:
+            logging.error(f"Initial order placement failed: {result.retcode}")
+            return
         else:
-            logging.info(f"Order placed successfully. Ticket: {ticket}")
+            logging.info(f"Initial order placed successfully. Ticket: {result.order}")
+
+        # Monitor the price and close portions of the trade at TP levels
+        ticket = result.order
+        for i, tp in enumerate(tp_levels):
+            logging.info(f"Waiting for price to reach TP Level {i+1} ({tp}).")
+            while True:
+                current_price = (
+                    MetaTrader5.symbol_info_tick(symbol).bid
+                    if order_type == "buy"
+                    else MetaTrader5.symbol_info_tick(symbol).ask
+                )
+
+                # Check if the price has reached the TP level
+                if (order_type == "buy" and current_price >= tp) or (
+                    order_type == "sell" and current_price <= tp
+                ):
+                    logging.info(f"Price reached TP Level {i+1}. Closing {tp_lot_sizes[i]} lots.")
+                    
+                    # Close the portion of the trade
+                    close_request = {
+                        "action": MetaTrader5.TRADE_ACTION_DEAL,
+                        "symbol": symbol,
+                        "volume": tp_lot_sizes[i],
+                        "type": MetaTrader5.ORDER_TYPE_SELL if order_type == "buy" else MetaTrader5.ORDER_TYPE_BUY,
+                        "position": ticket,  # Reference the initial position
+                        "price": current_price,
+                        "deviation": 10,
+                        "magic": 123456,
+                        "comment": f"TP Level {i+1} closure",
+                        "type_time": MetaTrader5.ORDER_TIME_GTC,
+                        "type_filling": MetaTrader5.ORDER_FILLING_IOC,
+                    }
+
+                    close_result = MetaTrader5.order_send(close_request)
+
+                    if close_result.retcode != MetaTrader5.TRADE_RETCODE_DONE:
+                        logging.error(f"Failed to close portion at TP Level {i+1}: {close_result.retcode}")
+                    else:
+                        logging.info(f"Successfully closed {tp_lot_sizes[i]} lots at TP Level {i+1}.")
+                    break  # Exit loop and move to the next TP level
+
+                time.sleep(1)  # Check price every second
+
     except Exception as e:
-        logging.error(f"Error during order placement: {e}")
+        logging.error(f"Error during trade placement or TP management: {e}")
 
 # Schedule the main function to run 1 minute after every hour
-schedule.every().hour.at(":59").do(main)
+schedule.every().hour.at(":47").do(main)
 
 # Keep the script running
 while True:

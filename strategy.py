@@ -1,10 +1,10 @@
 import MetaTrader5 as mt5
 import pandas as pd
 import logging
-from datetime import datetime, timedelta
 import time
+from datetime import datetime
 
-# Set up logging
+# Logging setup
 logging.basicConfig(
     filename="strategy.log",
     level=logging.INFO,
@@ -17,12 +17,12 @@ RSI_PERIOD = 14
 EMA_SHORT = 50
 EMA_LONG = 200
 RISK_PERCENT = 0.02
-REWARD_RATIOS = [1, 2, 3]  # Multiples for calculating take profits, not needed now
 MAGIC_NUMBER = 456000
-SYMBOLS = ["EURUSD", "GBPUSD", "USDJPY", "XAUUSD"]  # Add more symbols as needed
+SYMBOLS = ["EURUSD", "GBPUSD", "USDJPY", "XAUUSD"]
+PIP_VALUES = {"EURUSD": 0.0001, "GBPUSD": 0.0001, "USDJPY": 0.01, "XAUUSD": 0.01}
 
 def initialize_mt5(settings):
-    """Initialize MetaTrader 5 connection with provided settings."""
+    """Initialize MetaTrader 5 connection."""
     if not mt5.initialize(
         login=settings["username"],
         password=settings["password"],
@@ -34,9 +34,8 @@ def initialize_mt5(settings):
     logging.info("MT5 initialized successfully.")
     return True
 
-
 def fetch_data(symbol, timeframe=mt5.TIMEFRAME_H4):
-    """Fetch historical data for a symbol and calculate technical indicators."""
+    """Fetch historical data and calculate indicators."""
     rates = mt5.copy_rates_from_pos(symbol, timeframe, 0, 500)
     if rates is None or len(rates) == 0:
         logging.error(f"Failed to fetch data for {symbol}.")
@@ -58,43 +57,95 @@ def fetch_data(symbol, timeframe=mt5.TIMEFRAME_H4):
 
     return data
 
+def calculate_lot_size(risk_percent, balance):
+    """Calculate lot size based on account balance."""
+    lot_size = balance * risk_percent / 100000  # Simplified for a 100-pip movement
+    min_lot_size = 0.01
+    return max(round(lot_size, 2), min_lot_size)
 
-def calculate_lot_size(risk_percent, sl_distance):
-    """Calculate the lot size based on the account balance and stop-loss distance."""
-    account_info = mt5.account_info()
-    if account_info is None:
-        logging.error("Failed to fetch account information.")
-        return 0
+def place_trade(trade_type, symbol, lot_size, entry_price):
+    """Place a single trade."""
+    try:
+        tick = mt5.symbol_info_tick(symbol)
+        price = tick.ask if trade_type == "BUY" else tick.bid
+        if price is None:
+            logging.error(f"Failed to retrieve price for {symbol}.")
+            return None
 
-    balance = account_info.balance
-    risk_amount = balance * risk_percent
-    lot_size = risk_amount / (sl_distance / 0.0001)
-    return round(lot_size, 2)
+        request = {
+            "action": mt5.TRADE_ACTION_DEAL,
+            "symbol": symbol,
+            "volume": lot_size,
+            "type": mt5.ORDER_TYPE_BUY if trade_type == "BUY" else mt5.ORDER_TYPE_SELL,
+            "price": price,
+            "deviation": 20,
+            "magic": MAGIC_NUMBER,
+        }
 
+        logging.info(f"Order request: {request}")
+        result = mt5.order_send(request)
+        if result is None or result.retcode != mt5.TRADE_RETCODE_DONE:
+            logging.error(f"Failed to place {trade_type} trade for {symbol}.")
+            return None
 
-def place_trade(trade_type, symbol, lot_size, entry_price, take_profits):
-    """Place a trade with the specified parameters using instant execution."""
-    price = mt5.symbol_info_tick(symbol).ask if trade_type == "BUY" else mt5.symbol_info_tick(symbol).bid
+        logging.info(f"Successfully placed {trade_type} trade for {symbol}.")
+        return result.order
+
+    except Exception as e:
+        logging.error(f"Error placing trade: {str(e)}")
+        return None
+
+def manage_trade(symbol, order_id, entry_price):
+    """Manage the trade by closing portions at take-profit levels."""
+    pip_value = PIP_VALUES.get(symbol, 0.0001)
+    levels = [120, 240, 360]  # Pips for take profits
+
+    for level in levels:
+        target_price = entry_price + (level * pip_value if order_id.type == mt5.ORDER_TYPE_BUY else -level * pip_value)
+
+        while True:
+            tick = mt5.symbol_info_tick(symbol)
+            if tick is None:
+                logging.error(f"Failed to get tick for {symbol}.")
+                break
+
+            current_price = tick.bid if order_id.type == mt5.ORDER_TYPE_SELL else tick.ask
+            if (order_id.type == mt5.ORDER_TYPE_BUY and current_price >= target_price) or \
+               (order_id.type == mt5.ORDER_TYPE_SELL and current_price <= target_price):
+                logging.info(f"Target {level} pips reached for {symbol}. Closing portion of trade.")
+                close_partial_trade(symbol, order_id, 0.33)  # Close 33% of the trade
+                break
+
+            time.sleep(1)
+
+def close_partial_trade(symbol, order_id, fraction):
+    """Close a portion of the trade."""
+    position = mt5.positions_get(ticket=order_id)
+    if position is None or len(position) == 0:
+        logging.error(f"Failed to retrieve position for {symbol}.")
+        return
+
+    current_volume = position[0].volume
+    close_volume = round(current_volume * fraction, 2)
+
     request = {
-        "action": mt5.TRADE_ACTION_DEAL,  # Instant market execution
+        "action": mt5.TRADE_ACTION_DEAL,
         "symbol": symbol,
-        "volume": lot_size,
-        "type": mt5.ORDER_TYPE_BUY if trade_type == "BUY" else mt5.ORDER_TYPE_SELL,
-        "price": price,  # Use the current price for market execution
-        "sl": None,  # No stop-loss is used in this setup
-        "tp": take_profits[0],  # First take profit level as requested
-        "deviation": 20,
+        "volume": close_volume,
+        "type": mt5.ORDER_TYPE_SELL if position[0].type == mt5.ORDER_TYPE_BUY else mt5.ORDER_TYPE_BUY,
+        "price": mt5.symbol_info_tick(symbol).bid if position[0].type == mt5.ORDER_TYPE_BUY else mt5.symbol_info_tick(symbol).ask,
         "magic": MAGIC_NUMBER,
+        "position": position[0].ticket,
     }
-    result = mt5.order_send(request)
-    if result.retcode != mt5.TRADE_RETCODE_DONE:
-        logging.error(f"Failed to place {trade_type} trade for {symbol}: {result.comment}")
-    else:
-        logging.info(f"Successfully placed {trade_type} trade for {symbol}. TP levels: {take_profits}")
 
+    result = mt5.order_send(request)
+    if result is None or result.retcode != mt5.TRADE_RETCODE_DONE:
+        logging.error(f"Failed to close portion of trade for {symbol}.")
+    else:
+        logging.info(f"Closed {close_volume} lots of trade for {symbol}.")
 
 def analyze_and_trade(symbol):
-    """Analyze market conditions (RSI, EMA) and execute trades accordingly."""
+    """Analyze market conditions and place/manage trades."""
     data = fetch_data(symbol)
     if data is None:
         return
@@ -104,28 +155,27 @@ def analyze_and_trade(symbol):
     ema_200 = data['EMA_200'].iloc[-1]
     rsi = data['RSI'].iloc[-1]
 
-    # Calculate take-profit levels (120, 240, 360 pips away)
-    tp_120 = current_price + 120 * 0.0001
-    tp_240 = current_price + 240 * 0.0001
-    tp_360 = current_price + 360 * 0.0001
-    take_profits = [tp_120, tp_240, tp_360]
+    account_info = mt5.account_info()
+    if account_info is None:
+        logging.error("Failed to retrieve account info.")
+        return
 
-    # Trend-following logic
+    lot_size = calculate_lot_size(RISK_PERCENT, account_info.balance)
+
     if ema_50 > ema_200 and rsi < 40:  # Buy condition
-        lot_size = calculate_lot_size(RISK_PERCENT, 120)  # 120 pips used for lot size calculation
-        place_trade("BUY", symbol, lot_size, current_price, take_profits)
+        order_id = place_trade("BUY", symbol, lot_size, current_price)
+        if order_id:
+            manage_trade(symbol, order_id, current_price)
 
-    elif ema_200 > ema_50 and rsi > 60:  # Sell condition
-        lot_size = calculate_lot_size(RISK_PERCENT, 120)  # 120 pips used for lot size calculation
-        take_profits = [tp_120, tp_240, tp_360]  # Reapply take profit levels for sell
-        place_trade("SELL", symbol, lot_size, current_price, take_profits)
+    elif ema_50 < ema_200 and rsi > 60:  # Sell condition
+        order_id = place_trade("SELL", symbol, lot_size, current_price)
+        if order_id:
+            manage_trade(symbol, order_id, current_price)
 
     logging.info(f"Trade analyzed for {symbol}: EMA_50={ema_50}, EMA_200={ema_200}, RSI={rsi}.")
 
-
-# Main loop to execute the strategy every 2 minutes for each symbol
+# Main loop
 def main():
-    """Main function to loop through symbols and execute the strategy."""
     while True:
         logging.info("Starting strategy execution cycle.")
         for symbol in SYMBOLS:
@@ -133,13 +183,12 @@ def main():
         logging.info("Cycle complete. Sleeping for 2 minutes.")
         time.sleep(2 * 60)
 
-
 if __name__ == "__main__":
     mt5_settings = {
         "username": 9293182,
         "password": "Ge@mK3Xb",
         "server": "GTCGlobalTrade-Server",
-        "mt5Pathway": "C:\\Program Files\\MetaTrader 5\\terminal64.exe"
+        "mt5Pathway": "C:\\Program Files\\MetaTrader 5\\terminal64.exe",
     }
     if initialize_mt5(mt5_settings):
         main()
