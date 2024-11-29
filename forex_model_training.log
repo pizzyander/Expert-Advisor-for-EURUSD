@@ -1,2 +1,21 @@
 2024-11-29 17:42:40 - [INFO] - Starting script.
 2024-11-29 17:42:40 - [INFO] - Starting weekly automated training process.
+2024-11-29 17:42:57 - [INFO] - MT5 initialized successfully.
+2024-11-29 17:47:06 - [WARNING] - You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`. 
+2024-11-29 17:47:06 - [INFO] - Training and saving completed successfully.
+2024-11-29 19:55:09 - [INFO] - Starting script.
+2024-11-29 19:55:09 - [INFO] - Starting weekly automated training process.
+2024-11-29 19:55:20 - [INFO] - MT5 initialized successfully.
+2024-11-29 20:03:05 - [ERROR] - Error in training process: Invalid filepath extension for saving. Please add either a `.keras` extension for the native Keras format (recommended) or a `.h5` extension. Use `model.export(filepath)` if you want to export a SavedModel for use with TFLite/TFServing/etc. Received: filepath=gru_model_tf.
+2024-11-29 20:45:39 - [INFO] - Starting script.
+2024-11-29 20:45:39 - [INFO] - Starting weekly automated training process.
+2024-11-29 20:46:09 - [INFO] - MT5 initialized successfully.
+2024-11-29 20:53:24 - [ERROR] - Error in training process: Invalid filepath extension for saving. Please add either a `.keras` extension for the native Keras format (recommended) or a `.h5` extension. Use `model.export(filepath)` if you want to export a SavedModel for use with TFLite/TFServing/etc. Received: filepath=gru_model_tf.
+2024-11-29 21:10:49 - [INFO] - Starting script.
+2024-11-29 21:10:49 - [INFO] - Starting weekly automated training process.
+2024-11-29 21:10:58 - [INFO] - MT5 initialized successfully.
+2024-11-29 21:16:03 - [WARNING] - You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`. 
+2024-11-29 21:16:03 - [ERROR] - Error in training process: The `save_format` argument is deprecated in Keras 3. Please remove this argument and pass a file path with either `.keras` or `.h5` extension.Received: save_format=tf
+2024-11-29 21:22:21 - [INFO] - Starting script.
+2024-11-29 21:22:21 - [INFO] - Starting weekly automated training process.
+2024-11-29 21:22:29 - [INFO] - MT5 initialized successfully.
