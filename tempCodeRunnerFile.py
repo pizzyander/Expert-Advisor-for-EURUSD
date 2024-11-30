@@ -5,6 +5,7 @@ import joblib
 import logging
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 from keras.models import Sequential
 from keras.layers import GRU, Dense
 from keras.callbacks import EarlyStopping
@@ -29,7 +30,7 @@ class ForexModelTrainer:
             "path": "C:\\Program Files\\MetaTrader 5\\terminal64.exe"
         }
         self.SYMBOL = "EURUSD"
-        self.TIMEFRAME = mt5.TIMEFRAME_H4
+        self.TIMEFRAME = mt5.TIMEFRAME_H1
         self.START_DATE = datetime(2020, 1, 1)
         self.END_DATE = datetime(2024, 12, 22)
         self.TIMESTEPS = 90
@@ -99,14 +100,45 @@ class ForexModelTrainer:
 
     def train_gru_model(self, X_train, y_train, X_val, y_val):
         model = Sequential([
-            GRU(64, activation="tanh", return_sequences=True, input_shape=(self.TIMESTEPS, X_train.shape[2])),
-            GRU(32, activation="tanh"),
-            Dense(1)
+        GRU(64, activation="tanh", return_sequences=True, input_shape=(self.TIMESTEPS, X_train.shape[2])),
+        GRU(32, activation="tanh"),
+        Dense(1)
         ])
-        model.compile(optimizer="adam", loss="mse")
-        early_stop = EarlyStopping(monitor="val_loss", patience=10)
+        model.compile(optimizer="adam", loss="MeanSquaredError")
+    
+        # Modify the early stopping patience to 5
+        early_stop = EarlyStopping(monitor="val_loss", patience=4)
+
+    # Train the model with early stopping
         model.fit(X_train, y_train, validation_data=(X_val, y_val), epochs=100, batch_size=32, callbacks=[early_stop])
         return model
+
+
+    def evaluate_model(self, X_test, y_test):
+        """
+        Evaluates the model's performance on the test dataset.
+        """
+        predictions = self.model.predict(X_test)
+
+        # Inverse transform predictions and actual values
+        y_test_original = self.y_scaler.inverse_transform(y_test.reshape(-1, 1)).flatten()
+        predictions_original = self.y_scaler.inverse_transform(predictions).flatten()
+
+        # Calculate evaluation metrics
+        mse = mean_squared_error(y_test_original, predictions_original)
+        mae = mean_absolute_error(y_test_original, predictions_original)
+        r2 = r2_score(y_test_original, predictions_original)
+
+        # Log and print results
+        logging.info("Model Evaluation Results:")
+        logging.info(f"Mean Squared Error (MSE): {mse:.4f}")
+        logging.info(f"Mean Absolute Error (MAE): {mae:.4f}")
+        logging.info(f"R-Squared (R²): {r2:.4f}")
+
+        print("Model Evaluation Results:")
+        print(f"Mean Squared Error (MSE): {mse:.4f}")
+        print(f"Mean Absolute Error (MAE): {mae:.4f}")
+        print(f"R-Squared (R²): {r2:.4f}")
 
     def save_scalers_and_model(self):
         joblib.dump(self.X_scaler, "X_train_scaled.joblib")
@@ -137,10 +169,13 @@ class ForexModelTrainer:
             # Train the model
             self.model = self.train_gru_model(X_train, y_train, X_val, y_val)
 
+            # Evaluate the model
+            self.evaluate_model(X_test, y_test)
+
             # Save model and scalers
             self.save_scalers_and_model()
 
-            logging.info("Training and saving completed successfully.")
+            logging.info("Training, evaluation, and saving completed successfully.")
         except Exception as e:
             logging.error(f"Error in training process: {e}")
         finally:
