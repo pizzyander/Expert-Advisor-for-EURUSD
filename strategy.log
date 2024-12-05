@@ -2551,3 +2551,21 @@
 2024-11-28 19:04:23 - [INFO] - Processing XAUUSD
 2024-11-28 19:04:23 - [INFO] - Analyzing market trend for XAUUSD...
 2024-11-28 19:04:23 - [INFO] - XAUUSD market trend: uptrend (ATR=6.045107, EMA slope=0.037138)
+2024-12-04 16:05:59 - [INFO] - MT5 initialized successfully.
+2024-12-04 16:05:59 - [INFO] - Initializing symbols...
+2024-12-04 16:05:59 - [INFO] - Symbol EURUSD initialized.
+2024-12-04 16:05:59 - [INFO] - Symbol GBPUSD initialized.
+2024-12-04 16:05:59 - [INFO] - Symbol USDJPY initialized.
+2024-12-04 16:05:59 - [INFO] - Symbol XAUUSD initialized.
+2024-12-04 16:07:00 - [INFO] - Processing EURUSD
+2024-12-04 16:07:00 - [INFO] - Analyzing market trend for EURUSD...
+2024-12-04 16:07:00 - [INFO] - EURUSD market trend: downtrend (ATR=0.001524, EMA slope=-0.000019)
+2024-12-04 16:07:00 - [INFO] - Processing GBPUSD
+2024-12-04 16:07:00 - [INFO] - Analyzing market trend for GBPUSD...
+2024-12-04 16:07:00 - [INFO] - GBPUSD market trend: uptrend (ATR=0.001880, EMA slope=0.000024)
+2024-12-04 16:07:00 - [INFO] - Processing USDJPY
+2024-12-04 16:07:00 - [INFO] - Analyzing market trend for USDJPY...
+2024-12-04 16:07:00 - [INFO] - USDJPY market trend: downtrend (ATR=0.319511, EMA slope=-0.005483)
+2024-12-04 16:07:00 - [INFO] - Processing XAUUSD
+2024-12-04 16:07:00 - [INFO] - Analyzing market trend for XAUUSD...
+2024-12-04 16:07:00 - [INFO] - XAUUSD market trend: uptrend (ATR=6.374036, EMA slope=0.036262)

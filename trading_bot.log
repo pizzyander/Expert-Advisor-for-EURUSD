@@ -289,3 +289,9 @@
 2024-11-30 21:09:00,594 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
 2024-11-30 21:09:02,654 - ERROR - Error during FastAPI request: HTTPConnectionPool(host='127.0.0.1', port=8000): Max retries exceeded with url: /predict (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x00000119049D9A60>: Failed to establish a new connection: [WinError 10061] No connection could be made because the target machine actively refused it'))
 2024-11-30 21:09:02,654 - ERROR - Prediction failed.
+2024-12-04 16:08:07,486 [INFO] Starting the trading bot script.
+2024-12-04 16:08:07,494 [INFO] Logged in to MT5 account: 9293182.
+2024-12-04 16:08:07,494 [INFO] Running bot cycle at 2024-12-04 16:08:07.494890.
+2024-12-04 16:08:07,494 [INFO] Processing symbol: EURUSD.
+2024-12-04 16:08:07,614 [ERROR] An error occurred: invalid index to scalar variable.
+2024-12-04 16:08:07,614 [INFO] Sleeping for 10 minutes before the next cycle.
