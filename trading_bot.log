@@ -481,3 +481,40 @@
 2024-12-06 18:42:02,918 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
 2024-12-06 18:42:02,944 - DEBUG - http://127.0.0.1:8000 "POST /predict HTTP/11" 500 34
 2024-12-06 18:42:02,944 - ERROR - Failed to get prediction. Status Code: 500
+2024-12-06 19:00:51,869 - INFO - Starting main trading bot function...
+2024-12-06 19:00:51,869 - INFO - Initializing MT5...
+2024-12-06 19:00:51,884 - INFO - MT5 initialized and logged in successfully.
+2024-12-06 19:00:51,884 - INFO - Initializing symbols...
+2024-12-06 19:00:51,884 - INFO - Symbol EURUSD enabled.
+2024-12-06 19:00:51,884 - INFO - Retrieving last 90 H1 candles for symbol: EURUSD
+2024-12-06 19:00:51,913 - INFO - Candlestick data retrieved successfully.
+2024-12-06 19:00:51,913 - INFO - Sending data to FastAPI for prediction...
+2024-12-06 19:00:51,918 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2024-12-06 19:00:58,770 - DEBUG - http://127.0.0.1:8000 "POST /predict HTTP/11" 200 35
+2024-12-06 19:00:58,770 - INFO - Prediction received: [1.0558547973632812]
+2024-12-06 19:00:58,770 - INFO - Prediction indicates a BUY signal.
+2024-12-06 19:00:58,775 - INFO - Placing BUY order for EURUSD.
+2024-12-06 19:00:58,911 - INFO - Order placed successfully. Ticket: 38478082
+2024-12-06 19:20:09,384 - DEBUG - Falling back to TensorFlow client; we recommended you install the Cloud TPU client directly with pip install cloud-tpu-client.
+2024-12-06 19:20:10,471 - DEBUG - Creating converter from 7 to 5
+2024-12-06 19:20:10,471 - DEBUG - Creating converter from 5 to 7
+2024-12-06 19:20:10,471 - DEBUG - Creating converter from 7 to 5
+2024-12-06 19:20:10,471 - DEBUG - Creating converter from 5 to 7
+2024-12-06 19:20:13,663 - DEBUG - matplotlib data path: C:\Users\PIZZY\AppData\Local\Programs\Python\Python312\Lib\site-packages\matplotlib\mpl-data
+2024-12-06 19:20:13,678 - DEBUG - CONFIGDIR=C:\Users\PIZZY\.matplotlib
+2024-12-06 19:20:13,678 - DEBUG - interactive is False
+2024-12-06 19:20:13,678 - DEBUG - platform is win32
+2024-12-06 19:20:13,833 - DEBUG - CACHEDIR=C:\Users\PIZZY\.matplotlib
+2024-12-06 19:20:13,838 - DEBUG - Using fontManager instance from C:\Users\PIZZY\.matplotlib\fontlist-v390.json
+2024-12-06 19:20:15,592 - INFO - Starting the trading bot script.
+2024-12-06 19:20:15,607 - INFO - Logged in to MT5 account: 9293182.
+2024-12-06 19:20:15,607 - INFO - Running bot cycle at 2024-12-06 19:20:15.607084.
+2024-12-06 19:20:15,607 - INFO - Processing symbol: EURUSD.
+2024-12-06 19:20:15,609 - INFO - Fetching H4 data for EURUSD.
+2024-12-06 19:20:15,743 - ERROR - An error occurred: invalid index to scalar variable.
+2024-12-06 19:20:15,743 - INFO - Sleeping for 30 minutes before the next cycle.
+2024-12-06 19:50:15,811 - INFO - Running bot cycle at 2024-12-06 19:50:15.777930.
+2024-12-06 19:50:15,851 - INFO - Processing symbol: EURUSD.
+2024-12-06 19:50:15,861 - INFO - Fetching H4 data for EURUSD.
+2024-12-06 19:50:16,210 - ERROR - An error occurred: invalid index to scalar variable.
+2024-12-06 19:50:16,215 - INFO - Sleeping for 30 minutes before the next cycle.
