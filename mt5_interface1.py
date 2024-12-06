@@ -1,11 +1,9 @@
 import MetaTrader5 as MetaTrader5
 import requests
 import time
-import schedule
-import pytz
 from datetime import datetime
-import os
 import logging
+
 
 # Configure logging
 logging.basicConfig(
@@ -16,10 +14,10 @@ logging.basicConfig(
 
 # Function to initialize MT5
 def start_mt5(username, password, server, path):
-    uname = int(username) or os.getenv("MT5_USERNAME")
-    pword = str(password) or os.getenv("MT5_PASSWORD")
-    trading_server = str(server) or os.getenv("MT5_SERVER")
-    filepath = str(path)  # MetaTrader 5 executable file path
+    uname = int(username)
+    pword = str(password)
+    trading_server = str(server)
+    filepath = str(path)
 
     logging.info("Initializing MT5...")
     if MetaTrader5.initialize(login=uname, password=pword, server=trading_server, path=filepath):
@@ -203,11 +201,3 @@ def place_trade_with_programmatic_tp(symbol, order_type):
 
     except Exception as e:
         logging.error(f"Error during trade placement or TP management: {e}")
-
-# Schedule the main function to run 1 minute after every hour
-schedule.every().hour.at(":22").do(main)
-
-# Keep the script running
-while True:
-    schedule.run_pending()
-    time.sleep(1)

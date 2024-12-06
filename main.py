@@ -2,9 +2,14 @@ import multiprocessing
 import os
 import time
 import logging
+import json  # Added for JSON operations
 import schedule
-import mt5_interface
-from mt5_interface import initialize_symbols, get_last_90_candles, 
+import mt5_interface1
+import training1
+import strategy1
+import swing_trade1
+import shutil
+
 # Set up logging
 logging.basicConfig(
     level=logging.INFO,
@@ -14,23 +19,62 @@ logging.basicConfig(
 
 # Function to import settings from settings.json
 def get_project_settings(importFilepath):
-    # Test the filepath to sure it exists
+    """Load project settings from a JSON file."""
     if os.path.exists(importFilepath):
-        # Open the file
-        f = open(importFilepath, "r")
-        # Get the information from file
-        project_settings = json.load(f)
-        # Close the file
-        f.close()
-        # Return project settings to program
-        return project_settings
+        try:
+            with open(importFilepath, "r") as f:
+                return json.load(f)
+        except json.JSONDecodeError as e:
+            logging.error(f"Error decoding JSON: {e}")
+            raise
     else:
-        return ImportError
+        logging.error(f"Settings file not found: {importFilepath}")
+        raise FileNotFoundError(f"Settings file not found: {importFilepath}")
+
+
+def run_all_functions(module):
+    """Run all callable functions within a module."""
+    for name in dir(module):
+        if callable(getattr(module, name)):
+            logging.info(f"Running function: {name} from module {module.__name__}")
+            try:
+                getattr(module, name)()
+            except Exception as e:
+                logging.error(f"Error in function {name}: {e}")
 
 
 if __name__ == "__main__":
-    import_filepath = "C:/Users/james/PycharmProjects/how_to_build_a_metatrader5_trading_bot_expert_advisor/settings.json"
-    project_settings = get_project_settings(import_filepath)
-    # Start MT5
-    mt5_interface.start_mt5(project_settings["username"], project_settings["password"], project_settings["server"],
-                            project_settings["mt5Pathway"])
+    import_filepath = "settings.json"
+
+    try:
+        project_settings = get_project_settings(import_filepath)
+        logging.info("Project settings loaded successfully.")
+
+        # Start MT5 and check connection
+        if mt5_interface1.start_mt5(
+            project_settings["username"],
+            project_settings["password"],
+            project_settings["server"],
+            project_settings["mt5Pathway"],
+        ):
+            logging.info("MT5 started successfully.")
+
+            # Schedule tasks
+            schedule.every().friday.at("23:30").do(lambda: run_all_functions(training1))
+            schedule.every().hour.at(":01").do(lambda: run_all_functions(mt5_interface1))
+            
+            # Run additional modules
+            run_all_functions(strategy1)
+            run_all_functions(swing_trade1)
+
+            logging.info("All modules initialized. Starting scheduled tasks.")
+
+            # Keep the script running
+            while True:
+                schedule.run_pending()
+                time.sleep(30)
+        else:
+            logging.error("Failed to start MT5. Exiting.")
+
+    except Exception as e:
+        logging.error(f"An unexpected error occurred: {e}")

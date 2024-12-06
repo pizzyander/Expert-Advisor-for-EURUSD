@@ -3,7 +3,9 @@ import pandas as pd
 import logging
 import time
 from datetime import datetime
-from finta import TA  # Import finta's TA module
+from finta import TA  
+import os
+import shutil
 
 # Account details
 account_details = {
@@ -131,7 +133,7 @@ def run_trading_bot():
                 "sl": sl,
                 "tp": tp1,
                 "deviation": 10,
-                "magic": 123456,
+                "magic": 123000,
                 "comment": "TP1",
             }
 
