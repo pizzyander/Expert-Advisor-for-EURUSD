@@ -8,6 +8,12 @@ from pydantic import BaseModel
 from fastapi import FastAPI, HTTPException
 import os
 import uvicorn
+import os
+import shutil
+
+cache_dir = os.path.join(os.path.dirname(__file__), "__pycache__")
+if os.path.exists(cache_dir):
+    shutil.rmtree(cache_dir)
 
 # Set up logging
 logging.basicConfig(level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s')

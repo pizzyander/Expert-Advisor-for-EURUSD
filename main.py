@@ -3,7 +3,8 @@ import os
 import time
 import logging
 import schedule
-
+import mt5_interface
+from mt5_interface import initialize_symbols, get_last_90_candles, 
 # Set up logging
 logging.basicConfig(
     level=logging.INFO,
