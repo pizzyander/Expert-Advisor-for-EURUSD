@@ -518,3 +518,181 @@
 2024-12-06 19:50:15,861 - INFO - Fetching H4 data for EURUSD.
 2024-12-06 19:50:16,210 - ERROR - An error occurred: invalid index to scalar variable.
 2024-12-06 19:50:16,215 - INFO - Sleeping for 30 minutes before the next cycle.
+2024-12-06 20:20:16,242 - INFO - Running bot cycle at 2024-12-06 20:20:16.221826.
+2024-12-06 20:20:16,265 - INFO - Processing symbol: EURUSD.
+2024-12-06 20:20:16,275 - INFO - Fetching H4 data for EURUSD.
+2024-12-06 20:20:16,435 - ERROR - An error occurred: invalid index to scalar variable.
+2024-12-06 20:20:16,435 - INFO - Sleeping for 30 minutes before the next cycle.
+2024-12-06 20:50:16,479 - INFO - Running bot cycle at 2024-12-06 20:50:16.452778.
+2024-12-06 20:50:16,507 - INFO - Processing symbol: EURUSD.
+2024-12-06 20:50:16,517 - INFO - Fetching H4 data for EURUSD.
+2024-12-06 20:50:16,850 - ERROR - An error occurred: invalid index to scalar variable.
+2024-12-06 20:50:16,850 - INFO - Sleeping for 30 minutes before the next cycle.
+2024-12-06 21:20:16,856 - INFO - Running bot cycle at 2024-12-06 21:20:16.856159.
+2024-12-06 21:20:16,856 - INFO - Processing symbol: EURUSD.
+2024-12-06 21:20:16,856 - INFO - Fetching H4 data for EURUSD.
+2024-12-06 21:20:16,906 - ERROR - An error occurred: invalid index to scalar variable.
+2024-12-06 21:20:16,906 - INFO - Sleeping for 30 minutes before the next cycle.
+2024-12-06 21:50:16,927 - INFO - Running bot cycle at 2024-12-06 21:50:16.912312.
+2024-12-06 21:50:16,942 - INFO - Processing symbol: EURUSD.
+2024-12-06 21:50:16,942 - INFO - Fetching H4 data for EURUSD.
+2024-12-06 21:50:17,105 - ERROR - An error occurred: invalid index to scalar variable.
+2024-12-06 21:50:17,105 - INFO - Sleeping for 30 minutes before the next cycle.
+2024-12-06 22:20:17,141 - INFO - Running bot cycle at 2024-12-06 22:20:17.118741.
+2024-12-06 22:20:17,171 - INFO - Processing symbol: EURUSD.
+2024-12-06 22:20:17,176 - INFO - Fetching H4 data for EURUSD.
+2024-12-06 22:20:17,435 - ERROR - An error occurred: invalid index to scalar variable.
+2024-12-06 22:20:17,435 - INFO - Sleeping for 30 minutes before the next cycle.
+2024-12-06 22:23:49,204 - DEBUG - Falling back to TensorFlow client; we recommended you install the Cloud TPU client directly with pip install cloud-tpu-client.
+2024-12-06 22:23:50,514 - DEBUG - Creating converter from 7 to 5
+2024-12-06 22:23:50,514 - DEBUG - Creating converter from 5 to 7
+2024-12-06 22:23:50,514 - DEBUG - Creating converter from 7 to 5
+2024-12-06 22:23:50,514 - DEBUG - Creating converter from 5 to 7
+2024-12-06 22:23:54,035 - DEBUG - matplotlib data path: C:\Users\PIZZY\AppData\Local\Programs\Python\Python312\Lib\site-packages\matplotlib\mpl-data
+2024-12-06 22:23:54,045 - DEBUG - CONFIGDIR=C:\Users\PIZZY\.matplotlib
+2024-12-06 22:23:54,045 - DEBUG - interactive is False
+2024-12-06 22:23:54,045 - DEBUG - platform is win32
+2024-12-06 22:23:54,159 - DEBUG - CACHEDIR=C:\Users\PIZZY\.matplotlib
+2024-12-06 22:23:54,167 - DEBUG - Using fontManager instance from C:\Users\PIZZY\.matplotlib\fontlist-v390.json
+2024-12-06 22:23:56,183 - INFO - Starting the trading bot script.
+2024-12-06 22:23:56,199 - INFO - Logged in to MT5 account: 9293182.
+2024-12-06 22:23:56,199 - INFO - Running bot cycle at 2024-12-06 22:23:56.199444.
+2024-12-06 22:23:56,199 - INFO - Processing symbol: EURUSD.
+2024-12-06 22:23:56,201 - INFO - Fetching H4 data for EURUSD.
+2024-12-06 22:23:56,283 - ERROR - An error occurred: invalid index to scalar variable.
+2024-12-06 22:23:56,283 - INFO - Sleeping for 30 minutes before the next cycle.
+2024-12-06 22:36:42,524 - INFO - Starting main trading bot function...
+2024-12-06 22:36:42,524 - INFO - Initializing MT5...
+2024-12-06 22:36:42,572 - INFO - MT5 initialized and logged in successfully.
+2024-12-06 22:36:42,572 - INFO - Initializing symbols...
+2024-12-06 22:36:42,572 - INFO - Symbol EURUSD enabled.
+2024-12-06 22:36:42,572 - INFO - Retrieving last 90 H1 candles for symbol: EURUSD
+2024-12-06 22:36:42,605 - INFO - Candlestick data retrieved successfully.
+2024-12-06 22:36:42,606 - INFO - Sending data to FastAPI for prediction...
+2024-12-06 22:36:42,620 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2024-12-06 22:36:45,180 - DEBUG - http://127.0.0.1:8000 "POST /predict HTTP/11" 500 34
+2024-12-06 22:36:45,180 - ERROR - Failed to get prediction. Status Code: 500
+2024-12-06 22:40:34,226 - INFO - Starting main trading bot function...
+2024-12-06 22:40:34,229 - INFO - Initializing MT5...
+2024-12-06 22:40:34,243 - INFO - MT5 initialized and logged in successfully.
+2024-12-06 22:40:34,243 - INFO - Initializing symbols...
+2024-12-06 22:40:34,243 - INFO - Symbol EURUSD enabled.
+2024-12-06 22:40:34,244 - INFO - Retrieving last 90 H1 candles for symbol: EURUSD
+2024-12-06 22:40:34,246 - INFO - Candlestick data retrieved successfully.
+2024-12-06 22:40:34,248 - INFO - Sending data to FastAPI for prediction...
+2024-12-06 22:40:34,253 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2024-12-06 22:40:34,432 - DEBUG - http://127.0.0.1:8000 "POST /predict HTTP/11" 500 34
+2024-12-06 22:40:34,432 - ERROR - Failed to get prediction. Status Code: 500
+2024-12-06 22:41:23,498 - INFO - Starting main trading bot function...
+2024-12-06 22:41:23,498 - INFO - Initializing MT5...
+2024-12-06 22:41:23,510 - INFO - MT5 initialized and logged in successfully.
+2024-12-06 22:41:23,510 - INFO - Initializing symbols...
+2024-12-06 22:41:23,515 - INFO - Symbol EURUSD enabled.
+2024-12-06 22:41:23,515 - INFO - Retrieving last 90 H1 candles for symbol: EURUSD
+2024-12-06 22:41:23,515 - INFO - Candlestick data retrieved successfully.
+2024-12-06 22:41:23,515 - INFO - Sending data to FastAPI for prediction...
+2024-12-06 22:41:23,525 - DEBUG - Starting new HTTP connection (1): 127.0.0.1:8000
+2024-12-06 22:41:23,554 - DEBUG - http://127.0.0.1:8000 "POST /predict HTTP/11" 500 34
+2024-12-06 22:41:23,555 - ERROR - Failed to get prediction. Status Code: 500
+2024-12-07 00:47:38,739 - DEBUG - Creating converter from 7 to 5
+2024-12-07 00:47:38,740 - DEBUG - Creating converter from 5 to 7
+2024-12-07 00:47:38,740 - DEBUG - Creating converter from 7 to 5
+2024-12-07 00:47:38,740 - DEBUG - Creating converter from 5 to 7
+2024-12-07 00:47:42,449 - DEBUG - matplotlib data path: C:\Users\PIZZY\AppData\Local\Programs\Python\Python312\Lib\site-packages\matplotlib\mpl-data
+2024-12-07 00:47:42,469 - DEBUG - CONFIGDIR=C:\Users\PIZZY\.matplotlib
+2024-12-07 00:47:42,476 - DEBUG - interactive is False
+2024-12-07 00:47:42,477 - DEBUG - platform is win32
+2024-12-07 00:47:42,710 - DEBUG - CACHEDIR=C:\Users\PIZZY\.matplotlib
+2024-12-07 00:47:42,716 - DEBUG - Using fontManager instance from C:\Users\PIZZY\.matplotlib\fontlist-v390.json
+2024-12-07 00:47:44,677 - INFO - Starting the trading bot script.
+2024-12-07 00:47:44,722 - INFO - Logged in to MT5 account: 9293182.
+2024-12-07 00:47:44,723 - INFO - Running bot cycle at 2024-12-07 00:47:44.723942.
+2024-12-07 00:47:44,723 - INFO - Processing symbol: EURUSD.
+2024-12-07 00:47:44,733 - INFO - Fetching H4 data for EURUSD.
+2024-12-07 00:47:44,848 - ERROR - An error occurred: invalid index to scalar variable.
+2024-12-07 00:47:44,849 - INFO - Sleeping for 30 minutes before the next cycle.
+2024-12-07 01:17:44,902 - INFO - Running bot cycle at 2024-12-07 01:17:44.873620.
+2024-12-07 01:17:44,923 - INFO - Processing symbol: EURUSD.
+2024-12-07 01:17:44,933 - INFO - Fetching H4 data for EURUSD.
+2024-12-07 01:17:45,190 - ERROR - An error occurred: invalid index to scalar variable.
+2024-12-07 01:17:45,192 - INFO - Sleeping for 30 minutes before the next cycle.
+2024-12-07 01:47:45,195 - INFO - Running bot cycle at 2024-12-07 01:47:45.194857.
+2024-12-07 01:47:45,196 - INFO - Processing symbol: EURUSD.
+2024-12-07 01:47:45,198 - INFO - Fetching H4 data for EURUSD.
+2024-12-07 01:47:45,250 - ERROR - An error occurred: invalid index to scalar variable.
+2024-12-07 01:47:45,251 - INFO - Sleeping for 30 minutes before the next cycle.
+2024-12-07 02:17:47,328 - INFO - Running bot cycle at 2024-12-07 02:17:47.322694.
+2024-12-07 02:17:47,334 - INFO - Processing symbol: EURUSD.
+2024-12-07 02:17:47,345 - INFO - Fetching H4 data for EURUSD.
+2024-12-07 02:17:47,409 - ERROR - An error occurred: invalid index to scalar variable.
+2024-12-07 02:17:47,409 - INFO - Sleeping for 30 minutes before the next cycle.
+2024-12-07 02:47:47,411 - INFO - Running bot cycle at 2024-12-07 02:47:47.410695.
+2024-12-07 02:47:47,412 - INFO - Processing symbol: EURUSD.
+2024-12-07 02:47:47,415 - INFO - Fetching H4 data for EURUSD.
+2024-12-07 02:47:47,492 - ERROR - An error occurred: invalid index to scalar variable.
+2024-12-07 02:47:47,492 - INFO - Sleeping for 30 minutes before the next cycle.
+2024-12-07 03:17:47,493 - INFO - Running bot cycle at 2024-12-07 03:17:47.493753.
+2024-12-07 03:17:47,495 - INFO - Processing symbol: EURUSD.
+2024-12-07 03:17:47,496 - INFO - Fetching H4 data for EURUSD.
+2024-12-07 03:17:47,553 - ERROR - An error occurred: invalid index to scalar variable.
+2024-12-07 03:17:47,553 - INFO - Sleeping for 30 minutes before the next cycle.
+2024-12-07 03:47:47,554 - INFO - Running bot cycle at 2024-12-07 03:47:47.554978.
+2024-12-07 03:47:47,557 - INFO - Processing symbol: EURUSD.
+2024-12-07 03:47:47,558 - INFO - Fetching H4 data for EURUSD.
+2024-12-07 03:47:47,607 - ERROR - An error occurred: invalid index to scalar variable.
+2024-12-07 03:47:47,608 - INFO - Sleeping for 30 minutes before the next cycle.
+2024-12-07 04:17:47,619 - INFO - Running bot cycle at 2024-12-07 04:17:47.610930.
+2024-12-07 04:17:47,629 - INFO - Processing symbol: EURUSD.
+2024-12-07 04:17:47,631 - INFO - Fetching H4 data for EURUSD.
+2024-12-07 04:17:47,776 - ERROR - An error occurred: invalid index to scalar variable.
+2024-12-07 04:17:47,776 - INFO - Sleeping for 30 minutes before the next cycle.
+2024-12-07 04:47:47,777 - INFO - Running bot cycle at 2024-12-07 04:47:47.777572.
+2024-12-07 04:47:47,779 - INFO - Processing symbol: EURUSD.
+2024-12-07 04:47:47,780 - INFO - Fetching H4 data for EURUSD.
+2024-12-07 04:47:47,841 - ERROR - An error occurred: invalid index to scalar variable.
+2024-12-07 04:47:47,842 - INFO - Sleeping for 30 minutes before the next cycle.
+2024-12-07 05:17:47,845 - INFO - Running bot cycle at 2024-12-07 05:17:47.844359.
+2024-12-07 05:17:47,846 - INFO - Processing symbol: EURUSD.
+2024-12-07 05:17:47,847 - INFO - Fetching H4 data for EURUSD.
+2024-12-07 05:17:47,918 - ERROR - An error occurred: invalid index to scalar variable.
+2024-12-07 05:17:47,918 - INFO - Sleeping for 30 minutes before the next cycle.
+2024-12-07 05:47:47,919 - INFO - Running bot cycle at 2024-12-07 05:47:47.919558.
+2024-12-07 05:47:47,920 - INFO - Processing symbol: EURUSD.
+2024-12-07 05:47:47,923 - INFO - Fetching H4 data for EURUSD.
+2024-12-07 05:47:47,986 - ERROR - An error occurred: invalid index to scalar variable.
+2024-12-07 05:47:47,986 - INFO - Sleeping for 30 minutes before the next cycle.
+2024-12-07 06:17:48,002 - INFO - Running bot cycle at 2024-12-07 06:17:47.993619.
+2024-12-07 06:17:48,023 - INFO - Processing symbol: EURUSD.
+2024-12-07 06:17:48,028 - INFO - Fetching H4 data for EURUSD.
+2024-12-07 06:17:48,143 - ERROR - An error occurred: invalid index to scalar variable.
+2024-12-07 06:17:48,143 - INFO - Sleeping for 30 minutes before the next cycle.
+2024-12-07 06:47:48,147 - INFO - Running bot cycle at 2024-12-07 06:47:48.147331.
+2024-12-07 06:47:48,147 - INFO - Processing symbol: EURUSD.
+2024-12-07 06:47:48,147 - INFO - Fetching H4 data for EURUSD.
+2024-12-07 06:47:48,215 - ERROR - An error occurred: invalid index to scalar variable.
+2024-12-07 06:47:48,215 - INFO - Sleeping for 30 minutes before the next cycle.
+2024-12-07 07:17:48,219 - INFO - Running bot cycle at 2024-12-07 07:17:48.219305.
+2024-12-07 07:17:48,219 - INFO - Processing symbol: EURUSD.
+2024-12-07 07:17:48,219 - INFO - Fetching H4 data for EURUSD.
+2024-12-07 07:17:48,274 - ERROR - An error occurred: invalid index to scalar variable.
+2024-12-07 07:17:48,274 - INFO - Sleeping for 30 minutes before the next cycle.
+2024-12-07 07:47:48,279 - INFO - Running bot cycle at 2024-12-07 07:47:48.279541.
+2024-12-07 07:47:48,279 - INFO - Processing symbol: EURUSD.
+2024-12-07 07:47:48,279 - INFO - Fetching H4 data for EURUSD.
+2024-12-07 07:47:48,334 - ERROR - An error occurred: invalid index to scalar variable.
+2024-12-07 07:47:48,334 - INFO - Sleeping for 30 minutes before the next cycle.
+2024-12-07 08:17:48,338 - INFO - Running bot cycle at 2024-12-07 08:17:48.338820.
+2024-12-07 08:17:48,339 - INFO - Processing symbol: EURUSD.
+2024-12-07 08:17:48,341 - INFO - Fetching H4 data for EURUSD.
+2024-12-07 08:17:48,400 - ERROR - An error occurred: invalid index to scalar variable.
+2024-12-07 08:17:48,401 - INFO - Sleeping for 30 minutes before the next cycle.
+2024-12-07 08:47:48,401 - INFO - Running bot cycle at 2024-12-07 08:47:48.401693.
+2024-12-07 08:47:48,402 - INFO - Processing symbol: EURUSD.
+2024-12-07 08:47:48,402 - INFO - Fetching H4 data for EURUSD.
+2024-12-07 08:47:48,445 - ERROR - An error occurred: invalid index to scalar variable.
+2024-12-07 08:47:48,445 - INFO - Sleeping for 30 minutes before the next cycle.
+2024-12-07 09:17:48,446 - INFO - Running bot cycle at 2024-12-07 09:17:48.445884.
+2024-12-07 09:17:48,447 - INFO - Processing symbol: EURUSD.
+2024-12-07 09:17:48,448 - INFO - Fetching H4 data for EURUSD.
+2024-12-07 09:17:48,499 - ERROR - An error occurred: invalid index to scalar variable.
+2024-12-07 09:17:48,499 - INFO - Sleeping for 30 minutes before the next cycle.
