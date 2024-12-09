@@ -3,9 +3,8 @@ import pandas as pd
 import logging
 import time
 from datetime import datetime
-from finta import TA  
-import os
-import shutil
+from finta import TA
+from concurrent.futures import ThreadPoolExecutor
 
 # Account details
 account_details = {
@@ -19,13 +18,13 @@ account_details = {
 symbols = ["EURUSD", "XAUUSD", "USDJPY", "GBPUSD"]
 
 # Trade parameters
-lot_size = 1.0
+risk_percent = 1.0  # Risk percentage per trade
 h4_timeframe = mt5.TIMEFRAME_H4
 h1_timeframe = mt5.TIMEFRAME_H1
-sl_pips = 80  # Stop Loss in pips
-tp1_ratio = 1  # TP1 = SL x 1
-tp2_ratio = 2  # TP2 = SL x 2
-tp3_ratio = 3  # TP3 = SL x 3
+adx_threshold = 20  # Lowered for more trade opportunities
+rsi_overbought = 70
+rsi_oversold = 30
+sl_pips = 50  # Tighter stop-loss for more frequent trades
 
 # Logging configuration
 logging.basicConfig(
@@ -33,8 +32,6 @@ logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s [%(levelname)s] %(message)s"
 )
-
-logging.info("Starting the trading bot script.")
 
 # Initialize MetaTrader 5
 if not mt5.initialize(account_details["mt5_pathway"]):
@@ -48,138 +45,104 @@ if not mt5.login(account_details["login"], account_details["password"], account_
     quit()
 logging.info(f"Logged in to MT5 account: {account_details['login']}.")
 
-# Main function to execute trades for each symbol
-def run_trading_bot():
+
+def fetch_data(symbol, timeframe, num_candles=200):
+    """Fetch historical data for the specified symbol and timeframe."""
+    rates = mt5.copy_rates_from_pos(symbol, timeframe, 0, num_candles)
+    if rates is None or len(rates) == 0:
+        logging.error(f"Failed to fetch data for {symbol}.")
+        return None
+    data = pd.DataFrame(rates)
+    data['time'] = pd.to_datetime(data['time'], unit='s')
+    return data
+
+
+def calculate_lot_size(risk_percent, balance, symbol):
+    """Calculate the lot size based on risk percentage and account balance."""
+    symbol_info = mt5.symbol_info(symbol)
+    if not symbol_info:
+        logging.error(f"Failed to get symbol info for {symbol}.")
+        return 0.01
+    point = symbol_info.point
+    tick_value = symbol_info.trade_tick_value
+    lot_size = (balance * risk_percent / 100) / (sl_pips * point * tick_value)
+    return max(round(lot_size, 2), symbol_info.volume_min)
+
+
+def analyze_and_trade(symbol):
+    """Analyze market conditions and execute trades."""
     try:
-        for symbol in symbols:
-            logging.info(f"Processing symbol: {symbol}.")
+        logging.info(f"Analyzing symbol: {symbol}")
 
-            # Check if symbol is available in the terminal
-            symbol_info = mt5.symbol_info(symbol)
-            if not symbol_info:
-                logging.warning(f"Symbol {symbol} not found. Skipping.")
-                continue
-            if not symbol_info.visible:
-                if not mt5.symbol_select(symbol, True):
-                    logging.warning(f"Symbol {symbol} is not visible and could not be enabled. Skipping.")
-                    continue
+        # Fetch H4 data for trend and H1 for confirmation
+        h4_data = fetch_data(symbol, h4_timeframe, num_candles=100)
+        h1_data = fetch_data(symbol, h1_timeframe, num_candles=50)
 
-            # Fetch H4 data for trend detection
-            logging.info(f"Fetching H4 data for {symbol}.")
-            h4_rates = mt5.copy_rates_from_pos(symbol, h4_timeframe, 0, 500)
-            h4_df = pd.DataFrame(h4_rates)
-            h4_df['time'] = pd.to_datetime(h4_df['time'], unit='s')
+        if h4_data is None or h1_data is None:
+            logging.warning(f"Skipping {symbol} due to data issues.")
+            return
 
-            # Calculate ADX to detect trend direction using finta
-            adx = TA.ADX(h4_df)  # finta ADX
-            trend_direction = None
-            if adx.iloc[-1]['ADX'] > 25:  # Assuming trend strength threshold is 25
-                trend_direction = "uptrend" if h4_df['close'].iloc[-1] > h4_df['close'].iloc[-2] else "downtrend"
-                logging.info(f"Trend detected for {symbol}: {trend_direction}.")
-            else:
-                logging.info(f"No strong trend detected for {symbol}. Skipping this cycle.")
-                continue
+        # Detect trend using ADX
+        adx = TA.ADX(h4_data)
+        trend = None
+        if adx.iloc[-1]['ADX'] > adx_threshold:
+            trend = "uptrend" if h4_data['close'].iloc[-1] > h4_data['close'].iloc[-2] else "downtrend"
 
-            # Detect swing highs and swing lows
-            h4_df['swing_high'] = (h4_df['high'] > h4_df['high'].shift(1)) & (h4_df['high'] > h4_df['high'].shift(-1))
-            h4_df['swing_low'] = (h4_df['low'] < h4_df['low'].shift(1)) & (h4_df['low'] < h4_df['low'].shift(-1))
+        # Check RSI divergence
+        rsi = TA.RSI(h1_data)
+        if trend == "uptrend" and rsi.iloc[-1]['RSI'] > rsi_overbought:
+            logging.info(f"RSI divergence confirmed for {symbol} in uptrend.")
+        elif trend == "downtrend" and rsi.iloc[-1]['RSI'] < rsi_oversold:
+            logging.info(f"RSI divergence confirmed for {symbol} in downtrend.")
+        else:
+            logging.info(f"No RSI divergence for {symbol}. Skipping.")
+            return
 
-            # Fetch H1 data for break of structure confirmation
-            logging.info(f"Fetching H1 data for {symbol}.")
-            h1_rates = mt5.copy_rates_from_pos(symbol, h1_timeframe, 0, 500)
-            h1_df = pd.DataFrame(h1_rates)
-            h1_df['time'] = pd.to_datetime(h1_df['time'], unit='s')
+        # Fetch account balance
+        account_info = mt5.account_info()
+        if not account_info:
+            logging.error("Failed to fetch account info.")
+            return
+        lot_size = calculate_lot_size(risk_percent, account_info.balance, symbol)
 
-            # Break of structure confirmation
-            bos_confirmed = False
-            if trend_direction == "uptrend":
-                resistance = h4_df[h4_df['swing_high']]['high'].max()
-                if h1_df['close'].iloc[-1] > resistance:
-                    bos_confirmed = True
-                    logging.info(f"Break of structure confirmed for {symbol} in uptrend.")
-            elif trend_direction == "downtrend":
-                support = h4_df[h4_df['swing_low']]['low'].min()
-                if h1_df['close'].iloc[-1] < support:
-                    bos_confirmed = True
-                    logging.info(f"Break of structure confirmed for {symbol} in downtrend.")
+        # Define trade parameters
+        entry_price = h1_data['close'].iloc[-1]
+        sl = entry_price - (sl_pips * mt5.symbol_info(symbol).point) if trend == "uptrend" else entry_price + (
+                    sl_pips * mt5.symbol_info(symbol).point)
+        tp = entry_price + (2 * sl_pips * mt5.symbol_info(symbol).point) if trend == "uptrend" else entry_price - (
+                    2 * sl_pips * mt5.symbol_info(symbol).point)
 
-            if not bos_confirmed:
-                logging.info(f"No break of structure confirmed for {symbol}. Skipping this cycle.")
-                continue
-
-            # RSI divergence confirmation using finta
-            logging.info(f"Checking RSI divergence for {symbol}.")
-            rsi = TA.RSI(h4_df)  # finta RSI
-            if (trend_direction == "uptrend" and rsi.iloc[-1]['RSI'] < 40) or (trend_direction == "downtrend" and rsi.iloc[-1]['RSI'] > 60):
-                logging.info(f"RSI divergence not confirmed for {symbol}. Skipping this cycle.")
-                continue
-
-            # Calculate entry, SL, and TP levels
-            logging.info(f"Calculating entry, SL, and TP levels for {symbol}.")
-            entry_price = h1_df['close'].iloc[-1]
-            sl = entry_price - (sl_pips * mt5.symbol_info(symbol).point) if trend_direction == "uptrend" else entry_price + (sl_pips * mt5.symbol_info(symbol).point)
-            tp1 = entry_price + (sl_pips * tp1_ratio * mt5.symbol_info(symbol).point) if trend_direction == "uptrend" else entry_price - (sl_pips * tp1_ratio * mt5.symbol_info(symbol).point)
-            tp2 = entry_price + (sl_pips * tp2_ratio * mt5.symbol_info(symbol).point) if trend_direction == "uptrend" else entry_price - (sl_pips * tp2_ratio * mt5.symbol_info(symbol).point)
-            tp3 = entry_price + (sl_pips * tp3_ratio * mt5.symbol_info(symbol).point) if trend_direction == "uptrend" else entry_price - (sl_pips * tp3_ratio * mt5.symbol_info(symbol).point)
-
-            # Place orders
-            logging.info(f"Placing orders for {symbol}.")
-            order_tp1 = {
-                "action": mt5.TRADE_ACTION_DEAL,
-                "symbol": symbol,
-                "volume": lot_size / 3,
-                "type": mt5.ORDER_BUY if trend_direction == "uptrend" else mt5.ORDER_SELL,
-                "price": entry_price,
-                "sl": sl,
-                "tp": tp1,
-                "deviation": 10,
-                "magic": 123000,
-                "comment": "TP1",
-            }
-
-            # Send orders
-            result_tp1 = mt5.order_send(order_tp1)
-            if result_tp1.retcode == mt5.TRADE_RETCODE_DONE:
-                logging.info(f"Order for {symbol} placed successfully: TP1.")
-            else:
-                logging.error(f"Failed to place order for {symbol}. Error: {result_tp1.comment}")
+        # Place trade
+        order_type = mt5.ORDER_BUY if trend == "uptrend" else mt5.ORDER_SELL
+        request = {
+            "action": mt5.TRADE_ACTION_DEAL,
+            "symbol": symbol,
+            "volume": lot_size,
+            "type": order_type,
+            "price": entry_price,
+            "sl": sl,
+            "tp": tp,
+            "deviation": 10,
+            "magic": 123000,
+        }
+        result = mt5.order_send(request)
+        if result.retcode == mt5.TRADE_RETCODE_DONE:
+            logging.info(f"Trade placed for {symbol}. Order ID: {result.order}")
+        else:
+            logging.error(f"Failed to place trade for {symbol}. Error: {result.comment}")
 
     except Exception as e:
-        logging.error(f"An error occurred: {str(e)}")
+        logging.error(f"Error in analyzing and trading {symbol}: {str(e)}")
 
 
 def main():
-    try:
-        # Initialize MetaTrader 5
-        logging.info("Initializing MetaTrader 5...")
-        if not mt5.initialize(account_details["mt5_pathway"]):
-            logging.error("Failed to initialize MetaTrader 5. Exiting.")
-            return
-        
-        # Login to MetaTrader 5 account
-        logging.info("Logging in to MetaTrader 5 account...")
-        if not mt5.login(account_details["login"], account_details["password"], account_details["server"]):
-            logging.error("Failed to log in to MetaTrader 5 account. Exiting.")
-            mt5.shutdown()
-            return
-        logging.info(f"Successfully logged in to account: {account_details['login']}")
-
-        # Start the bot cycle
-        logging.info("Starting bot execution cycle...")
+    logging.info("Starting trading bot.")
+    with ThreadPoolExecutor(max_workers=len(symbols)) as executor:
         while True:
-            logging.info(f"Executing trading bot at {datetime.now()}...")
-            run_trading_bot()  # Execute the trading logic
-            
+            executor.map(analyze_and_trade, symbols)
             logging.info("Cycle complete. Sleeping for 30 minutes.")
-            time.sleep(30 * 60)  # Sleep for 30 minutes before next execution
+            time.sleep(30 * 60)
 
-    except Exception as e:
-        logging.error(f"An error occurred in the main function: {str(e)}")
-    finally:
-        # Ensure MetaTrader 5 is shut down properly
-        logging.info("Shutting down MetaTrader 5...")
-        mt5.shutdown()
-        logging.info("Trading bot terminated.")
 
 if __name__ == "__main__":
     main()

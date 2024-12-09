@@ -162,26 +162,30 @@ def analyze_and_trade(symbol):
 
     lot_size = calculate_lot_size(RISK_PERCENT, account_info.balance)
 
-    if ema_50 > ema_200 or rsi < 40:  # Buy condition
+    # Loosened logic for Buy/Sell conditions
+    if (ema_50 > ema_200 * 0.995 or rsi < 45):  # Looser Buy condition
         order_id = place_trade("BUY", symbol, lot_size, current_price)
         if order_id:
             manage_trade(symbol, order_id, current_price)
 
-    elif ema_50 < ema_200 or rsi > 60:  # Sell condition
+    elif (ema_50 < ema_200 * 1.005 or rsi > 55):  # Looser Sell condition
         order_id = place_trade("SELL", symbol, lot_size, current_price)
         if order_id:
             manage_trade(symbol, order_id, current_price)
 
     logging.info(f"Trade analyzed for {symbol}: EMA_50={ema_50}, EMA_200={ema_200}, RSI={rsi}.")
 
-# Main loop
+# Main loop with more frequent iterations
 def main():
     while True:
         logging.info("Starting strategy execution cycle.")
         for symbol in SYMBOLS:
-            analyze_and_trade(symbol)
-        logging.info("Cycle complete. Sleeping for 2 minutes.")
-        time.sleep(1)
+            try:
+                analyze_and_trade(symbol)
+            except Exception as e:
+                logging.error(f"Error in trading loop for {symbol}: {str(e)}")
+        logging.info("Cycle complete. Sleeping for 30 seconds.")
+        time.sleep(30)  # Reduced sleep time for more frequent checks
 
 if __name__ == "__main__":
     mt5_settings = {
