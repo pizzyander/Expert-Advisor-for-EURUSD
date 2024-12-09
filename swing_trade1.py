@@ -122,7 +122,7 @@ def analyze_and_trade(symbol):
             "price": entry_price,
             "sl": sl,
             "tp": tp,
-            "deviation": 10,
+            "deviation": 100,
             "magic": 123000,
         }
         result = mt5.order_send(request)
