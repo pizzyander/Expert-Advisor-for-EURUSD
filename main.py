@@ -59,12 +59,12 @@ if __name__ == "__main__":
             logging.info("MT5 started successfully.")
 
             # Schedule tasks
-            schedule.every().friday.at("23:30").do(lambda: run_all_functions(training1))
-            schedule.every().hour.at(":16").do(lambda: run_all_functions(mt5_interface1))
+            schedule.every().friday.at("23:30").do(lambda: run_all_functions(training1.main))
+            schedule.every().hour.at(":01").do(lambda: run_all_functions(mt5_interface1.main))
             
             # Run additional modules
-            run_all_functions(strategy1)
-            run_all_functions(swing_trade1)
+            run_all_functions(strategy1.main)
+            run_all_functions(swing_trade1.main)
 
             logging.info("All modules initialized. Starting scheduled tasks.")
 
