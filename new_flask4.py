@@ -9,19 +9,24 @@ from fastapi import FastAPI, HTTPException
 import uvicorn
 
 # Set up logging
-logging.basicConfig(level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
 # Load model and scalers
-model = load_model("gru_model.h5")
-scaler_X = load("X_train_scaled.joblib")
-scaler_y = load("y_train_scaled.joblib")
+try:
+    model = load_model("gru_model.h5")
+    scaler_X = load("X_train_scaled.joblib")
+    scaler_y = load("y_train_scaled.joblib")
+    logging.info("Model and scalers loaded successfully.")
+except Exception as e:
+    logging.error(f"Error loading model/scalers: {e}")
+    raise RuntimeError("Failed to load model or scalers. Please check the file paths.")
 
 # Define the FastAPI app
 app = FastAPI()
 
 # Define a request body model
 class PredictionRequest(BaseModel):
-    features: list  # Input features in JSON format
+    features: list  # Input features in JSON format (list of lists)
 
 @app.post("/predict")
 async def predict(request: PredictionRequest):
@@ -29,13 +34,16 @@ async def predict(request: PredictionRequest):
         # Log the incoming request
         logging.info(f"Received request with data: {request.features}")
 
-        # Convert input data to DataFrame
-        data = pd.DataFrame(request.features, columns=['open', 'high', 'low'])
+        # Convert features to a DataFrame, dropping unwanted columns if needed
+        raw_data = pd.DataFrame(request.features)
+        
+        # Retain only open, high, low columns (drop other columns like 'close')
+        data = raw_data[['open', 'high', 'low']]
 
         # Ensure data is numeric
-        data = data.apply(pd.to_numeric, errors='coerce')
+        data = data.apply(pd.to_numeric, errors="coerce")
 
-        # Feature Engineering function
+        # Feature engineering function
         def add_features(data):
             # Moving Averages
             data['SMA_20'] = data['open'].rolling(window=20).mean()
@@ -58,44 +66,40 @@ async def predict(request: PredictionRequest):
         # Apply feature engineering
         data = add_features(data)
 
-        # Drop any rows with NaN values (if caused by rolling calculations)
-        data = data.dropna()
+        # Drop rows with NaN values
+        data.dropna(inplace=True)
 
-        # Check if data is empty after dropna
-        if data.empty:
-            raise ValueError("Data is empty after feature engineering. Not enough data points.")
+        # Validate data after feature engineering
+        if data.shape[0] < 90:
+            raise ValueError("Insufficient data after feature engineering. At least 90 rows are required.")
 
         # Scale the incoming features
         scaled_data = scaler_X.transform(data)
 
-        # Reshape for model input (e.g., (1, time_steps, n_features))
-        time_steps = 90
-
         # Ensure we are using the last 90 time steps
-        scaled_data = scaled_data[-90:]
+        time_steps = 90
+        if scaled_data.shape[0] < time_steps:
+            raise ValueError(f"Not enough rows for prediction. Expected at least {time_steps}, got {scaled_data.shape[0]}.")
+        
+        #convert data to np array and ready for 
+        np.array(data)
 
-        print(f"Shape of scaled_data: {scaled_data.shape}")
+        scaled_data = scaled_data[-time_steps:]
 
+        # Reshape for model input
         reshaped_data = scaled_data.reshape((1, time_steps, scaled_data.shape[1]))
 
-        # Make prediction and inverse scale the result
+        # Make prediction and inverse transform
         prediction_scaled = model.predict(reshaped_data)
         prediction = scaler_y.inverse_transform(prediction_scaled)
 
-        # If you want to get the last two predicted values
-        if prediction.shape[0] > 1:
-            # Assuming prediction[0] is the batch, and you're extracting the last two values of the prediction
-            prediction_value = prediction[0, -2:].tolist()  # Get the last 2 values from the prediction array
-        else:
-            # If your prediction is just one value, you can't extract two values, handle accordingly
-            prediction_value = prediction[0].tolist()
-
-        # Log the prediction before returning
-        logging.info(f"Prediction: {prediction_value}")
-
-        return {"prediction": prediction_value}
+        # Log and return the prediction
+        logging.info(f"Prediction result: {prediction.flatten().tolist()}")
+        return {"prediction": prediction.flatten().tolist()}
 
     except Exception as e:
-        logging.error(f"Error occurred: {str(e)}")
+        # Log the error and return an HTTPException
+        logging.error(f"Error occurred: {e}")
         logging.error(traceback.format_exc())
-        raise HTTPException(status_code=500, detail="Internal Server Error")
+        raise HTTPException(status_code=500, detail=f"Internal Server Error: {e}")
+

@@ -16,7 +16,7 @@ today_date = str(now.date())
 
 
 # Fetch historical data from MetaTrader 5
-def fetch_mt5_data(symbol="EURUSD", timeframe=mt5.TIMEFRAME_H1, start_date="2019-01-01", end_date = today_date):
+def fetch_mt5_data(symbol="EURUSD", timeframe=mt5.TIMEFRAME_H6, start_date="2019-01-01", end_date = today_date):
     if not mt5.initialize():
         raise RuntimeError("Failed to initialize MetaTrader5, error code:", mt5.last_error())
     print("MetaTrader5 initialized successfully.")
@@ -72,7 +72,7 @@ def prepare_data(df):
     y_scaler = MinMaxScaler()
 
     X_scaled = X_scaler.fit_transform(df.drop(columns='close'))
-    y_scaled = y_scaler.fit_transform(df['close'].values.reshape(-1, 1))  # Fix reshaping
+    y_scaled = y_scaler.fit_transform(df['close'].values.reshape(-1, 1))
 
     X, y = [], []
     X_sequenced = X_scaled
@@ -126,3 +126,57 @@ def save_scalers_and_model(X_scaler, y_scaler, model):
     dump(y_scaler, "y_train_scaled.joblib")
     model.save("gru_model.h5")
     return True
+
+def main():
+    # Parameters
+    symbol = "EURUSD"
+    timeframe = mt5.TIMEFRAME_H1
+    start_date = "2019-01-01"
+    end_date = today_date
+    model_save_path = "gru_model.h5"
+
+    try:
+        # Step 1: Fetch historical data
+        print("Fetching data...")
+        raw_data = fetch_mt5_data(symbol=symbol, timeframe=timeframe, start_date=start_date, end_date=end_date)
+        
+        # Step 2: Clean and preprocess data
+        print("Cleaning data...")
+        cleaned_data = clean_data(raw_data)
+
+        # Step 3: Add features
+        print("Adding features...")
+        featured_data = create_new_df(cleaned_data)
+
+        # Step 4: Prepare data for training
+        print("Preparing data for training...")
+        X, y, X_scaler, y_scaler = prepare_data(featured_data)
+
+        # Step 5: Split data
+        print("Splitting data...")
+        X_train, X_val, X_test, y_train, y_val, y_test = split_data(X, y)
+
+        # Step 6: Train the model
+        print("Training the model...")
+        model, history = train_model(X_train, y_train, X_val, y_val, save_path=model_save_path)
+
+        # Step 7: Evaluate the model
+        print("Evaluating the model...")
+        y_pred, y_test_actual = evaluate_model(model, X_test, y_test, y_scaler)
+
+        # Step 8: Save scalers and model
+        print("Saving scalers and model...")
+        save_scalers_and_model(X_scaler, y_scaler, model)
+
+        # Step 9: Output results
+        print("Model evaluation results:")
+        print(f"Predicted Values: {y_pred[:5].flatten()}")
+        print(f"Actual Values: {y_test_actual[:5].flatten()}")
+        print("Pipeline executed successfully.")
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        logging.error(f"Pipeline error: {e}")
+
+if __name__ == "__main__":
+    main()

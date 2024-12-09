@@ -34,7 +34,7 @@ def initialize_mt5(settings):
     logging.info("MT5 initialized successfully.")
     return True
 
-def fetch_data(symbol, timeframe=mt5.TIMEFRAME_H4):
+def fetch_data(symbol, timeframe=mt5.TIMEFRAME_H1):
     """Fetch historical data and calculate indicators."""
     rates = mt5.copy_rates_from_pos(symbol, timeframe, 0, 500)
     if rates is None or len(rates) == 0:
@@ -78,7 +78,7 @@ def place_trade(trade_type, symbol, lot_size, entry_price):
             "volume": lot_size,
             "type": mt5.ORDER_TYPE_BUY if trade_type == "BUY" else mt5.ORDER_TYPE_SELL,
             "price": price,
-            "deviation": 20,
+            "deviation": 80,
             "magic": MAGIC_NUMBER,
         }
 
@@ -162,12 +162,12 @@ def analyze_and_trade(symbol):
 
     lot_size = calculate_lot_size(RISK_PERCENT, account_info.balance)
 
-    if ema_50 > ema_200 and rsi < 40:  # Buy condition
+    if ema_50 > ema_200 or rsi < 40:  # Buy condition
         order_id = place_trade("BUY", symbol, lot_size, current_price)
         if order_id:
             manage_trade(symbol, order_id, current_price)
 
-    elif ema_50 < ema_200 and rsi > 60:  # Sell condition
+    elif ema_50 < ema_200 or rsi > 60:  # Sell condition
         order_id = place_trade("SELL", symbol, lot_size, current_price)
         if order_id:
             manage_trade(symbol, order_id, current_price)
@@ -181,7 +181,7 @@ def main():
         for symbol in SYMBOLS:
             analyze_and_trade(symbol)
         logging.info("Cycle complete. Sleeping for 2 minutes.")
-        time.sleep(2 * 60)
+        time.sleep(1)
 
 if __name__ == "__main__":
     mt5_settings = {

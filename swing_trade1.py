@@ -148,9 +148,38 @@ def run_trading_bot():
         logging.error(f"An error occurred: {str(e)}")
 
 
-# Run the bot every 30 minutes
-while True:
-    logging.info(f"Running bot cycle at {datetime.now()}.")
-    run_trading_bot()
-    logging.info("Sleeping for 30 minutes before the next cycle.")
-    time.sleep(30 * 60)
+def main():
+    try:
+        # Initialize MetaTrader 5
+        logging.info("Initializing MetaTrader 5...")
+        if not mt5.initialize(account_details["mt5_pathway"]):
+            logging.error("Failed to initialize MetaTrader 5. Exiting.")
+            return
+        
+        # Login to MetaTrader 5 account
+        logging.info("Logging in to MetaTrader 5 account...")
+        if not mt5.login(account_details["login"], account_details["password"], account_details["server"]):
+            logging.error("Failed to log in to MetaTrader 5 account. Exiting.")
+            mt5.shutdown()
+            return
+        logging.info(f"Successfully logged in to account: {account_details['login']}")
+
+        # Start the bot cycle
+        logging.info("Starting bot execution cycle...")
+        while True:
+            logging.info(f"Executing trading bot at {datetime.now()}...")
+            run_trading_bot()  # Execute the trading logic
+            
+            logging.info("Cycle complete. Sleeping for 30 minutes.")
+            time.sleep(30 * 60)  # Sleep for 30 minutes before next execution
+
+    except Exception as e:
+        logging.error(f"An error occurred in the main function: {str(e)}")
+    finally:
+        # Ensure MetaTrader 5 is shut down properly
+        logging.info("Shutting down MetaTrader 5...")
+        mt5.shutdown()
+        logging.info("Trading bot terminated.")
+
+if __name__ == "__main__":
+    main()

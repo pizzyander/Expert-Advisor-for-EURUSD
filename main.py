@@ -8,7 +8,6 @@ import mt5_interface1
 import training1
 import strategy1
 import swing_trade1
-import shutil
 
 # Set up logging
 logging.basicConfig(
@@ -61,7 +60,7 @@ if __name__ == "__main__":
 
             # Schedule tasks
             schedule.every().friday.at("23:30").do(lambda: run_all_functions(training1))
-            schedule.every().hour.at(":01").do(lambda: run_all_functions(mt5_interface1))
+            schedule.every().hour.at(":16").do(lambda: run_all_functions(mt5_interface1))
             
             # Run additional modules
             run_all_functions(strategy1)
@@ -72,7 +71,7 @@ if __name__ == "__main__":
             # Keep the script running
             while True:
                 schedule.run_pending()
-                time.sleep(30)
+                time.sleep(1)
         else:
             logging.error("Failed to start MT5. Exiting.")
 

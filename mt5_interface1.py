@@ -1,9 +1,8 @@
-import MetaTrader5 as MetaTrader5
+import MetaTrader5 as mt5
 import requests
 import time
 from datetime import datetime
 import logging
-
 
 # Configure logging
 logging.basicConfig(
@@ -12,192 +11,177 @@ logging.basicConfig(
     format="%(asctime)s - %(levelname)s - %(message)s",
 )
 
-# Function to initialize MT5
+# Global Variables
+SYMBOL = "EURUSD"
+USERNAME = 9293182
+PASSWORD = "Ge@mK3Xb"
+SERVER = "GTCGlobalTrade-Server"
+MT5_PATH = "C:\\Program Files\\MetaTrader 5\\terminal64.exe"
+FASTAPI_URL = "http://127.0.0.1:8000/predict"  # Update with actual FastAPI URL
+
 def start_mt5(username, password, server, path):
-    uname = int(username)
-    pword = str(password)
-    trading_server = str(server)
-    filepath = str(path)
-
+    """Initialize and log in to MT5."""
     logging.info("Initializing MT5...")
-    if MetaTrader5.initialize(login=uname, password=pword, server=trading_server, path=filepath):
-        logging.info("Trading Bot Starting")
-        if MetaTrader5.login(login=uname, password=pword, server=trading_server):
-            logging.info("Trading Bot Logged in and Ready to Go!")
-            return True
-        else:
-            error = MetaTrader5.last_error()
-            logging.error(f"Login Failed: {error}")
-            MetaTrader5.shutdown()
-            return PermissionError
-    else:
-        error = MetaTrader5.last_error()
-        logging.error(f"MT5 Initialization Failed: {error}")
-        return ConnectionAbortedError
+    if not mt5.initialize(path=path):
+        logging.error(f"MT5 initialization failed: {mt5.last_error()}")
+        return False
 
-# Function to initialize a symbol on MT5
-def initialize_symbols(symbol_array):
+    if not mt5.login(username, password, server):
+        logging.error(f"MT5 login failed: {mt5.last_error()}")
+        mt5.shutdown()
+        return False
+
+    logging.info("MT5 initialized and logged in successfully.")
+    return True
+
+def initialize_symbols(symbols):
+    """Enable required trading symbols."""
     logging.info("Initializing symbols...")
-    all_symbols = MetaTrader5.symbols_get()
-    symbol_names = [symbol.name for symbol in all_symbols]
-
-    for provided_symbol in symbol_array:
-        if provided_symbol in symbol_names:
-            if MetaTrader5.symbol_select(provided_symbol, True):
-                logging.info(f"Symbol {provided_symbol} enabled")
-            else:
-                logging.error(f"Failed to enable symbol: {provided_symbol}")
-                return ValueError
+    for symbol in symbols:
+        if mt5.symbol_select(symbol, True):
+            logging.info(f"Symbol {symbol} enabled.")
         else:
-            logging.error(f"Symbol {provided_symbol} not found in MT5")
-            return SyntaxError
-
-    logging.info("All symbols initialized successfully.")
+            logging.error(f"Failed to enable symbol {symbol}: {mt5.last_error()}")
+            return False
     return True
 
 def get_last_90_candles(symbol):
     """Retrieve the last 90 H1 candlestick data."""
     logging.info(f"Retrieving last 90 H1 candles for symbol: {symbol}")
-    rates = MetaTrader5.copy_rates_from_pos(symbol, MetaTrader5.TIMEFRAME_H1, 0, 720)
+    rates = mt5.copy_rates_from_pos(symbol, mt5.TIMEFRAME_H6, 0, 360)
 
     if rates is None or len(rates) == 0:
         logging.error("Failed to retrieve candlestick data.")
         return None
 
     logging.info("Candlestick data retrieved successfully.")
-    return [
-        {'open': rate['open'], 'high': rate['high'], 'low': rate['low'], 'close': rate['close']}
+    # Return candle data with clear naming
+    candle_data = [
+        {"open": rate[1], "high": rate[2], "low": rate[3], "close": rate[4]}
         for rate in rates
     ]
+    return candle_data
 
-# Function to send data to FastAPI and get prediction
+
 def get_prediction(candle_data):
-    url = "http://127.0.0.1:8000/predict"  # Change to actual FastAPI URL
-    data = {"features": candle_data}
+    """Send candlestick data to FastAPI for prediction."""
     logging.info("Sending data to FastAPI for prediction...")
-
     try:
-        response = requests.post(url, json=data)
+        # Prepare features with the required columns: open, high, low
+        features = [{"open": candle["open"], "high": candle["high"], "low": candle["low"]} for candle in candle_data]
+        
+        # Log the prepared features
+        logging.debug(f"Prepared features: {features}")
+        
+        # Send data to FastAPI
+        response = requests.post(FASTAPI_URL, json={"features": features})
+        
         if response.status_code == 200:
-            logging.info("Prediction received successfully.")
-            return response.json()['prediction']
+            prediction = response.json().get("prediction")
+            logging.info(f"Prediction received: {prediction}")
+            return prediction
         else:
-            logging.error(f"Failed to get prediction from FastAPI. Status Code: {response.status_code}")
+            logging.error(f"Failed to get prediction. Status Code: {response.status_code}, Response: {response.text}")
             return None
     except Exception as e:
         logging.error(f"Error during FastAPI request: {e}")
         return None
 
-def main():
-    logging.info("Starting main trading function...")
-    start_status = start_mt5("9293182", "Ge@mK3Xb", "GTCGlobalTrade-Server", "C:\\Program Files\\MetaTrader 5\\terminal64.exe")
-    if start_status is not True:
-        logging.error("MT5 failed to start.")
-        return
-
-    symbol = "EURUSD"  # Example symbol
-    last_90_candles = get_last_90_candles(symbol)
-    if last_90_candles is None:
-        logging.error("Failed to get the last 90 candles.")
-        return
-
-    logging.debug(f"Last 90 Candles Data: {last_90_candles}")
-    prediction = get_prediction(last_90_candles)
-
-    if prediction is None:
-        logging.error("Prediction failed.")
-        return
-
-    logging.info(f"Prediction Value: {prediction}")
-    last_close = last_90_candles[-1]['close']
-    if prediction > last_close:
-        logging.info("Prediction is higher than the last close. Placing Buy Order with Programmatic TP...")
-        place_trade_with_programmatic_tp(symbol, "buy")
-    else:
-        logging.info("Prediction is lower or equal to the last close. Placing Sell Order with Programmatic TP...")
-        place_trade_with_programmatic_tp(symbol, "sell")
-
-
 def place_trade_with_programmatic_tp(symbol, order_type):
-    lot_size = 0.3  # Total lot size to trade
-    price = (
-        MetaTrader5.symbol_info_tick(symbol).ask
-        if order_type == "buy"
-        else MetaTrader5.symbol_info_tick(symbol).bid
-    )
-    point = MetaTrader5.symbol_info(symbol).point  # Point value for the symbol
+    """Place a trade and manage programmatic take-profit levels."""
+    lot_size = 0.3
+    price = mt5.symbol_info_tick(symbol).ask if order_type == "buy" else mt5.symbol_info_tick(symbol).bid
+    point = mt5.symbol_info(symbol).point
     tp_levels = [
         price + (120 * point) if order_type == "buy" else price - (120 * point),
         price + (240 * point) if order_type == "buy" else price - (240 * point),
         price + (360 * point) if order_type == "buy" else price - (360 * point),
     ]
-    tp_lot_sizes = [0.1, 0.1, 0.1]  # Partial lot sizes for each take-profit level
+    tp_lot_sizes = [0.1, 0.1, 0.1]
 
     logging.info(f"Placing {order_type.upper()} order for {symbol}.")
     try:
-        # Place the initial trade
         request = {
-            "action": MetaTrader5.TRADE_ACTION_DEAL,
+            "action": mt5.TRADE_ACTION_DEAL,
             "symbol": symbol,
             "volume": lot_size,
-            "type": MetaTrader5.ORDER_TYPE_BUY if order_type == "buy" else MetaTrader5.ORDER_TYPE_SELL,
+            "type": mt5.ORDER_TYPE_BUY if order_type == "buy" else mt5.ORDER_TYPE_SELL,
             "price": price,
             "deviation": 10,
             "magic": 123456,
             "comment": "Programmatic TP",
-            "type_time": MetaTrader5.ORDER_TIME_GTC,
-            "type_filling": MetaTrader5.ORDER_FILLING_IOC,
+            "type_time": mt5.ORDER_TIME_GTC,
+            "type_filling": mt5.ORDER_FILLING_IOC,
         }
 
-        result = MetaTrader5.order_send(request)
+        result = mt5.order_send(request)
 
-        if result.retcode != MetaTrader5.TRADE_RETCODE_DONE:
-            logging.error(f"Initial order placement failed: {result.retcode}")
+        if result.retcode != mt5.TRADE_RETCODE_DONE:
+            logging.error(f"Order placement failed: {result.retcode}")
             return
-        else:
-            logging.info(f"Initial order placed successfully. Ticket: {result.order}")
 
-        # Monitor the price and close portions of the trade at TP levels
+        logging.info(f"Order placed successfully. Ticket: {result.order}")
         ticket = result.order
+
         for i, tp in enumerate(tp_levels):
-            logging.info(f"Waiting for price to reach TP Level {i+1} ({tp}).")
             while True:
                 current_price = (
-                    MetaTrader5.symbol_info_tick(symbol).bid
-                    if order_type == "buy"
-                    else MetaTrader5.symbol_info_tick(symbol).ask
+                    mt5.symbol_info_tick(symbol).bid if order_type == "buy" else mt5.symbol_info_tick(symbol).ask
                 )
-
-                # Check if the price has reached the TP level
                 if (order_type == "buy" and current_price >= tp) or (
                     order_type == "sell" and current_price <= tp
                 ):
-                    logging.info(f"Price reached TP Level {i+1}. Closing {tp_lot_sizes[i]} lots.")
-                    
-                    # Close the portion of the trade
                     close_request = {
-                        "action": MetaTrader5.TRADE_ACTION_DEAL,
+                        "action": mt5.TRADE_ACTION_DEAL,
                         "symbol": symbol,
                         "volume": tp_lot_sizes[i],
-                        "type": MetaTrader5.ORDER_TYPE_SELL if order_type == "buy" else MetaTrader5.ORDER_TYPE_BUY,
-                        "position": ticket,  # Reference the initial position
+                        "type": mt5.ORDER_TYPE_SELL if order_type == "buy" else mt5.ORDER_TYPE_BUY,
+                        "position": ticket,
                         "price": current_price,
                         "deviation": 10,
                         "magic": 123456,
                         "comment": f"TP Level {i+1} closure",
-                        "type_time": MetaTrader5.ORDER_TIME_GTC,
-                        "type_filling": MetaTrader5.ORDER_FILLING_IOC,
+                        "type_time": mt5.ORDER_TIME_GTC,
+                        "type_filling": mt5.ORDER_FILLING_IOC,
                     }
 
-                    close_result = MetaTrader5.order_send(close_request)
+                    close_result = mt5.order_send(close_request)
 
-                    if close_result.retcode != MetaTrader5.TRADE_RETCODE_DONE:
-                        logging.error(f"Failed to close portion at TP Level {i+1}: {close_result.retcode}")
+                    if close_result.retcode != mt5.TRADE_RETCODE_DONE:
+                        logging.error(f"Failed to close at TP Level {i+1}: {close_result.retcode}")
                     else:
                         logging.info(f"Successfully closed {tp_lot_sizes[i]} lots at TP Level {i+1}.")
-                    break  # Exit loop and move to the next TP level
+                    break
 
-                time.sleep(1)  # Check price every second
-
+                time.sleep(1)
     except Exception as e:
         logging.error(f"Error during trade placement or TP management: {e}")
+
+def main():
+    logging.info("Starting main trading bot function...")
+    if not start_mt5(USERNAME, PASSWORD, SERVER, MT5_PATH):
+        return
+
+    if not initialize_symbols([SYMBOL]):
+        return
+
+    candle_data = get_last_90_candles(SYMBOL)
+    if candle_data is None:
+        return
+
+    prediction = get_prediction(candle_data)
+    if prediction is None:
+        return
+
+    last_close = candle_data[-1]["close"]
+    if prediction > last_close:
+        logging.info("Prediction indicates a BUY signal.")
+        place_trade_with_programmatic_tp(SYMBOL, "buy")
+    else:
+        logging.info("Prediction indicates a SELL signal.")
+        place_trade_with_programmatic_tp(SYMBOL, "sell")
+
+    logging.info("Trading bot cycle complete.")
+
+if __name__ == "__main__":
+    main()
