@@ -15,7 +15,7 @@ account_details = {
 }
 
 # Symbols to trade
-symbols = ["EURUSD", "XAUUSD", "USDJPY", "GBPUSD"]
+symbols = ["EURUSD", "XAUUSD", "GBPUSD"]
 
 # Trade parameters
 risk_percent = 1.0  # Risk percentage per trade
@@ -24,14 +24,24 @@ h1_timeframe = mt5.TIMEFRAME_H1
 adx_threshold = 20  # Lowered for more trade opportunities
 rsi_overbought = 70
 rsi_oversold = 30
-sl_pips = 50  # Tighter stop-loss for more frequent trades
+tp_pips = 300  # Take profit at 300 pips away from entry
 
 # Logging configuration
+log_file = "swing_trade1.log"
 logging.basicConfig(
-    filename="trading_bot.log",
+    filename=log_file,
     level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(message)s"
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S"
 )
+
+# Add console logging
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.INFO)
+console_formatter = logging.Formatter("%(asctime)s [%(levelname)s] %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
+console_handler.setFormatter(console_formatter)
+logging.getLogger().addHandler(console_handler)
+
 
 # Initialize MetaTrader 5
 if not mt5.initialize(account_details["mt5_pathway"]):
@@ -63,10 +73,7 @@ def calculate_lot_size(risk_percent, balance, symbol):
     if not symbol_info:
         logging.error(f"Failed to get symbol info for {symbol}.")
         return 0.01
-    point = symbol_info.point
-    tick_value = symbol_info.trade_tick_value
-    lot_size = (balance * risk_percent / 100) / (sl_pips * point * tick_value)
-    return max(round(lot_size, 2), symbol_info.volume_min)
+    return max(symbol_info.volume_min, symbol_info.volume_step)  # Use minimum lot size
 
 
 def analyze_and_trade(symbol):
@@ -85,14 +92,14 @@ def analyze_and_trade(symbol):
         # Detect trend using ADX
         adx = TA.ADX(h4_data)
         trend = None
-        if adx.iloc[-1]['ADX'] > adx_threshold:
+        if adx.iloc[-1] > adx_threshold:
             trend = "uptrend" if h4_data['close'].iloc[-1] > h4_data['close'].iloc[-2] else "downtrend"
 
         # Check RSI divergence
         rsi = TA.RSI(h1_data)
-        if trend == "uptrend" and rsi.iloc[-1]['RSI'] > rsi_overbought:
+        if trend == "uptrend" and rsi.iloc[-1] > rsi_overbought:
             logging.info(f"RSI divergence confirmed for {symbol} in uptrend.")
-        elif trend == "downtrend" and rsi.iloc[-1]['RSI'] < rsi_oversold:
+        elif trend == "downtrend" and rsi.iloc[-1] < rsi_oversold:
             logging.info(f"RSI divergence confirmed for {symbol} in downtrend.")
         else:
             logging.info(f"No RSI divergence for {symbol}. Skipping.")
@@ -107,23 +114,31 @@ def analyze_and_trade(symbol):
 
         # Define trade parameters
         entry_price = h1_data['close'].iloc[-1]
-        sl = entry_price - (sl_pips * mt5.symbol_info(symbol).point) if trend == "uptrend" else entry_price + (
-                    sl_pips * mt5.symbol_info(symbol).point)
-        tp = entry_price + (2 * sl_pips * mt5.symbol_info(symbol).point) if trend == "uptrend" else entry_price - (
-                    2 * sl_pips * mt5.symbol_info(symbol).point)
+        point = mt5.symbol_info(symbol).point
+        tp = entry_price + (tp_pips * point) if trend == "uptrend" else entry_price - (tp_pips * point)
+
+        # Get symbol information to determine filling mode
+        symbol_info = mt5.symbol_info(symbol)
+        if symbol_info is None:
+            logging.error(f"Failed to get symbol info for {symbol}. Skipping.")
+            return
+
+        # Log and select filling mode
+        logging.info(f"Available filling modes for {symbol}: {symbol_info.filling_mode}")
+        filling_mode = mt5.ORDER_FILLING_IOC  # Apply consistent filling mode
 
         # Place trade
-        order_type = mt5.ORDER_BUY if trend == "uptrend" else mt5.ORDER_SELL
+        order_type = 1 if trend == "uptrend" else 2  # 1 = BUY, 2 = SELL
         request = {
             "action": mt5.TRADE_ACTION_DEAL,
             "symbol": symbol,
             "volume": lot_size,
             "type": order_type,
             "price": entry_price,
-            "sl": sl,
             "tp": tp,
-            "deviation": 100,
+            "deviation": 150,
             "magic": 123000,
+            "type_filling": filling_mode,
         }
         result = mt5.order_send(request)
         if result.retcode == mt5.TRADE_RETCODE_DONE:
@@ -140,8 +155,8 @@ def main():
     with ThreadPoolExecutor(max_workers=len(symbols)) as executor:
         while True:
             executor.map(analyze_and_trade, symbols)
-            logging.info("Cycle complete. Sleeping for 30 minutes.")
-            time.sleep(30 * 60)
+            logging.info("Cycle complete. Sleeping for 12 hours.")
+            time.sleep(720 * 60)
 
 
 if __name__ == "__main__":

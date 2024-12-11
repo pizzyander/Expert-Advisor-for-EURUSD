@@ -4,13 +4,21 @@ import logging
 import time
 from datetime import datetime
 
-# Logging setup
+# Logging configuration
+log_file = "strategy1.log"
 logging.basicConfig(
-    filename="strategy.log",
+    filename=log_file,
     level=logging.INFO,
-    format="%(asctime)s - [%(levelname)s] - %(message)s",
-    datefmt="%Y-%m-%d %H:%M:%S",
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    datefmt="%Y-%m-%d %H:%M:%S"
 )
+
+# Add console logging
+console_handler = logging.StreamHandler()
+console_handler.setLevel(logging.INFO)
+console_formatter = logging.Formatter("%(asctime)s [%(levelname)s] %(message)s", datefmt="%Y-%m-%d %H:%M:%S")
+console_handler.setFormatter(console_formatter)
+logging.getLogger().addHandler(console_handler)
 
 # Constants
 RSI_PERIOD = 14
@@ -21,21 +29,31 @@ MAGIC_NUMBER = 456000
 SYMBOLS = ["EURUSD", "GBPUSD", "USDJPY", "XAUUSD"]
 PIP_VALUES = {"EURUSD": 0.0001, "GBPUSD": 0.0001, "USDJPY": 0.01, "XAUUSD": 0.01}
 
+MT5_PATH = "C:\\Program Files\\MetaTrader 5\\terminal64.exe"
+USERNAME = 9293182
+PASSWORD = "Ge@mK3Xb"
+SERVER = "GTCGlobalTrade-Server"
+
+
 def initialize_mt5(settings):
     """Initialize MetaTrader 5 connection."""
-    if not mt5.initialize(
-        login=settings["username"],
-        password=settings["password"],
-        server=settings["server"],
-        path=settings["mt5Pathway"],
-    ):
-        logging.error("MT5 initialization failed.")
+    logging.info("Initializing MT5...")
+    if not mt5.initialize(path=settings["mt5Pathway"]):
+        logging.error(f"MT5 initialization failed: {mt5.last_error()}")
         return False
-    logging.info("MT5 initialized successfully.")
+
+    if not mt5.login(settings["username"], settings["password"], settings["server"]):
+        logging.error(f"MT5 login failed: {mt5.last_error()}")
+        mt5.shutdown()
+        return False
+
+    logging.info("MT5 initialized and logged in successfully.")
     return True
+
 
 def fetch_data(symbol, timeframe=mt5.TIMEFRAME_H1):
     """Fetch historical data and calculate indicators."""
+    logging.info(f"Fetching data for symbol: {symbol}")
     rates = mt5.copy_rates_from_pos(symbol, timeframe, 0, 500)
     if rates is None or len(rates) == 0:
         logging.error(f"Failed to fetch data for {symbol}.")
@@ -57,19 +75,32 @@ def fetch_data(symbol, timeframe=mt5.TIMEFRAME_H1):
 
     return data
 
+
 def calculate_lot_size(risk_percent, balance):
     """Calculate lot size based on account balance."""
     lot_size = balance * risk_percent / 100000  # Simplified for a 100-pip movement
     min_lot_size = 0.01
     return max(round(lot_size, 2), min_lot_size)
 
-def place_trade(trade_type, symbol, lot_size, entry_price):
-    """Place a single trade."""
+
+def place_trade(trade_type, symbol, entry_price):
+    """Place a single trade with specified parameters."""
+    logging.info(f"Placing {trade_type} trade for {symbol} at entry price {entry_price}")
+
     tick = mt5.symbol_info_tick(symbol)
     price = tick.ask if trade_type == "BUY" else tick.bid
     if price is None:
         logging.error(f"Failed to retrieve price for {symbol}.")
         return None
+
+    lot_size = 0.1
+    point = mt5.symbol_info(symbol).point
+    tp_levels = [
+        price + (120 * point) if trade_type == "BUY" else price - (120 * point),
+        price + (240 * point) if trade_type == "BUY" else price - (240 * point),
+        price + (360 * point) if trade_type == "BUY" else price - (360 * point),
+    ]
+    tp_lot_sizes = [0.1, 0.1, 0.1]
 
     request = {
         "action": mt5.TRADE_ACTION_DEAL,
@@ -77,18 +108,54 @@ def place_trade(trade_type, symbol, lot_size, entry_price):
         "volume": lot_size,
         "type": mt5.ORDER_TYPE_BUY if trade_type == "BUY" else mt5.ORDER_TYPE_SELL,
         "price": price,
-        "deviation": 80,
+        "deviation": 10,
         "magic": MAGIC_NUMBER,
+        "comment": "Programmatic TP",
+        "type_time": mt5.ORDER_TIME_GTC,
+        "type_filling": mt5.ORDER_FILLING_IOC,
     }
 
-    logging.info(f"Order request: {request}")
     result = mt5.order_send(request)
-    if result is None or result.retcode != mt5.TRADE_RETCODE_DONE:
-        logging.error(f"Failed to place {trade_type} trade for {symbol}.")
-        return None
 
-    logging.info(f"Successfully placed {trade_type} trade for {symbol}.")
-    return result.order
+    if result.retcode != mt5.TRADE_RETCODE_DONE:
+        logging.error(f"Order placement failed: {result.retcode}")
+        return
+
+    logging.info(f"Order placed successfully. Ticket: {result.order}")
+    ticket = result.order
+
+    for i, tp in enumerate(tp_levels):
+        while True:
+            current_price = (
+                mt5.symbol_info_tick(symbol).bid if trade_type == "BUY" else mt5.symbol_info_tick(symbol).ask
+            )
+            if (trade_type == "BUY" and current_price >= tp) or (
+                trade_type == "SELL" and current_price <= tp
+            ):
+                close_request = {
+                    "action": mt5.TRADE_ACTION_DEAL,
+                    "symbol": symbol,
+                    "volume": tp_lot_sizes[i],
+                    "type": mt5.ORDER_TYPE_SELL if trade_type == "BUY" else mt5.ORDER_TYPE_BUY,
+                    "position": ticket,
+                    "price": current_price,
+                    "deviation": 10,
+                    "magic": MAGIC_NUMBER,
+                    "comment": f"TP Level {i+1} closure",
+                    "type_time": mt5.ORDER_TIME_GTC,
+                    "type_filling": mt5.ORDER_FILLING_IOC,
+                }
+
+                close_result = mt5.order_send(close_request)
+
+                if close_result.retcode != mt5.TRADE_RETCODE_DONE:
+                    logging.error(f"Failed to close at TP Level {i+1}: {close_result.retcode}")
+                else:
+                    logging.info(f"Successfully closed {tp_lot_sizes[i]} lots at TP Level {i+1}.")
+                break
+
+            time.sleep(1)
+
 
 def analyze_and_trade(symbol, account_info):
     """Analyze market conditions and place trades."""
@@ -103,13 +170,13 @@ def analyze_and_trade(symbol, account_info):
 
     lot_size = calculate_lot_size(RISK_PERCENT, account_info.balance)
 
-    # Loosened logic for Buy/Sell conditions
-    if ema_50 > ema_200 and rsi < 45:
-        place_trade("BUY", symbol, lot_size, current_price)
-    elif ema_50 < ema_200 and rsi > 55:
-        place_trade("SELL", symbol, lot_size, current_price)
+    if ema_50 > ema_200 and rsi < 25:
+        place_trade("BUY", symbol, current_price)
+    elif ema_50 < ema_200 and rsi > 75:
+        place_trade("SELL", symbol, current_price)
 
     logging.info(f"Trade analyzed for {symbol}: EMA_50={ema_50}, EMA_200={ema_200}, RSI={rsi}.")
+
 
 def execute_strategy(mt5_settings):
     """Encapsulated strategy execution."""
@@ -131,20 +198,30 @@ def execute_strategy(mt5_settings):
                     analyze_and_trade(symbol, account_info)
                 except Exception as e:
                     logging.error(f"Error in trading loop for {symbol}: {str(e)}")
-            logging.info("Cycle complete. Sleeping for 30 seconds.")
-            time.sleep(30)
+            logging.info("Cycle complete. Sleeping for 2 hours.")
+            time.sleep(3600 * 6)
     finally:
         mt5.shutdown()
 
+
 def main():
-    """Main function for the trading script."""
+    """Main function to set up and execute the trading strategy."""
     mt5_settings = {
-        "username": 9293182,
-        "password": "Ge@mK3Xb",
-        "server": "GTCGlobalTrade-Server",
-        "mt5Pathway": "C:\\Program Files\\MetaTrader 5\\terminal64.exe",
+        "mt5Pathway": MT5_PATH,
+        "username": USERNAME,
+        "password": PASSWORD,
+        "server": SERVER,
     }
-    execute_strategy(mt5_settings)
+
+    logging.info("Starting the trading bot.")
+    try:
+        execute_strategy(mt5_settings)
+    except KeyboardInterrupt:
+        logging.info("Trading bot interrupted by user.")
+    except Exception as e:
+        logging.error(f"Unexpected error occurred: {str(e)}")
+    finally:
+        logging.info("Trading bot stopped.")
 
 if __name__ == "__main__":
     main()

@@ -10,6 +10,9 @@ from keras.layers import GRU, Dense, Dropout
 from keras.callbacks import EarlyStopping
 import logging
 from datetime import datetime
+import multiprocessing
+multiprocessing.set_start_method("spawn", force=True)
+
 
 now = datetime.now()
 today_date = str(now.date())
@@ -179,4 +182,6 @@ def main():
         logging.error(f"Pipeline error: {e}")
 
 if __name__ == "__main__":
+    import os
+    os.environ["TF_CPP_MIN_LOG_LEVEL"] = "2"  # Suppress TensorFlow logs
     main()

@@ -1,0 +1,203 @@
+2024-12-10 17:30:48 [INFO] Logged in to MT5 account: 9293182.
+2024-12-10 17:30:48 [INFO] Starting trading bot.
+2024-12-10 17:30:48 [INFO] Analyzing symbol: EURUSD
+2024-12-10 17:30:48 [INFO] Analyzing symbol: XAUUSD
+2024-12-10 17:30:48 [INFO] Analyzing symbol: USDJPY
+2024-12-10 17:30:48 [INFO] No RSI divergence for XAUUSD. Skipping.
+2024-12-10 17:30:48 [INFO] Analyzing symbol: GBPUSD
+2024-12-10 17:30:49 [INFO] Cycle complete. Sleeping for 30 minutes.
+2024-12-10 17:30:49 [INFO] RSI divergence confirmed for USDJPY in uptrend.
+2024-12-10 17:30:49 [ERROR] Error in analyzing and trading USDJPY: module 'MetaTrader5' has no attribute 'ORDER_BUY'
+2024-12-10 17:30:49 [INFO] No RSI divergence for GBPUSD. Skipping.
+2024-12-10 17:30:49 [INFO] RSI divergence confirmed for EURUSD in downtrend.
+2024-12-10 17:30:49 [ERROR] Error in analyzing and trading EURUSD: module 'MetaTrader5' has no attribute 'ORDER_SELL'
+2024-12-10 17:33:50 [INFO] Logged in to MT5 account: 9293182.
+2024-12-10 17:33:50 [INFO] Starting trading bot.
+2024-12-10 17:33:50 [INFO] Analyzing symbol: EURUSD
+2024-12-10 17:33:50 [INFO] Analyzing symbol: XAUUSD
+2024-12-10 17:33:50 [INFO] No RSI divergence for XAUUSD. Skipping.
+2024-12-10 17:33:50 [INFO] Analyzing symbol: USDJPY
+2024-12-10 17:33:50 [INFO] RSI divergence confirmed for EURUSD in downtrend.
+2024-12-10 17:33:50 [ERROR] Failed to place trade for EURUSD. Error: Unsupported filling mode
+2024-12-10 17:33:50 [INFO] RSI divergence confirmed for USDJPY in uptrend.
+2024-12-10 17:33:50 [ERROR] Failed to place trade for USDJPY. Error: Unsupported filling mode
+2024-12-10 17:33:50 [INFO] Cycle complete. Sleeping for 30 minutes.
+2024-12-10 17:33:50 [INFO] Analyzing symbol: GBPUSD
+2024-12-10 17:33:50 [INFO] No RSI divergence for GBPUSD. Skipping.
+2024-12-10 17:36:50 [INFO] Logged in to MT5 account: 9293182.
+2024-12-10 17:36:50 [INFO] Starting trading bot.
+2024-12-10 17:36:50 [INFO] Analyzing symbol: EURUSD
+2024-12-10 17:36:50 [INFO] Analyzing symbol: XAUUSD
+2024-12-10 17:36:51 [INFO] RSI divergence confirmed for EURUSD in downtrend.
+2024-12-10 17:36:51 [ERROR] No supported filling mode for EURUSD.
+2024-12-10 17:36:51 [INFO] Analyzing symbol: USDJPY
+2024-12-10 17:36:51 [INFO] No RSI divergence for XAUUSD. Skipping.
+2024-12-10 17:36:51 [INFO] RSI divergence confirmed for USDJPY in uptrend.
+2024-12-10 17:36:51 [ERROR] No supported filling mode for USDJPY.
+2024-12-10 17:36:51 [INFO] Cycle complete. Sleeping for 30 minutes.
+2024-12-10 17:36:51 [INFO] Analyzing symbol: GBPUSD
+2024-12-10 17:36:51 [INFO] No RSI divergence for GBPUSD. Skipping.
+2024-12-10 17:37:18 [INFO] Logged in to MT5 account: 9293182.
+2024-12-10 17:37:18 [INFO] Starting trading bot.
+2024-12-10 17:37:18 [INFO] Analyzing symbol: EURUSD
+2024-12-10 17:37:18 [INFO] Analyzing symbol: XAUUSD
+2024-12-10 17:37:18 [INFO] Analyzing symbol: USDJPY
+2024-12-10 17:37:18 [INFO] Analyzing symbol: GBPUSD
+2024-12-10 17:37:19 [INFO] No RSI divergence for XAUUSD. Skipping.
+2024-12-10 17:37:19 [INFO] Cycle complete. Sleeping for 30 minutes.
+2024-12-10 17:37:19 [INFO] RSI divergence confirmed for USDJPY in uptrend.
+2024-12-10 17:37:19 [ERROR] No supported filling mode for USDJPY.
+2024-12-10 17:37:19 [INFO] RSI divergence confirmed for EURUSD in downtrend.
+2024-12-10 17:37:19 [ERROR] No supported filling mode for EURUSD.
+2024-12-10 17:37:19 [INFO] No RSI divergence for GBPUSD. Skipping.
+2024-12-10 17:38:54 [INFO] Logged in to MT5 account: 9293182.
+2024-12-10 17:38:54 [INFO] Starting trading bot.
+2024-12-10 17:38:54 [INFO] Analyzing symbol: EURUSD
+2024-12-10 17:38:54 [INFO] RSI divergence confirmed for EURUSD in downtrend.
+2024-12-10 17:38:54 [ERROR] No supported filling mode for EURUSD.
+2024-12-10 17:38:54 [INFO] Analyzing symbol: XAUUSD
+2024-12-10 17:38:54 [INFO] Analyzing symbol: USDJPY
+2024-12-10 17:38:55 [INFO] RSI divergence confirmed for USDJPY in uptrend.
+2024-12-10 17:38:55 [INFO] No RSI divergence for XAUUSD. Skipping.
+2024-12-10 17:38:55 [ERROR] No supported filling mode for USDJPY.
+2024-12-10 17:38:55 [INFO] Analyzing symbol: GBPUSD
+2024-12-10 17:38:55 [INFO] No RSI divergence for GBPUSD. Skipping.
+2024-12-10 17:38:55 [INFO] Cycle complete. Sleeping for 30 minutes.
+2024-12-10 17:42:40 [INFO] Logged in to MT5 account: 9293182.
+2024-12-10 17:42:40 [INFO] Starting trading bot.
+2024-12-10 17:42:40 [INFO] Analyzing symbol: EURUSD
+2024-12-10 17:42:40 [INFO] Analyzing symbol: XAUUSD
+2024-12-10 17:42:40 [INFO] Analyzing symbol: USDJPY
+2024-12-10 17:42:40 [INFO] Analyzing symbol: GBPUSD
+2024-12-10 17:42:40 [INFO] Cycle complete. Sleeping for 30 minutes.
+2024-12-10 17:42:41 [INFO] RSI divergence confirmed for USDJPY in uptrend.
+2024-12-10 17:42:41 [INFO] Filling mode for USDJPY: 2
+2024-12-10 17:42:41 [ERROR] No supported filling mode for USDJPY.
+2024-12-10 17:42:41 [INFO] No RSI divergence for XAUUSD. Skipping.
+2024-12-10 17:42:41 [INFO] RSI divergence confirmed for EURUSD in downtrend.
+2024-12-10 17:42:41 [INFO] Filling mode for EURUSD: 2
+2024-12-10 17:42:41 [ERROR] No supported filling mode for EURUSD.
+2024-12-10 17:42:41 [INFO] No RSI divergence for GBPUSD. Skipping.
+2024-12-10 17:57:59 [INFO] Logged in to MT5 account: 9293182.
+2024-12-10 17:57:59 [INFO] Starting trading bot.
+2024-12-10 17:57:59 [INFO] Analyzing symbol: EURUSD
+2024-12-10 17:57:59 [INFO] Analyzing symbol: XAUUSD
+2024-12-10 17:57:59 [INFO] Analyzing symbol: USDJPY
+2024-12-10 17:57:59 [INFO] Analyzing symbol: GBPUSD
+2024-12-10 17:57:59 [INFO] Cycle complete. Sleeping for 30 minutes.
+2024-12-10 17:57:59 [INFO] No RSI divergence for GBPUSD. Skipping.
+2024-12-10 17:58:00 [INFO] No RSI divergence for EURUSD. Skipping.
+2024-12-10 17:58:00 [INFO] No RSI divergence for XAUUSD. Skipping.
+2024-12-10 17:58:00 [INFO] RSI divergence confirmed for USDJPY in uptrend.
+2024-12-10 17:58:00 [ERROR] Error in analyzing and trading USDJPY: module 'MetaTrader5' has no attribute 'ORDER_BUY'
+2024-12-10 18:01:13 [INFO] Logged in to MT5 account: 9293182.
+2024-12-10 18:01:13 [INFO] Starting trading bot.
+2024-12-10 18:01:13 [INFO] Analyzing symbol: EURUSD
+2024-12-10 18:01:13 [INFO] Analyzing symbol: XAUUSD
+2024-12-10 18:01:14 [INFO] Analyzing symbol: USDJPY
+2024-12-10 18:01:14 [INFO] RSI divergence confirmed for USDJPY in uptrend.
+2024-12-10 18:01:14 [ERROR] Failed to place trade for USDJPY. Error: Unsupported filling mode
+2024-12-10 18:01:14 [INFO] Analyzing symbol: GBPUSD
+2024-12-10 18:01:14 [INFO] No RSI divergence for XAUUSD. Skipping.
+2024-12-10 18:01:14 [INFO] No RSI divergence for EURUSD. Skipping.
+2024-12-10 18:01:14 [INFO] No RSI divergence for GBPUSD. Skipping.
+2024-12-10 18:01:14 [INFO] Cycle complete. Sleeping for 30 minutes.
+2024-12-10 18:04:01 [INFO] Logged in to MT5 account: 9293182.
+2024-12-10 18:04:01 [INFO] Starting trading bot.
+2024-12-10 18:04:01 [INFO] Analyzing symbol: EURUSD
+2024-12-10 18:04:01 [INFO] Analyzing symbol: XAUUSD
+2024-12-10 18:04:01 [INFO] Analyzing symbol: USDJPY
+2024-12-10 18:04:01 [INFO] RSI divergence confirmed for USDJPY in uptrend.
+2024-12-10 18:04:01 [INFO] Available filling modes for USDJPY: 2
+2024-12-10 18:04:01 [ERROR] Failed to place trade for USDJPY. Error: Unsupported filling mode
+2024-12-10 18:04:01 [INFO] Analyzing symbol: GBPUSD
+2024-12-10 18:04:01 [INFO] No RSI divergence for XAUUSD. Skipping.
+2024-12-10 18:04:01 [INFO] No RSI divergence for GBPUSD. Skipping.
+2024-12-10 18:04:01 [INFO] No RSI divergence for EURUSD. Skipping.
+2024-12-10 18:04:01 [INFO] Cycle complete. Sleeping for 30 minutes.
+2024-12-10 18:05:48 [INFO] Logged in to MT5 account: 9293182.
+2024-12-10 18:05:48 [INFO] Starting trading bot.
+2024-12-10 18:05:48 [INFO] Analyzing symbol: EURUSD
+2024-12-10 18:05:48 [INFO] Analyzing symbol: XAUUSD
+2024-12-10 18:05:48 [INFO] Analyzing symbol: USDJPY
+2024-12-10 18:05:49 [INFO] Analyzing symbol: GBPUSD
+2024-12-10 18:05:49 [INFO] Cycle complete. Sleeping for 30 minutes.
+2024-12-10 18:05:49 [INFO] No RSI divergence for GBPUSD. Skipping.
+2024-12-10 18:05:49 [INFO] No RSI divergence for EURUSD. Skipping.
+2024-12-10 18:05:49 [INFO] RSI divergence confirmed for USDJPY in uptrend.
+2024-12-10 18:05:49 [INFO] No RSI divergence for XAUUSD. Skipping.
+2024-12-10 18:05:49 [INFO] Available filling modes for USDJPY: 2
+2024-12-10 18:05:49 [ERROR] No supported filling mode for USDJPY. Skipping.
+2024-12-10 18:09:08 [INFO] Logged in to MT5 account: 9293182.
+2024-12-10 18:09:08 [INFO] Starting trading bot.
+2024-12-10 18:09:08 [INFO] Analyzing symbol: EURUSD
+2024-12-10 18:09:08 [INFO] No RSI divergence for EURUSD. Skipping.
+2024-12-10 18:09:08 [INFO] Analyzing symbol: XAUUSD
+2024-12-10 18:09:08 [INFO] Analyzing symbol: USDJPY
+2024-12-10 18:09:08 [INFO] No RSI divergence for XAUUSD. Skipping.
+2024-12-10 18:09:08 [INFO] Analyzing symbol: GBPUSD
+2024-12-10 18:09:08 [INFO] RSI divergence confirmed for USDJPY in uptrend.
+2024-12-10 18:09:08 [INFO] Available filling modes for USDJPY: 2
+2024-12-10 18:09:08 [ERROR] Failed to place trade for USDJPY. Error: Unsupported filling mode
+2024-12-10 18:09:08 [INFO] No RSI divergence for GBPUSD. Skipping.
+2024-12-10 18:09:09 [INFO] Cycle complete. Sleeping for 30 minutes.
+2024-12-10 18:12:23 [INFO] Logged in to MT5 account: 9293182.
+2024-12-10 18:12:23 [INFO] Starting trading bot.
+2024-12-10 18:12:23 [INFO] Analyzing symbol: EURUSD
+2024-12-10 18:12:23 [INFO] Analyzing symbol: XAUUSD
+2024-12-10 18:12:23 [INFO] Analyzing symbol: USDJPY
+2024-12-10 18:12:24 [INFO] Analyzing symbol: GBPUSD
+2024-12-10 18:12:24 [INFO] Cycle complete. Sleeping for 30 minutes.
+2024-12-10 18:12:24 [INFO] No RSI divergence for XAUUSD. Skipping.
+2024-12-10 18:12:24 [INFO] No RSI divergence for EURUSD. Skipping.
+2024-12-10 18:12:24 [INFO] No RSI divergence for GBPUSD. Skipping.
+2024-12-10 18:12:24 [INFO] RSI divergence confirmed for USDJPY in uptrend.
+2024-12-10 18:12:24 [INFO] Available filling modes for USDJPY: 2
+2024-12-10 18:12:24 [ERROR] Failed to place trade for USDJPY. Error: Unsupported filling mode
+2024-12-10 18:21:57 [INFO] Logged in to MT5 account: 9293182.
+2024-12-10 18:21:57 [INFO] Starting trading bot.
+2024-12-10 18:21:57 [INFO] Analyzing symbol: EURUSD
+2024-12-10 18:21:57 [INFO] Analyzing symbol: XAUUSD
+2024-12-10 18:21:58 [INFO] Analyzing symbol: GBPUSD
+2024-12-10 18:21:58 [INFO] Cycle complete. Sleeping for 30 minutes.
+2024-12-10 18:21:58 [INFO] No RSI divergence for EURUSD. Skipping.
+2024-12-10 18:21:58 [INFO] No RSI divergence for GBPUSD. Skipping.
+2024-12-10 18:21:58 [INFO] No RSI divergence for XAUUSD. Skipping.
+2024-12-10 18:23:52 [INFO] Logged in to MT5 account: 9293182.
+2024-12-10 18:23:52 [INFO] Starting trading bot.
+2024-12-10 18:23:52 [INFO] Analyzing symbol: EURUSD
+2024-12-10 18:23:52 [INFO] No RSI divergence for EURUSD. Skipping.
+2024-12-10 18:23:52 [INFO] Analyzing symbol: XAUUSD
+2024-12-10 18:23:52 [INFO] No RSI divergence for XAUUSD. Skipping.
+2024-12-10 18:23:52 [INFO] Cycle complete. Sleeping for 30 minutes.
+2024-12-10 18:23:52 [INFO] Analyzing symbol: GBPUSD
+2024-12-10 18:23:52 [INFO] No RSI divergence for GBPUSD. Skipping.
+2024-12-10 18:24:41 [INFO] Logged in to MT5 account: 9293182.
+2024-12-10 18:24:41 [INFO] Starting trading bot.
+2024-12-10 18:24:41 [INFO] Analyzing symbol: EURUSD
+2024-12-10 18:24:41 [INFO] Analyzing symbol: XAUUSD
+2024-12-10 18:24:41 [INFO] Analyzing symbol: GBPUSD
+2024-12-10 18:24:41 [INFO] Cycle complete. Sleeping for 12 hours.
+2024-12-10 18:24:41 [INFO] No RSI divergence for GBPUSD. Skipping.
+2024-12-10 18:24:41 [INFO] No RSI divergence for EURUSD. Skipping.
+2024-12-10 18:24:41 [INFO] No RSI divergence for XAUUSD. Skipping.
+2024-12-11 08:58:47 [INFO] Logged in to MT5 account: 9293182.
+2024-12-11 08:58:47 [INFO] Starting trading bot.
+2024-12-11 08:58:47 [INFO] Analyzing symbol: EURUSD
+2024-12-11 08:58:48 [INFO] Analyzing symbol: XAUUSD
+2024-12-11 08:58:48 [INFO] Analyzing symbol: GBPUSD
+2024-12-11 08:58:48 [INFO] Cycle complete. Sleeping for 12 hours.
+2024-12-11 08:58:48 [INFO] No RSI divergence for EURUSD. Skipping.
+2024-12-11 08:58:48 [INFO] RSI divergence confirmed for XAUUSD in uptrend.
+2024-12-11 08:58:48 [INFO] Available filling modes for XAUUSD: 2
+2024-12-11 08:58:48 [ERROR] Failed to place trade for XAUUSD. Error: Invalid stops
+2024-12-11 08:58:48 [INFO] No RSI divergence for GBPUSD. Skipping.
+2024-12-11 09:04:39 [INFO] Logged in to MT5 account: 9293182.
+2024-12-11 09:04:39 [INFO] Starting trading bot.
+2024-12-11 09:04:39 [INFO] Analyzing symbol: EURUSD
+2024-12-11 09:04:39 [INFO] Analyzing symbol: XAUUSD
+2024-12-11 09:04:39 [INFO] No RSI divergence for XAUUSD. Skipping.
+2024-12-11 09:04:39 [INFO] Analyzing symbol: GBPUSD
+2024-12-11 09:04:39 [INFO] Cycle complete. Sleeping for 12 hours.
+2024-12-11 09:04:39 [INFO] No RSI divergence for EURUSD. Skipping.
+2024-12-11 09:04:39 [INFO] No RSI divergence for GBPUSD. Skipping.
